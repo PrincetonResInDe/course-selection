@@ -7,7 +7,6 @@ import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkL
 import SearchBar from "../components/shared/searchComponent/searchBar";
 import SearchResults from "../components/shared/searchComponent/searchResults";
 import Title from "../components/shared/titleComponent/title";
-import CourseListCard from "../components/calendar/courseListComponent/courseListCard";
 
 export default function CalendarPage() {
   return (
@@ -24,7 +23,7 @@ export default function CalendarPage() {
         sx={{
           display: "flex",
           flexFlow: "column",
-          width: "20vw",
+          width: "15vw",
           mr: 2,
         }}
       >
@@ -36,18 +35,31 @@ export default function CalendarPage() {
           <SearchResults />
         </Box>
       </Box>
-      <Box sx={{ width: "60vw" }}>
+      <Box sx={{ width: "70vw" }}>
         <Calendar />
       </Box>
-      <Box sx={{ width: "20vw", ml: 2, display: "flex", flexFlow: "column" }}>
-        <Box sx={{ flex: "0 1 auto" }}>
+      <Box
+        sx={{
+          width: "15vw",
+          ml: 2,
+          display: "flex",
+          flexFlow: "column",
+          height: "100%",
+        }}
+      >
+        <Box sx={{ flex: "0 1 auto", height: "5%" }}>
           <AppBar />
         </Box>
-        <Box sx={{ flex: "1 1 auto" }}>
-          <CourseList />
-        </Box>
-        <Box sx={{ flex: "1 1 auto" }}>
-          <BookmarkList />
+        <Box sx={{ flex: "1 1 auto", height: "95%" }}>
+          <Box sx={{ display: "flex", flexFlow: "column", height: "100%" }}>
+            <Box sx={{ height: "49%" }}>
+              <CourseList />
+            </Box>
+            <Box sx={{ mb: 2, height: "1%" }}></Box>
+            <Box sx={{ height: "49%" }}>
+              <BookmarkList />
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

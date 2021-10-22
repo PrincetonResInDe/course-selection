@@ -7,7 +7,7 @@ export default function CourseListCard() {
       sx={{
         m: 1,
         backgroundColor: "blue",
-        height: "100px",
+        height: "50px",
         borderRadius: 4,
         padding: 1,
       }}
