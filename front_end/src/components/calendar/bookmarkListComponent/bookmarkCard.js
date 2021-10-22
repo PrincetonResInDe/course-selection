@@ -6,8 +6,8 @@ export default function BookmarkCard() {
     <Box
       sx={{
         m: 1,
-        backgroundColor: "blue",
-        height: "100px",
+        backgroundColor: "purple",
+        height: "50px",
         borderRadius: 4,
         padding: 1,
       }}
