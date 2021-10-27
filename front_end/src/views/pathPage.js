@@ -3,9 +3,10 @@ import "../App.css"
 import AppBar from "../components/shared/appBarComponent/appBar";
 import Path from "../components/path/pathComponents/path"
 import CourseList from "../components/calendar/courseListComponent/courseList.js";
-import Search from "../components/shared/searchComponent/search";
+import SearchBar from "../components/shared/searchComponent/searchBar";
+import SearchResults from "../components/shared/searchComponent/searchResults";
 import Title from "../components/shared/titleComponent/title";
-
+import { Box, CssBaseline } from "@mui/material";
 export default function PathPage() {
   return (
     <div >
@@ -14,9 +15,11 @@ export default function PathPage() {
       <AppBar />
 
         <div style = {{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-          <Search />
+
           <Path/>
-          <CourseList />
+         <Box sx={{ height: "49%" }}>
+              <CourseList />
+            </Box>
         </div>
       
     </div>
