@@ -5,24 +5,42 @@ import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Typography from '@mui/material/Typography';
 import PathCard from "./pathCard"
-
+import PathTab from "./pathTab"
+import Bookmarks from './bookmarks'
 export default function Path() {
-    let semesters = {"fall2020" : ["cos126"]}; 
+    var semesters = [{ title: "Fall 2021" ,courses: [ "cos126"]}]; 
+
     return (
         <div>
-            <div style = {{ display: 'flex', flexDirection: 'row',  justifyContent: 'space-around'}}> 
-                <PathCard /> 
-                <PathCard /> 
-                <PathCard /> 
-                <PathCard /> 
+            <PathTab/>
+            <div style = {{ 
+                display: 'flex', 
+                flexDirection: 'row',
+                width: '100%' , 
+                height: '45%', 
+                justifyContent: 'space-around', 
+                alignItems: 'center'}}> 
+
+                <PathCard title = {semesters[0].title}/> 
+                <PathCard title = {semesters[0].title}/> 
+                <PathCard title = {semesters[0].title}/> 
+                <PathCard title = {semesters[0].title}/> 
             </div> 
 
-            <div className = "row"> 
-                <PathCard /> 
-                <PathCard /> 
-                <PathCard /> 
-                <PathCard /> 
+            <div style = {{ 
+                display: 'flex', 
+                flexDirection: 'row',
+                width: '100%' , 
+                height: '40%', 
+                justifyContent: 'space-around'}}> 
+
+                <PathCard title = {semesters[0].title}/> 
+                <PathCard title = {semesters[0].title}/> 
+                <PathCard title = {semesters[0].title}/> 
+                <PathCard title = {semesters[0].title}/> 
             </div> 
+
+            <Bookmarks />
         </div>
     );
 }
