@@ -11,7 +11,7 @@ import ClassCard from "./classCard";
 export default function Path(props) {
   return (
     <Card sx={{ display: "flex", width: "100%", height: "20vh" }}>
-      <CardContent>
+      <CardContent sx={{ mb: 2 }}>
         <Box // why doesn't this push the icon to the left
           sx={{
             display: "flex",
@@ -27,7 +27,22 @@ export default function Path(props) {
             <BookmarkBorderIcon />
           </Icon>
         </Box>
-        <Box sx={{ display: "flex", width: "100%", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            height: "100%",
+            overflow: "auto",
+          }}
+        >
+          <ClassCard />
+          <ClassCard />
+          <ClassCard />
+          <ClassCard />
+          <ClassCard />
           <ClassCard />
           <ClassCard />
           <ClassCard />
