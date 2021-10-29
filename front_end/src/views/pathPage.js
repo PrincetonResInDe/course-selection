@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, CssBaseline } from "@mui/material";
-import Path from "../components/path/pathComponents/path"; 
+import Path from "../components/path/pathComponents/path";
 import AppBar from "../components/shared/appBarComponent/appBar";
 import Calendar from "../components/calendar/calendarComponent/calendar";
 import CourseList from "../components/calendar/courseListComponent/courseList.js";
@@ -8,7 +8,7 @@ import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkL
 import SearchBar from "../components/shared/searchComponent/searchBar";
 import SearchResults from "../components/shared/searchComponent/searchResults";
 import Title from "../components/shared/titleComponent/title";
-import PathTree from "../components/path/PathTree/pathTree"
+import PathTree from "../components/path/PathTree/pathTree";
 export default function CalendarPage() {
   return (
     <Box
@@ -42,13 +42,13 @@ export default function CalendarPage() {
       <Box
         sx={{
           width: "20vw",
-          ml: 0.5,
+          ml: 2,
           display: "flex",
           flexFlow: "column",
           height: "100%",
         }}
       >
-      <PathTree /> 
+        <PathTree />
       </Box>
     </Box>
   );
@@ -77,9 +77,8 @@ export default function CalendarPage() {
 //               <CourseList />
 //             </Box>
 //         </div>
-      
+
 //     </div>
 
 //   );
 // }
-

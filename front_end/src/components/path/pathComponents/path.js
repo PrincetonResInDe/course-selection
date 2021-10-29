@@ -1,46 +1,42 @@
-import * as React from 'react';
-import "../../../App.css"
-import ReactDOM from 'react-dom';
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Typography from '@mui/material/Typography';
-import PathCard from "./pathCard"
-import PathTab from "./pathTab"
-import Bookmarks from './bookmarks'
+import * as React from "react";
+import "../../../App.css";
+import ReactDOM from "react-dom";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import PathCard from "./pathCard";
+import PathTab from "./pathTab";
+import Bookmarks from "./bookmarks";
 export default function Path() {
-    var semesters = [{ title: "Fall 2021" ,courses: [ "cos126"]}]; 
+  var semesters = [{ title: "Fall 2021", courses: ["cos126"] }];
 
-    return (
-        <div>
-            <PathTab/>
-            <div style = {{ 
-                display: 'flex', 
-                flexDirection: 'row',
-                width: '100%' , 
-                height: '45%', 
-                justifyContent: 'space-around', 
-                alignItems: 'center'}}> 
-
-                <PathCard title = {semesters[0].title}/> 
-                <PathCard title = {semesters[0].title}/> 
-                <PathCard title = {semesters[0].title}/> 
-                <PathCard title = {semesters[0].title}/> 
-            </div> 
-
-            <div style = {{ 
-                display: 'flex', 
-                flexDirection: 'row',
-                width: '100%' , 
-                height: '40%', 
-                justifyContent: 'space-around'}}> 
-
-                <PathCard title = {semesters[0].title}/> 
-                <PathCard title = {semesters[0].title}/> 
-                <PathCard title = {semesters[0].title}/> 
-                <PathCard title = {semesters[0].title}/> 
-            </div> 
-
-            <Bookmarks />
-        </div>
-    );
+  return (
+    <Box sx={{ height: "100%" }}>
+      <Box sx={{ height: "5%" }}>
+        <PathTab />
+      </Box>
+      <Box sx={{ display: "flex", flexFlow: "column", height: "95%" }}>
+        <Box sx={{ flex: "1 1 auto", height: "40%" }}>
+          <Box sx={{ display: "flex", height: "100%" }}>
+            <PathCard title={semesters[0].title} />
+            <PathCard title={semesters[0].title} />
+            <PathCard title={semesters[0].title} />
+            <PathCard title={semesters[0].title} />
+          </Box>
+        </Box>
+        <Box sx={{ flex: "1 1 auto", height: "40%" }}>
+          <Box sx={{ display: "flex", height: "100%" }}>
+            <PathCard title={semesters[0].title} />
+            <PathCard title={semesters[0].title} />
+            <PathCard title={semesters[0].title} />
+            <PathCard title={semesters[0].title} />
+          </Box>
+        </Box>
+        <Box sx={{ flex: "1 1 auto", height: "20%" }}>
+          <Bookmarks />
+        </Box>
+      </Box>
+    </Box>
+  );
 }
