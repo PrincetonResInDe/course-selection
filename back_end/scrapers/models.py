@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db.models import JSONField
 
+
 # From courseselection/models.py of Princeton USG Course Selection Code
 
 class Semester(models.Model):
@@ -56,7 +57,8 @@ class Course(models.Model):
 
     def course_listings(self):
         # + ' ' + ': ' + self.title
-        return " / ".join([unicode(course_listing) for course_listing in self.course_listing_set.all().order_by('dept')])
+        return " / ".join(
+            [str(course_listing) for course_listing in self.course_listing_set.all().order_by('dept')])
 
     course_listings.admin_order_field = 'course_listings'
 
@@ -64,11 +66,12 @@ class Course(models.Model):
         """
         Returns the best course department and number string.
         """
-        return unicode(self.course_listing_set.all().get(is_primary=True))
+        return str(self.course_listing_set.all().get(is_primary=True))
 
     def __unicode__(self):
         # + ' ' + ': ' + self.title
-        return " / ".join([unicode(course_listing) for course_listing in self.course_listing_set.all().order_by('dept')])
+        return " / ".join(
+            [str(course_listing) for course_listing in self.course_listing_set.all().order_by('dept')])
 
     class Meta:
         pass
@@ -127,7 +130,7 @@ class Meeting(models.Model):
     location = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return unicode(self.section) + ' - ' + self.location
+        return str(self.section) + ' - ' + self.location
 
 
 class Course_Listing(models.Model):
@@ -167,4 +170,4 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile = UserProfile.objects.create(user=instance, user_state={
             'onboarding_complete': False
-            })
+        })
