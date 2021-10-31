@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import connection
-from courseselection.scraper import scrape_parse, scrape_validate, scrape_import
+from . import scrape_parse, scrape_validate, scrape_import
 
 def get_all_courses():
     # we can generate these given settings.CURR_TERM
