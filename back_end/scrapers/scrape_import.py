@@ -1,5 +1,5 @@
-from courseselection.models import Course, Course_Listing, Semester
-from courseselection.scraper.scrape_dist_areas import scrape_id
+from .models import Course, Course_Listing, Semester
+from .scrape_dist_areas import scrape_id
 
 class ScrapeCounter:
     def __init__(self):
