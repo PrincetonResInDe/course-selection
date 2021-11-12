@@ -1,2 +1,4 @@
-pymongo
+"pymongo[srv]"
 python-dotenv
+certifi
+browser-cookie3
