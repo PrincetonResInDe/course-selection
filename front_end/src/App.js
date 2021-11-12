@@ -7,7 +7,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 
 function App() {
   return (
-    <DragDropContext>
+  
     <Router>
       <Switch>
         <Route exact path="/" component={HomePage} />
@@ -16,7 +16,6 @@ function App() {
         <Route exact path="/path" component={PathPage} />
       </Switch>
     </Router>
-    </DragDropContext>
   );
 }
 

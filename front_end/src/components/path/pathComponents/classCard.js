@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export default function ClassCard(props) {
   return (
-    <Draggable key={props.name } draggableId={props.name}>
+    <Draggable key={props.name } draggableId={props.name} index = {parseInt(props.name[3])}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}

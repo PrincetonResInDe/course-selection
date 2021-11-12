@@ -9,8 +9,11 @@ import SearchBar from "../components/shared/searchComponent/searchBar";
 import SearchResults from "../components/shared/searchComponent/searchResults";
 import Title from "../components/shared/titleComponent/title";
 import PathTree from "../components/path/PathTree/pathTree";
+import { DragDropContext } from "react-beautiful-dnd";
+
 export default function PathPage() {
   
+
   return (
     <Box
       sx={{
@@ -38,7 +41,9 @@ export default function PathPage() {
         </Box>
       </Box>
       <Box sx={{ width: "70vw" }}>
-        <Path />
+     
+          <Path />
+     
       </Box>
       <Box
         sx={{
@@ -54,5 +59,3 @@ export default function PathPage() {
     </Box>
   );
 }
-
-
