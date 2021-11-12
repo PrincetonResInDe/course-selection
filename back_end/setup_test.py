@@ -4,6 +4,7 @@ import certifi
 from dotenv import load_dotenv
 import os
 
+# loads in the .env file (The access string), loaded into an environmental variable. Safer for access
 load_dotenv()
 
 if __name__ == "__main__":
@@ -13,11 +14,14 @@ if __name__ == "__main__":
     serverStatusResult = db.command("serverStatus")
     pprint(serverStatusResult)
 
+    # when I want to make a new database. This is the Mongo equivalent of a table. (Page)
     db = client.test
+    # .drop deletes old collections
     db.people.drop()
     found = set()
 
     print("db people collection should be empty")
+    # .find() queries within a collection (select * SQL)
     for x in db.people.find():
         print(x)
         found.add(x)
