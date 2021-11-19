@@ -20,7 +20,6 @@ def scrape_eval(session, dept, course_code, term_code):
     url = BASE_URL.format(dept, course_code, term_code)
     response = session.get(url)
 
-
     soup = BeautifulSoup(response.text, "html.parser")
 
 
@@ -54,9 +53,10 @@ if __name__ == "__main__":
         output["current_year"][k.text] = float(v.text)
 
     # Trying to pull the class comments 
-    comments = soup.find_all("div", {"class": "comment border border-dark p-2"})
-    print(comments)
-    print(comments[0])
-    print(type(comments[0]))
+    comments_section = soup.find_all("div", {"class": "comments-section mt-4"})
+
+    print(comments_section)
+    print(comments_section[0])
+
     
     
