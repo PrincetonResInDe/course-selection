@@ -3,9 +3,11 @@ import HomePage from "./views/homePage";
 import AboutPage from "./views/aboutPage";
 import CalendarPage from "./views/calendarPage";
 import PathPage from "./views/pathPage";
+import { DragDropContext } from 'react-beautiful-dnd';
 
 function App() {
   return (
+    <DragDropContext>
     <Router>
       <Switch>
         <Route exact path="/" component={HomePage} />
@@ -14,6 +16,7 @@ function App() {
         <Route exact path="/path" component={PathPage} />
       </Switch>
     </Router>
+    </DragDropContext>
   );
 }
 

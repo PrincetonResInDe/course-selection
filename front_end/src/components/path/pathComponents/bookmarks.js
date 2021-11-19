@@ -9,6 +9,7 @@ import { Box, Button, Icon } from "@mui/material";
 import ClassCard from "./classCard";
 
 export default function Path(props) {
+  const bookmarKs = ["EGR395"];
   return (
     <Card sx={{ display: "flex", width: "100%", height: "20vh" }}>
       <CardContent sx={{ mb: 2 }}>
@@ -38,6 +39,7 @@ export default function Path(props) {
             overflow: "auto",
           }}
         >
+          {/* <ClassCard />
           <ClassCard />
           <ClassCard />
           <ClassCard />
@@ -46,8 +48,7 @@ export default function Path(props) {
           <ClassCard />
           <ClassCard />
           <ClassCard />
-          <ClassCard />
-          <ClassCard />
+          <ClassCard /> */}
         </Box>
       </CardContent>
     </Card>
