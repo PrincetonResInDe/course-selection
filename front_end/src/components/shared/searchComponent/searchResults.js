@@ -7,7 +7,7 @@ export default function SearchResults() {
   const results = ["COS126", "MAE345", "ELE206"];
   return (
     <Box>
-      {/* {results.map((result) => (
+      {results.map((result) => (
         <Droppable droppableId="searchBar" key = {0} >
           {(provided) => (
             <div
@@ -26,7 +26,7 @@ export default function SearchResults() {
           )}
        
         </Droppable>
-      ))} */}
+      ))}
     </Box>
   );
 }

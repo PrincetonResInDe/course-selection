@@ -32,8 +32,8 @@ const onDragEnd = (result) => {
     // let searchResults = this.state.searchResults;
 
     if (result.destination === null) return;
-    const destSem = result.destination.index; 
-    const sourceSem = result.source.index; 
+    const destSem = result.destination.droppableId[3]; 
+    const sourceSem = result.source.droppableId[3]; 
     const courseCode = result.draggableId; 
     console.log(destSem)
     var newSem = semeseter; 
@@ -86,7 +86,7 @@ const onDragEnd = (result) => {
               <PathCard          
                 classes={classes}
                 title={semesters[0].title}
-                semIndex={index }
+                semIndex={index + 1}
   
               />
             ))}
@@ -98,7 +98,7 @@ const onDragEnd = (result) => {
               <PathCard
                 classes={classes}
                 title={semesters[0].title}
-                semIndex = {4 + index}
+                semIndex = {5 + index}
               />
             ))}
           </Box>

@@ -3,7 +3,7 @@ import HomePage from "./views/homePage";
 import AboutPage from "./views/aboutPage";
 import CalendarPage from "./views/calendarPage";
 import PathPage from "./views/pathPage";
-import { DragDropContext } from 'react-beautiful-dnd';
+
 
 function App() {
   return (

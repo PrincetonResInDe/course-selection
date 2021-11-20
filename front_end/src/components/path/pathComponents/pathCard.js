@@ -39,7 +39,7 @@ export default function PathCard(props) {
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex" , flex: 1 , height: "100%",  overflow: "auto"}}>
+        <Box sx={{ display: "flex" , flex: 1 , height: "100%",  overflow: "auto" , backgroundColor: 'red'}}>
           <Droppable key={semIndex} droppableId= {"sem" + semIndex} >
             {(provided) => (
               <div
