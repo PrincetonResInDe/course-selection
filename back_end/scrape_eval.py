@@ -19,7 +19,20 @@ def scrape_eval(session, dept, course_code, term_code):
             course_code: the course code
             term_code: the term code
         Output:
-            All the course evaluations as a dictionary.
+            All the course evaluations as a dictionary in the form of:
+            {
+                "ratings"{
+                    "Quality of Course": float,
+                    "Quality of Laboratories": float,
+                    "Quality of Lectures": float,
+                    "Quality of Precepts": float,
+                    "Quality of Written Assignments": float,
+                    "Recommend to Other Students": float, 
+                    # note that some of these entries might not exist, for example, the ratings for EAS classes would not have the Quality of Lab entry because they don't have labs
+                },
+                "instructors": str list of instructor names,
+                "comments": str list of comments,
+            }
     """
     url = BASE_URL.format(dept, course_code, term_code)
     output = {}
@@ -45,18 +58,23 @@ def scrape_eval(session, dept, course_code, term_code):
     
     quality_names = stats[0].find_all("th")
     qualities = stats[0].find_all("td")
+    output["ratings"] = {}
     for q_name, q_rating in zip(quality_names, qualities):
-        output[q_name.text] = float(q_rating.text)
+        output["ratings"][q_name.text] = float(q_rating.text)
 
     # get all the instructors (should have this info already but might be useful)
     instructors = course.find_all("li", {"class": "instructor"})
-    output["instructors"] = []
-    for i in instructors:
-        output["instructors"].append(i.text.strip())
+    output["instructors"] = [i.text.strip() for i in instructors]
     if len(output["instructors"]) == 0:
         raise AssertionError(f"Expected to find more than one instructors for the course, but found none.")
 
-    comments_section = soup.find_all("div", {"class": "comments-section mt-4"})
+    comments_section = soup.find_all("div", {"class": "comments-section"})
+    if len(comments_section) != 1:
+        raise AssertionError(f"Expected to only find one div with classname=comments_section, you probably want to check the code and make sure it's up to date.")
+    comments_section = comments_section[0]
+    comments = comments_section.find_all("div", {"class": "comment"})
+
+    output["comments"] = [c.text.strip() for c in comments]
 
     return output
 
