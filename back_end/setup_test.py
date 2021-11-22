@@ -7,6 +7,43 @@ import os
 # loads in the .env file (The access string), loaded into an environmental variable. Safer for access
 load_dotenv()
 
+
+def insertSampleCourse(c_client, c_db):
+    # Deletes old courses
+    db = client.course.drop()
+
+    found = set()
+    print("db course collection should be empty")
+    # .find() queries within a collection (select * SQL)
+    for course in db.course.find():
+        print(course)
+        found.add(course)
+    assert found == set()
+
+    courseData = [{"Name": "Computer Science: An Interdisciplinary Approach", "Course Codes": ["COS126", "EGR126"],
+                   "Distribution Area": ["QCR"], "Instructor": ["Adam Finkelstein", "Ruth Fong", "Alan Kaplan"],
+                   "Grading": ["45% Other exam", "40% Programming assignments", "10% Design project",
+                               "5% Other (see instructor)"],
+                   "Prerequisites": "No prior programming experience is required.", "Other information":
+                       "Precepts P10-P14 are extended-time precepts for students who prefer more time to ask questions and "
+                       "work through exercises with their preceptor and classmates. Students who aren't sure whether "
+                       "extended-time precepts are right for them should consider registering for a MW 11am or "
+                       "1:30pm precept -- these time slots offer both regular and extended-time options (P01,P10; P03, P11)"
+                       " with flexibility to switch between the two in the first few weeks.",
+                   "Readings": "Computer Science: An Interdisciplinary Approach", "Comments": ["Great class"]}]
+    print("Insert COS 126 data")
+    db.course.insertOne(courseData)
+
+    # Ensuring the course is in database
+    found = set()
+    print("current data in db people")
+    for course in db.course.find():
+        print(course)
+        found.add(course["Name"])
+    assert found == set([i["Name"] for i in courseData])
+
+
+
 if __name__ == "__main__":
     client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
     db = client.admin
@@ -45,3 +82,6 @@ if __name__ == "__main__":
         print(x)
         found.add(x["name"])
     assert found == set([i["name"] for i in data if i["year"] == 2022])
+
+    insertSampleCourse(client, db)
+
