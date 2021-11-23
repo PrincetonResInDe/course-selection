@@ -10,6 +10,35 @@ BASE_URL = "https://registrarapps.princeton.edu/course-evaluation?ssub={}&course
 USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:93.0) Gecko/20100101 Firefox/93.0"
 
 
+def comment_eval(session, dept, course_code, term_code):
+    """
+            Scrapes the comments and ratings for a specific course.
+            Input:
+                session: the request session with the proper headers and cookies set up
+                dept: the department code
+                course_code: the course code
+                term_code: the term code
+            Output:
+                All the course evaluations as a list in the form of:
+                    return [comment1, comment2, comment3, ...]
+        """
+    url = BASE_URL.format(dept, course_code, term_code)
+
+    response = session.get(url)
+    if response.status_code != 200:
+        raise AssertionError(f"Expected status code 200 in response, got {response.status_code}")
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    if not "Office of the Registrar" in soup.header.text.strip():
+        raise AssertionError(
+            f"Expected \"Office of the Registrar\" in the response header. Check the response to see if the evaluation page was retrieved correctly. Header found: {soup.header.text.strip()}")
+
+    comments = soup.find_all("div", {"class": lambda l: l and l.startswith("comment ")})
+    output = [c.text.strip() for c in comments]
+    return output
+
+
 def scrape_eval(session, dept, course_code, term_code):
     """
         Scrapes the evaluation for a specific course.
@@ -100,4 +129,5 @@ if __name__ == "__main__":
     term_code="1214"
 
     scrape_eval(session=session, dept=dept, course_code=course_code, term_code=term_code)
+    print(comment_eval(session=session, dept=dept, course_code=course_code, term_code=term_code))
 
