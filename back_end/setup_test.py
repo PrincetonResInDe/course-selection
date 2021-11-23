@@ -19,7 +19,7 @@ def insertSampleCourse(c_client, c_db):
     print("db course collection should be empty")
     # .find() queries within a collection (select * SQL)
     element = course_collection.find_one({"Name": "Computer Science: An Interdisciplinary Approach"})
-    if (element != None):
+    if element is not None:
         found.add(element)
     assert found == set()
 
@@ -35,7 +35,10 @@ def insertSampleCourse(c_client, c_db):
     print("COS 126 data inserted")
 
     # Ensuring the course is in database
-    print("Current data in db people")
+    element = course_collection.find_one({"Name": "Computer Science: An Interdisciplinary Approach"})
+    assert element is not None
+
+    print("Printing all elements:")
     for course in course_collection.find():
         print(course)
 
