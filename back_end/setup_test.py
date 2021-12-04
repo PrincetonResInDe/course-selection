@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from pprint import pprint
+import json
 import certifi
 from dotenv import load_dotenv
 import os
@@ -9,6 +10,10 @@ load_dotenv()
 
 
 def insertSampleCourse(c_client, c_db):
+    # Loads in the COS126 JSON file
+    with open('COS126.json') as f:
+        course_data = json.load(f)
+
     # Drops the old collection
     c_db = c_db.course.drop()
 
@@ -23,15 +28,8 @@ def insertSampleCourse(c_client, c_db):
         found.add(element)
     assert found == set()
 
-    courseData = {"Name": "Computer Science: An Interdisciplinary Approach", "Course Codes": ["COS126", "EGR126"],
-                   "Distribution Area": ["QCR"], "Instructor": ["Adam Finkelstein", "Ruth Fong", "Alan Kaplan"],
-                   "Grading": ["45% Other exam", "40% Programming assignments", "10% Design project",
-                               "5% Other (see instructor)"],
-                   "Prerequisites": "No prior programming experience is required.", "Other information":
-                   "Precepts P10-P14 are extended-time precepts for students who prefer more time to ask questions and work through exercises with their preceptor and classmates. Students who aren't sure whether extended-time precepts are right for them should consider registering for a MW 11am or 1:30pm precept -- these time slots offer both regular and extended-time options (P01,P10; P03, P11) with flexibility to switch between the two in the first few weeks.",
-                   "Readings": "Computer Science: An Interdisciplinary Approach", "Comments": ["Great class"]}
     print("Inserting COS 126 data")
-    course_collection.insert_one(courseData)
+    course_collection.insert_one(course_data)
     print("COS 126 data inserted")
 
     # Ensuring the course is in database
@@ -84,4 +82,3 @@ if __name__ == "__main__":
     assert found == set([i["name"] for i in data if i["year"] == 2022])
 
     insertSampleCourse(client, db)
-
