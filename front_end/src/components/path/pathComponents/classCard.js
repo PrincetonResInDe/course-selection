@@ -1,12 +1,12 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-export default function BookmarkCard() {
+export default function ClassCard() {
   return (
     <Box
       sx={{
         m: 0.5,
-        backgroundColor: "purple",
+        backgroundColor: "#F2F8FF",
         height: "40px",
         minWidth: "150px",
         borderRadius: 1.5,

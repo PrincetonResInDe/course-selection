@@ -9,11 +9,11 @@ export default function BookmarkCard(props) {
       sx={{
         m: 0.2,
         backgroundColor:
-          comp == "yes"
+          comp === "yes"
             ? "#D1E7E4"
-            : comp == "no"
+            : comp === "no"
             ? "#F6E1E1"
-            : comp == "class"
+            : comp === "class"
             ? "white"
             : "#FBF7D2",
         height: "30px",

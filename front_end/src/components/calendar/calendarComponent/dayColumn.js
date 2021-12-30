@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Typography, Divider, Card } from "@mui/material";
+import ClassCards from "./classCards";
 
 export default function DayColumn(props) {
   const times = [
@@ -20,24 +21,41 @@ export default function DayColumn(props) {
     "10PM",
     "11PM",
   ];
+
   return (
-    <Box sx={{ flex: "1 1 auto", border: "1px solid grey", width: "100%" }}>
-      <Typography align="center">{props.day}</Typography>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        flex: "1 1 auto",
+        width: "100%",
+        borderColor: "rgba(0, 0, 0, 0.12)",
+        borderRightStyle: props.day !== "FRI" ? "solid" : "none",
+        borderWidth: "1px",
+      }}
+    >
+      <Box sx={{ width: "100%" }}>
+        <Typography align="center">{props.day}</Typography>
+      </Box>
       <Divider />
-      <Box sx={{ display: "flex", flexDirection: "column", height: "97.5%" }}>
-        {times.map((time) => {
+      <Box
+        id="calendar_box"
+        sx={{ display: "flex", flexDirection: "column", height: "100%" }}
+      >
+        {times.map(() => {
           return (
             <Box
               sx={{
                 flex: "1 1 auto",
                 height: "100%",
-                border: "1px solid grey",
+                width: "100%",
               }}
             >
-              <Typography>{props.day == "MON" ? time : ""}</Typography>
+              <Divider />
             </Box>
           );
         })}
+        <ClassCards />
       </Box>
     </Box>
   );
