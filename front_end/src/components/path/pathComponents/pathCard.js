@@ -12,6 +12,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 export default function PathCard(props) {
   const results = props.classes;
   const semIndex = props.semIndex;
+  console.log("semIndex" , semIndex)
   // const semId = `sem${semIndex}`;
   // const className = "semester";
   // if (this.props.className) className += ` ${this.props.className}`;
@@ -38,9 +39,8 @@ export default function PathCard(props) {
           </Box>
         </Box>
 
-        <Box sx={{ height: "100%", overflow: "auto" }}
-        onMouseEnter = {()=> console.log("mouseEnter" + semIndex)}>
-          <Droppable key={semIndex} droppableId={semIndex}>
+        <Box sx={{ display: "flex" , flex: 1 , height: "100%",  overflow: "auto" , backgroundColor: 'red'}}>
+          <Droppable key={semIndex} droppableId= {"sem" + semIndex} >
             {(provided) => (
               <div
                 className="searchBar"
