@@ -39,13 +39,19 @@ export default function PathCard(props) {
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex" , flex: 1 , height: "100%",  overflow: "auto" , backgroundColor: 'red'}}>
-          <Droppable key={semIndex} droppableId= {"sem" + semIndex} >
+        <Box sx={{ display: "flex" , flex: 1 , height: "100%", width: "100%"}}>
+          <Droppable  key={semIndex} droppableId= {"sem" + semIndex} >
             {(provided) => (
               <div
                 className="searchBar"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
+                style={{ display: "flex" , 
+                flex: 1 , 
+                flexDirection: 'column',
+                height: "100%", 
+                width: "100%",  
+                }}
               >
                 {results.map((result) => (
                   <ClassCard

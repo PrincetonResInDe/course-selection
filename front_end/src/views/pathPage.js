@@ -13,7 +13,7 @@ export default function PathPage() {
   var semesters = [{ title: "Fall 2021", courses: ["cos126"] }];
   const [semeseter, updateSemester] = useState([
     [],
-    ["cos1"],
+    [],
     ["cos2"],
     ["cos3"],
     ["cos4"],

@@ -13,14 +13,15 @@ export default function ClassCard(props) {
           isDragging={snapshot.isDragging}
         >
           <Box
-            sx={{
-              m: 0.5,
-              backgroundColor: "purple",
-              height: "40px",
-              minWidth: "150px",
-              borderRadius: 1.5,
-              padding: 1,
+            style={{
+              display: 'flex', 
               flex: "1 1 auto",
+              margin: 1,
+              backgroundColor: "purple",
+              height: '40px',
+              width: "100%", 
+              borderRadius: 5, 
+              padding: 5,
             }}
           >
             {props.name}
