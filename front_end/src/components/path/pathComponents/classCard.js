@@ -14,13 +14,13 @@ export default function ClassCard(props) {
         >
           <Box
             style={{
-              display: 'flex', 
+              display: 'flex',
               flex: "1 1 auto",
               margin: 1,
               backgroundColor: "purple",
               height: '40px',
-              width: "100%", 
-              borderRadius: 5, 
+              width: "100%",
+              borderRadius: 5,
               padding: 5,
             }}
           >

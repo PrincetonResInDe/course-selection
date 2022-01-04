@@ -13,13 +13,17 @@ export default function AppBar() {
       }}
     >
       <Box>
-        <Button>Path</Button>
+        <Button href="/path" sx={{ height: "100%" }}>
+          Path
+        </Button>
       </Box>
       <Box>
-        <Button>Calendar</Button>
+        <Button href="/calendar" sx={{ height: "100%" }}>
+          Calendar
+        </Button>
       </Box>
       <Box>
-        <IconButton>
+        <IconButton href="/profile" sx={{ height: "100%" }}>
           <AccountCircleOutlinedIcon />
         </IconButton>
       </Box>

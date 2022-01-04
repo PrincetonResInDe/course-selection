@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { Box, CssBaseline } from "@mui/material";
-import SearchBar from "../components/shared/searchComponent/searchBar";
-import SearchResults from "../components/shared/searchComponent/searchResults";
+import React from "react";
+import { Box } from "@mui/material";
+import Path from "../components/path/pathComponents/path";
+import AppBar from "../components/shared/appBarComponent/appBar";
+import Calendar from "../components/calendar/calendarComponent/calendar";
+import CourseList from "../components/calendar/courseListComponent/courseList.js";
+import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkList.js";
+import Search from "../components/calendar/searchComponent/search";
 import Title from "../components/shared/titleComponent/title";
 import PathTree from "../components/path/PathTree/pathTree";
 import PathTab from "../components/path/pathComponents/pathTab";
@@ -29,23 +33,23 @@ export default function PathPage() {
     // let searchResults = this.state.searchResults;
 
     if (result.destination === null) return;
-    if(result.destination.droppableId == 'searchBar') return; 
-    
-    const destSem = result.destination.droppableId[3]; 
-    const sourceSem = result.source.droppableId[3]; 
-    const courseCode = result.draggableId; 
+    if(result.destination.droppableId == 'searchBar') return;
+
+    const destSem = result.destination.droppableId[3];
+    const sourceSem = result.source.droppableId[3];
+    const courseCode = result.draggableId;
     console.log(destSem)
-    var newSem = semeseter; 
-    
+    var newSem = semeseter;
+
     // move from search to courses
     // move between semesters
     if(result.source.droppableId != "searchBar"){
-      newSem[sourceSem].splice(newSem[sourceSem].indexOf(courseCode), 1); 
+      newSem[sourceSem].splice(newSem[sourceSem].indexOf(courseCode), 1);
     }
-    newSem[destSem].splice(-1, 0, courseCode); 
+    newSem[destSem].splice(-1, 0, courseCode);
 
-    console.log(newSem); 
-    //remove class from one semester 
+    console.log(newSem);
+    //remove class from one semester
 
 
 
@@ -81,67 +85,16 @@ export default function PathPage() {
         display: "flex",
         flexDirection: "row",
         height: "100vh",
-        p: 2,
       }}
     >
-      <CssBaseline />
-      <Box
-        sx={{
-          display: "flex",
-          flexFlow: "column",
-          width: "15vw",
-          mr: 2,
-        }}
-      >
- 
-        <Box sx={{ flex: "0 1 auto" }}>
-          <Title />
-          <SearchBar />
-        </Box>
-        <Box sx={{ flex: "1 1 auto", overflow: "auto" }}>
-          <SearchResults />
-        </Box>
-      </Box>
-      <Box sx={{ width: "70vw" }}>
-  
-    <Box sx={{ height: "100%" }}>
-      <Box sx={{ height: "5%" }}>
-        <PathTab />
-      </Box>
-      <Box sx={{ display: "flex", flexFlow: "column", height: "95%" }}>
-        <Box sx={{ flex: "1 1 auto", height: "40%" }}>
-          <Box sx={{ display: "flex", height: "100%" }}>
-            {semeseter.slice(1, 5).map((classes, index) => (
-              <PathCard          
-                classes={classes}
-                title={semesters[0].title}
-                semIndex={index + 1}
-  
-              />
-            ))}
-          </Box>
-        </Box>
-        <Box sx={{ flex: "1 1 auto", height: "40%" }}>
-          <Box sx={{ display: "flex", height: "100%" }}>
-            {semeseter.slice(5, 9).map((classes, index) => (
-              <PathCard
-                classes={classes}
-                title={semesters[0].title}
-                semIndex = {5 + index}
-              />
-            ))}
-          </Box>
-        </Box>
-        <Box sx={{ flex: "1 1 auto", height: "20%" }}>
-          <Bookmarks />
-        </Box>
-      </Box>
-    </Box>
-  
+      <Search />
+      <Box sx={{ width: "70vw", mt: 2 }}>
+        <Path />
       </Box>
       <Box
         sx={{
           width: "20vw",
+          mt: 2,
           ml: 2,
           display: "flex",
           flexFlow: "column",

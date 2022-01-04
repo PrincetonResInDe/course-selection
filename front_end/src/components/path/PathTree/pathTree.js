@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CssBaseline } from "@mui/material";
+import { Box } from "@mui/material";
 import AppBar from "../../shared/appBarComponent/appBar";
 import TreeCard from "./treeCard";
 
