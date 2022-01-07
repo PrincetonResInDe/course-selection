@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import SearchResultCard from "./searchResultCard";
 
 export default function SearchResults(props) {
+  console.log(props.results)
   return (
     <Box>
       {props.results.map((result) => {
