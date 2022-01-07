@@ -4,3 +4,5 @@ certifi
 browser_cookie3
 requests
 gunicorn
+Flask
+flask-cors
