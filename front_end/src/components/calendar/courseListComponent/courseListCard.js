@@ -1,18 +1,43 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Card, Typography, Box, IconButton, Checkbox } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function CourseListCard() {
   return (
-    <Box
+    <Card
       sx={{
         m: 1,
-        backgroundColor: "blue",
-        height: "50px",
-        borderRadius: 4,
         padding: 1,
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow:
+            "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+        },
       }}
     >
-      Name
-    </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <Typography
+            variant="body1"
+            sx={{ color: "color.blue", fontWeight: "bold" }}
+          >
+            MAT202
+          </Typography>
+          <Typography variant="body1" sx={{ color: "color.blue" }}>
+            Linear Algebra
+          </Typography>
+        </Box>
+        <Box>
+          <Checkbox sx={{ p: 0.1 }} />
+        </Box>
+      </Box>
+    </Card>
   );
 }

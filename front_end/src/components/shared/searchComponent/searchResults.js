@@ -8,7 +8,7 @@ export default function SearchResults() {
   return (
     <Box>
       {results.map((result) => (
-        <Droppable droppableId="searchBar">
+        <Droppable droppableId="searchBar" key = {0} >
           {(provided) => (
             <div
               className="searchBar"

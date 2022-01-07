@@ -4,7 +4,7 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
 export default function CalendarTab() {
   return (
-    <Box sx={{ display: "flex", flexDirection: "row" }}>
+    <Box sx={{ display: "flex", flexDirection: "row", mb: 1 }}>
       <Button>MASTER</Button>
       <Button>IDEAL</Button>
       <Button>PLAN-B</Button>
