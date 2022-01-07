@@ -3,3 +3,4 @@ python-dotenv
 certifi
 browser_cookie3
 requests
+gunicorn
