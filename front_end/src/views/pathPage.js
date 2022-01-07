@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Box } from "@mui/material";
 import Path from "../components/path/pathComponents/path";
 import AppBar from "../components/shared/appBarComponent/appBar";
@@ -85,6 +85,7 @@ export default function PathPage() {
         display: "flex",
         flexDirection: "row",
         height: "100vh",
+        backgroundColor: "background.default",
       }}
     >
       <Search />
