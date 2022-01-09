@@ -2,3 +2,4 @@
 python-dotenv
 certifi
 browser-cookie3
+requests
