@@ -1,1 +1,0 @@
-# methods to construct database from scratch

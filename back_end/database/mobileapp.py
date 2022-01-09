@@ -87,12 +87,12 @@ class MobileApp:
         self.api = MobileAppBase()
         self.configs = self.api.configs
 
-    def get_current_term(self):
-        return self.api.getJSON(self.configs.COURSE_TERMS, fmt="json")
+    def get_current_term_data(self):
+        return self.api.getJSON(self.configs.COURSE_TERMS, fmt="json")["term"][0]
 
     def get_current_term_code(self):
         try:
-            return self.get_current_term()["term"][0]["code"]
+            return self.get_current_term_data()["code"]
         except:
             print("failed to get current term code from mobileapp", file=stderr)
 
