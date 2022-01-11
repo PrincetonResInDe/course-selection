@@ -1,1 +1,0 @@
-# methods to query/update class info from database

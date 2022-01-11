@@ -7,37 +7,78 @@ from sys import stderr
 
 load_dotenv()
 
-class ConnectDB:
+# Handles populating databases
+class Database:
     def __init__(self):
         self.client = MongoClient(os.getenv("MONGO"))
+        self.db = self.client.course_selection
 
-    def connect_to_course_selection(self):
-        return self.client.course_selection 
+    def get_db(self):
+        return self.db
 
-class SetupDB:  
-    def __init__(self):
-        self.db = ConnectDB().connect_to_course_selection()
-
-    # add current term data to semesters collection (ignores if already exists)
-    def add_current_term(self):
+    # return list of term codes from semesters collection
+    def get_all_terms(self):
         try:
-            data = MobileApp().get_current_term_data()
-            new_data = {"code": data["code"], "name": data["cal_name"], "start_date": data["start_date"], "end_date": data["end_date"]}
-            self.db.semesters.update_one({"code": data["code"]}, {"$set": new_data}, upsert=True)
+            terms_dict = list(self.db.semesters.find({}, {"code": 1, "_id": 0}))
+            terms = []
+            for term in terms_dict:
+                terms.append(term["code"])
+            return terms
         except:
-            print("unable to update current term in semesters collection", file=stderr)
-    
-    # add course info to courses collection for single term
-    def add_courses_for_one_term(self, term):
-        pass
+            print("failed to get all terms from semesters collection", file=stderr)
 
-    # add course info to courses collection for all terms
-    def add_courses_for_all_terms(self):
-        pass
+    # remove one term's courses from courses collection
+    def clear_courses_for_one_term(self, term):
+        try:
+            self.db.courses.delete_many({"term": term})
+        except:
+            print(f"failed to clear courses for term {term}", file=stderr)
+
+    # remove one term's courses for instructors in instructors collection
+    def clear_courses_for_instructor_for_one_term(self, term):
+        try:
+            self.db.instructors.update_many(
+            {}, {"$pull": {"courses": {"$regex": r"^" + term}}})   
+        except:
+            print(f"failed to clear all instructor's courses for term {term}", file=stderr)
+
+    # add a course for an instructor in instructors collection
+    def add_course_for_instructor(self, instr, guid):
+        try:
+            emplid = instr["emplid"]
+            self.db.instructors.update_one(
+                {"emplid": emplid},
+                {
+                    "$set": {
+                        "name": {
+                            "first_name": instr["first_name"],
+                            "last_name": instr["last_name"],
+                        }
+                    },
+                    "$addToSet": {"courses": guid},
+                },
+                upsert=True
+            )
+        except:
+            print(f"failed to add course for instructor", file=stderr)     
+
+    # add current term data to semesters collection (does nothing if term already exists)
+    def add_current_term(self, data):
+        try:
+            self.db.semesters.update_one(
+                {"code": data["code"]}, {"$set": data}, upsert=True
+            )
+        except:
+            print(f"failed to add current term data to semester collection", file=stderr)
+
+    # update data for course (inserts course if doesn't exist)
+    def update_course_data(self, guid, data):
+        try: 
+            self.db.courses.update_one({"guid": guid}, {"$set": data}, upsert=True)
+        except:
+            print(f"failed to update course data for {guid}", file=stderr)
+
 
 
 if __name__ == "__main__":
-    db = SetupDB()
-    db.add_current_term()
-
-
+    db = Database()
