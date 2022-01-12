@@ -38,7 +38,12 @@ class Database:
         # you can specify which field to return or not to return in the second dict
         # you send to the db
         logger.info("Queried for all people in test database.")
-        return self.as_list(self.db_test.people.find({}, {"_id": 0}))
+        try:
+            ret = self.db_test.people.find()
+        except Exception as e:
+            logger.info(f"Failed to query for all people in test database with error {e}")
+            ret = None
+        return ret
 
     def close(self):
         self.client.close()
