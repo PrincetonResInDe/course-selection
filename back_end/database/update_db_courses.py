@@ -14,6 +14,7 @@ from multiprocessing import Pool
 from mobileapp import MobileApp
 import os
 from update_db_helpers import update_courses_for_one_term
+import argparse
 
 # update course info in db for current term
 def update_courses_for_current_term() -> None:
@@ -31,6 +32,8 @@ def update_courses_for_all_terms() -> None:
     try:
         db = Database()
         terms = db.get_all_terms()
+
+        # use multiprocessing to update terms in parallel
         with Pool(os.cpu_count()) as pool:
             pool.map(update_courses_for_one_term, terms)
     except:
@@ -39,14 +42,15 @@ def update_courses_for_all_terms() -> None:
 
 if __name__ == "__main__":
 
-    if len(argv) == 1:
-        print("Running script to update courses in DB for current term...")
-        update_courses_for_current_term()
-    elif len(argv) == 2 and str(argv[1]) == "--all":
-        # DO NOT RUN: CURRENTLY CRASHES MID-WAY DUE TO MOBILEAPP TIMEOUT ERROR
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--all", help="update courses in DB for all terms", action="store_true"
+    )
+
+    args = parser.parse_args()
+    if args.all:
         print("Running script to update courses in DB for all terms...")
         update_courses_for_all_terms()
     else:
-        print(
-            'Invalid arguments.\nSpecify no args to update courses for the current term. Add "--all" to update courses for all terms.'
-        )
+        print("Running script to update courses in DB for current term...")
+        update_courses_for_current_term()
