@@ -3,3 +3,5 @@ python-dotenv
 certifi
 browser-cookie3
 requests
+multiprocess
+beautifulsoup4
