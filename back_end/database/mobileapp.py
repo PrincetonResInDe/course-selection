@@ -1,4 +1,4 @@
-# MobileAppBase and MobileAppConfigs adapted from 
+# MobileAppBase and MobileAppConfigs adapted from
 # vr2amesh's COS333 API Code Examples
 # https://github.com/vr2amesh/COS333-API-Code-Examples/tree/434acaf21bce6bf894df65435998247ae63e83e2/MobileApp/python
 
@@ -86,7 +86,8 @@ class MobileAppConfigs:
         response = json.loads(text)
         self.ACCESS_TOKEN = response["access_token"]
 
-# Wrapper class around MobileAppBase 
+
+# Wrapper class around MobileAppBase
 # Handles queries to MobileApp endpoints
 class MobileApp:
     def __init__(self):
@@ -95,14 +96,14 @@ class MobileApp:
         self.dept_codes = None
 
     # get term data via /courses/terms endpoint
-    def get_current_term_data(self):
+    def get_current_term_data(self) -> json:
         return self.api.getJSON(self.configs.COURSE_TERMS, fmt="json")["term"][0]
 
-    def get_current_term_code(self):
+    def get_current_term_code(self) -> str:
         return self.get_current_term_data()["code"]
 
     # return department codes as comma-separated string for a given term
-    def get_department_codes(self, term):
+    def get_department_codes(self, term: str) -> str:
         depts = self.api.getJSON(
             self.configs.COURSE_COURSES, term=term, subject="list", fmt="json"
         )
@@ -111,17 +112,15 @@ class MobileApp:
         for dept in depts["term"][0]["subjects"]:
             dept_codes.append(dept["code"])
         return ",".join(dept_codes)
-        
+
     # get course info via /courses/courses endpoint
     # kwargs must include key "term"
     # specify depts (comma-separated) with key "subject"
     def get_courses(self, **kwargs):
-        return self.api.getJSON(
-            self.configs.COURSE_COURSES, **kwargs
-        )
+        return self.api.getJSON(self.configs.COURSE_COURSES, **kwargs)
 
     # return course info for all courses in a given term
-    def get_all_courses(self, term):
+    def get_all_courses(self, term: str) -> dict:
         dept_codes = self.get_department_codes(term=term)
         courses = []
         courses_raw = self.get_courses(term=term, subject=dept_codes, fmt="json")
@@ -136,6 +135,8 @@ if __name__ == "__main__":
     curr_term = api.get_current_term_code()
     print("current term code:", curr_term)
     print("dept codes:", api.get_department_codes(term=curr_term))
-    print("VIS courses from this semester:", api.get_courses(term=curr_term, subject="VIS", fmt="json"))
+    print(
+        "VIS courses from this semester:",
+        api.get_courses(term=curr_term, subject="VIS", fmt="json"),
+    )
     print("ALL courses from this semester:", api.get_all_courses(term=curr_term))
-
