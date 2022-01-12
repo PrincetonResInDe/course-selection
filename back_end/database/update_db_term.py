@@ -6,7 +6,10 @@ $ python update_db_term.py
 
 from database import Database
 from mobileapp import MobileApp
-from sys import stderr
+import logging
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # add current term data to semesters collection (ignores if already exists)
 def add_current_term() -> None:
@@ -21,7 +24,7 @@ def add_current_term() -> None:
         }
         db.add_current_term(new_data)
     except:
-        print("unable to update current term data", file=stderr)
+        logger.error("unable to update current term data")
 
 
 if __name__ == "__main__":

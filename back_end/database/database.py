@@ -1,11 +1,13 @@
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
-from mobileapp import MobileApp
-from sys import stderr
 from typing import List
+import logging
 
 load_dotenv()
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Handles queries from and updates to database
 class Database:
@@ -25,14 +27,14 @@ class Database:
                 terms.append(term["code"])
             return terms
         except:
-            print("failed to get all terms from semesters collection", file=stderr)
+            logger.error("failed to get all terms from semesters collection")
 
     # remove one term's courses from courses collection
     def clear_courses_for_one_term(self, term: str) -> None:
         try:
             self.db.courses.delete_many({"term": term})
         except:
-            print(f"failed to clear courses for term {term}", file=stderr)
+            logger.error(f"failed to clear courses for term {term}")
 
     # remove one term's courses for instructors in instructors collection
     def clear_courses_for_instructor_for_one_term(self, term: str) -> None:
@@ -41,8 +43,8 @@ class Database:
                 {}, {"$pull": {"courses": {"$regex": r"^" + term}}}
             )
         except:
-            print(
-                f"failed to clear all instructor's courses for term {term}", file=stderr
+            logger.error(
+                f"failed to clear all instructor's courses for term {term}"
             )
 
     # add a course for an instructor in instructors collection
@@ -63,7 +65,7 @@ class Database:
                 upsert=True,
             )
         except:
-            print(f"failed to add course for instructor", file=stderr)
+            logger.error(f"failed to add course {guid} for instructor {instr['emplid']}")
 
     # add current term data to semesters collection (does nothing if term already exists)
     def add_current_term(self, data: dict) -> None:
@@ -72,8 +74,8 @@ class Database:
                 {"code": data["code"]}, {"$set": data}, upsert=True
             )
         except:
-            print(
-                f"failed to add current term data to semester collection", file=stderr
+            logger.error(
+                "failed to add current term data to semesters collection"
             )
 
     # update data for course (inserts course if doesn't exist)
@@ -81,11 +83,8 @@ class Database:
         try:
             self.db.courses.update_one({"guid": guid}, {"$set": data}, upsert=True)
         except:
-            print(f"failed to update course data for {guid}", file=stderr)
+            logger.error(f"failed to update course data for {guid}")
 
 
 if __name__ == "__main__":
-    db = Database()
-
-    db.db.instructors.delete_many({})
-    db.db.courses.delete_many({})
+    db = Database()    

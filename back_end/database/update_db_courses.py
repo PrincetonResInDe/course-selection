@@ -9,12 +9,16 @@ $ python update_db_courses.py --all
 """
 
 from database import Database
-from sys import stderr, argv
+from sys import argv
 from multiprocessing import Pool
 from mobileapp import MobileApp
 import os
 from update_db_helpers import update_courses_for_one_term
 import argparse
+import logging
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # update course info in db for current term
 def update_courses_for_current_term() -> None:
@@ -22,7 +26,7 @@ def update_courses_for_current_term() -> None:
         curr_term = MobileApp().get_current_term_code()
         update_courses_for_one_term(curr_term)
     except:
-        print("failed to update courses for current term", file=stderr)
+        logger.error("failed to update courses for current term")
 
 
 # update course info in db for all terms
@@ -37,7 +41,7 @@ def update_courses_for_all_terms() -> None:
         with Pool(os.cpu_count()) as pool:
             pool.map(update_courses_for_one_term, terms)
     except:
-        print("failed to add courses for all terms", file=stderr)
+        logger.error("failed to add courses for all terms")
 
 
 if __name__ == "__main__":

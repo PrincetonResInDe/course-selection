@@ -6,7 +6,10 @@ import json
 from database import Database
 from mobileapp import MobileApp
 from registrar import RegistrarAPI
-from sys import stderr
+import logging
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # update course info for single term
 # collections updated: courses, instructors
@@ -15,38 +18,38 @@ def update_courses_for_one_term(term: str) -> None:
 
     # get course data from mobileapp api
     try:
-        print(f"getting course data for term {term} from mobileapp")
+        logger.info(f"getting course data for term {term} from mobileapp")
         all_courses = MobileApp().get_all_courses(term)
     except:
-        print(f"unable to get course data for term {term} from mobileapp", file=stderr)
+        logger.error(f"unable to get course data for term {term} from mobileapp")
         return
 
-    # TO-DO: check if course data can be removed
-    # only delete from courses collection if courses can be removed from api
-    # db_wrapper.clear_courses_for_one_term(term)
-    db.clear_courses_for_instructor_for_one_term(term)
+    # NOTE: it's possible that courses can be deleted, instructors
+    # removed from a course. only do two clearing operations below 
+    # if confident that update for all courses will not fail.
+    # db.clear_courses_for_one_term(term)
+    # db.clear_courses_for_instructor_for_one_term(term)
 
-    print(f"started updating courses for term {term}")
+    logger.info(f"started updating courses for term {term}")
     for subject in all_courses:
         dept = subject["code"]
 
-        print(f"processing courses for {dept}")
+        logger.info(f"processing courses for {dept}")
         for mapp_course in subject["courses"]:
             guid = mapp_course["guid"]
             course_id = mapp_course["course_id"]
 
             # get course data from registrar's api
             try:
-                print(f"getting data for course {course_id} from registrar's api")
+                logger.info(f"getting data for course {course_id} from registrar's api")
                 # NOTE: this operation slows down the script, but not sure
                 # if it's worth optimizing because we will switch to OIT's
                 # student API, where we can pull mobileapp & registrar api's
                 # data at the same time
                 reg_course = RegistrarAPI().get_course_data(term, course_id)
             except:
-                print(
-                    f"failed to get data for course {course_id} from registrar's api",
-                    file=stderr,
+                logger.error(
+                    f"failed to get data for course {course_id} from registrar's api"
                 )
                 continue
 
@@ -67,7 +70,7 @@ def update_courses_for_one_term(term: str) -> None:
                 # update courses collection with course data
                 db.update_course_data(guid, data)
             except:
-                print(f"failed to update course & instructors data for course {guid}")
+                logger.error(f"failed to update course & instructors data for course {guid}")
 
 
 # Helper to combine mobileapp and registrar's data into one dict
