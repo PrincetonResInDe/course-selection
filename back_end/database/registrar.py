@@ -20,9 +20,7 @@ class RegistrarAPI:
 
     # exploit registrar api's vulnerability to make request for course data
     def _make_course_request(self, term: str, course_id: str):
-        USER_AGENT = (
-            "Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0"
-        )
+        USER_AGENT = "resinde-course-selection"
         url = f"https://api.princeton.edu/registrar/course-offerings/course-details?term={term}&course_id={course_id}"
         bearer = f"Bearer {self.api_token}"
         headers = {"Authorization": bearer, "User-Agent": USER_AGENT}
@@ -46,10 +44,10 @@ if __name__ == "__main__":
     api = RegistrarAPI()
 
     # COS126: grading, prereqs, no seat reservations
-    api.parse_course_data(api.get_course_data("1224", "002051"))
+    print(api.get_course_data("1224", "002051"))
 
     # VIS213: seat reservations, NPDF, website
-    api.parse_course_data(api.get_course_data("1224", "008907"))
+    print(api.get_course_data("1224", "008907"))
 
     # CEE102A: older term, 2 readings
-    api.parse_course_data(api.get_course_data("1222", "008721"))
+    print(api.get_course_data("1222", "008721"))
