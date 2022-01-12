@@ -40,8 +40,6 @@ def insertSampleCourse(c_client, c_db):
     for course in course_collection.find():
         print(course)
 
-
-
 if __name__ == "__main__":
     client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
     db = client.admin
