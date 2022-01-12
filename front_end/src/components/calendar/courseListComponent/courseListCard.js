@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, Typography, Box, IconButton, Checkbox } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { Card, Typography, Box, Checkbox } from "@mui/material";
 
 export default function CourseListCard() {
   return (
@@ -23,19 +22,55 @@ export default function CourseListCard() {
           justifyContent: "space-between",
         }}
       >
-        <Box>
-          <Typography
-            variant="body1"
-            sx={{ color: "color.blue", fontWeight: "bold" }}
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              width: "100%",
+              color: "color.blue",
+              display: "flex",
+              flexDireciton: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
           >
-            MAT202
-          </Typography>
-          <Typography variant="body1" sx={{ color: "color.blue" }}>
-            Linear Algebra
-          </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                color: "color.blue",
+                display: "inline",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              MAT 202
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              color: "color.blue",
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                color: "color.blue",
+                display: "inline",
+              }}
+            >
+              Linear Algebra
+            </Typography>
+          </Box>
         </Box>
         <Box>
-          <Checkbox sx={{ p: 0.1 }} />
+          <Checkbox size="small" sx={{ p: 0.1 }} />
         </Box>
       </Box>
     </Card>

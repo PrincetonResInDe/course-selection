@@ -17,19 +17,52 @@ export default function BookmarkCard() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            width: "100%",
+            color: "color.blue",
+            display: "flex",
+            flexDireciton: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography
             variant="body1"
-            sx={{ color: "color.blue", fontWeight: "bold" }}
+            sx={{
+              fontWeight: "bold",
+              color: "color.blue",
+              display: "inline",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
           >
-            MAT202
+            MAT 202
           </Typography>
-          <Typography variant="body1" sx={{ color: "color.blue" }}>
+        </Box>
+        <Box
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "color.blue",
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              color: "color.blue",
+              display: "inline",
+            }}
+          >
             Linear Algebra
           </Typography>
         </Box>

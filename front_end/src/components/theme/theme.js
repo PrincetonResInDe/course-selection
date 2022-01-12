@@ -23,6 +23,7 @@ const theme = createTheme({
     color: {
       blue: "#375C92",
       darkBlue: "#0834A4",
+      lightBlue: "#e6f9ff",
       grey: "#AAAAAA",
       orange: "#FFCA7B",
     },

@@ -7,7 +7,7 @@ export default function pathTree() {
   return (
     <Box>
       <Box sx={{ flex: "0 1 auto", height: "10%" }}>
-        <AppBar />
+        <AppBar name="Path" />
       </Box>
       <Box sx={{ flex: "1 1 auto", height: "95%" }}>
         <Box
