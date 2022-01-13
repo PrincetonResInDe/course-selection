@@ -6,8 +6,11 @@ import certifi
 
 load_dotenv()
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s', datefmt='%m/%d/%Y %H:%M:%S',
-                    level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+    level=logging.INFO,
+)
 logger = logging.getLogger(__name__)
 
 """
@@ -16,8 +19,8 @@ logger = logging.getLogger(__name__)
     Logic regarding the database should go into this file.
 """
 
-class DatabaseAPI:
 
+class DatabaseAPI:
     def __init__(self):
         self.connect()
         self.db_test = self.client.test
@@ -38,12 +41,15 @@ class DatabaseAPI:
         try:
             ret = list(self.db_test.people.find({}, {"_id": 0}))
         except Exception as e:
-            logger.error(f"Failed to query for all people in test database with error {e}")
+            logger.error(
+                f"Failed to query for all people in test database with error {e}"
+            )
             ret = None
         return ret
 
     def close(self):
         self.client.close()
+
 
 if __name__ == "__main__":
     # a basic example of how to use, can remove later

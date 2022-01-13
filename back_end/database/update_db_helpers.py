@@ -8,7 +8,11 @@ from mobileapp import MobileApp
 from registrar import RegistrarAPI
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s: %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+    level=logging.INFO,
+)
 logger = logging.getLogger(__name__)
 
 # update course info for single term
@@ -25,7 +29,7 @@ def update_courses_for_one_term(term: str) -> None:
         return
 
     # NOTE: it's possible that courses can be deleted, instructors
-    # removed from a course. only do two clearing operations below 
+    # removed from a course. only do two clearing operations below
     # if confident that update for all courses will not fail.
     # db.clear_courses_for_one_term(term)
     # db.clear_courses_for_instructor_for_one_term(term)
@@ -70,7 +74,9 @@ def update_courses_for_one_term(term: str) -> None:
                 # update courses collection with course data
                 db.update_course_data(guid, data)
             except:
-                logger.error(f"failed to update course & instructors data for course {guid}")
+                logger.error(
+                    f"failed to update course & instructors data for course {guid}"
+                )
 
 
 # Helper to combine mobileapp and registrar's data into one dict
