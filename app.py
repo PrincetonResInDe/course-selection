@@ -62,3 +62,8 @@ def path():
 def test_database():
     logger.info("Reached /api/test-database")
     return jsonify(db.get_all_test())
+
+@app.route("/api/get-all-courses", methods=["GET"])
+def get_all_courses():
+    logger.info("Reached /api/get-all-courses")
+    return jsonify(db.get_courses())

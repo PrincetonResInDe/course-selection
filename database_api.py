@@ -24,6 +24,7 @@ class DatabaseAPI:
     def __init__(self):
         self.connect()
         self.db_test = self.client.test
+        self.db_courses = self.client.course_selection
 
     def connect(self):
         self.client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
@@ -43,6 +44,24 @@ class DatabaseAPI:
         except Exception as e:
             logger.error(
                 f"Failed to query for all people in test database with error {e}"
+            )
+            ret = None
+        return ret
+
+    def get_courses(self):
+        logger.info("Querying for course information")
+        try:
+            ret = list(self.db_courses.courses.find(
+                {},
+                {"_id": 0, "title": 1, "course_id": 1, "catalog_number": 1, "department": 1, "distribution": 1, }
+            ))
+            for r in ret:
+                dept = r.pop("department")
+                num = r.pop("catalog_number")
+                r["course_number"] = str(dept) + str(num)
+        except Exception as e:
+            logger.error(
+                f"Failed to query for course information with error {e}"
             )
             ret = None
         return ret
