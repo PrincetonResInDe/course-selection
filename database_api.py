@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
     Logic regarding the database should go into this file.
 """
 
-class Database:
+class DatabaseAPI:
 
     def __init__(self):
         self.connect()
@@ -47,6 +47,6 @@ class Database:
 
 if __name__ == "__main__":
     # a basic example of how to use, can remove later
-    db = Database()
+    db = DatabaseAPI()
     logger.info(db.get_all_test())
     db.close()

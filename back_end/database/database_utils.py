@@ -7,15 +7,20 @@ import certifi
 
 load_dotenv()
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s: %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+    level=logging.INFO,
+)
 logger = logging.getLogger(__name__)
 
 """
     This class handles querying from and updating the database. 
     Database methods that serve the API are contained in the DatabaseAPI class.
 """
-class DatabaseUtils:
 
+
+class DatabaseUtils:
     def __init__(self) -> None:
         self.connect()
 
@@ -51,9 +56,7 @@ class DatabaseUtils:
                 {}, {"$pull": {"courses": {"$regex": r"^" + term}}}
             )
         except:
-            logger.error(
-                f"failed to clear all instructor's courses for term {term}"
-            )
+            logger.error(f"failed to clear all instructor's courses for term {term}")
 
     # add a course for an instructor in instructors collection
     def add_course_for_instructor(self, instr: dict, guid: str) -> None:
@@ -73,7 +76,9 @@ class DatabaseUtils:
                 upsert=True,
             )
         except:
-            logger.error(f"failed to add course {guid} for instructor {instr['emplid']}")
+            logger.error(
+                f"failed to add course {guid} for instructor {instr['emplid']}"
+            )
 
     # add current term data to semesters collection (does nothing if term already exists)
     def add_current_term(self, data: dict) -> None:
@@ -82,9 +87,7 @@ class DatabaseUtils:
                 {"code": data["code"]}, {"$set": data}, upsert=True
             )
         except:
-            logger.error(
-                "failed to add current term data to semesters collection"
-            )
+            logger.error("failed to add current term data to semesters collection")
 
     # update data for course (inserts course if doesn't exist)
     def update_course_data(self, guid: str, data: dict) -> None:
@@ -95,4 +98,4 @@ class DatabaseUtils:
 
 
 if __name__ == "__main__":
-    db = DatabaseUtils()    
+    db = DatabaseUtils()

@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, redirect, request, session, url_for, send_from_directory
 import os
 from flask_cors import CORS
-from database import Database
+from database_api import DatabaseAPI
 import logging
 
 load_dotenv()
@@ -17,7 +17,7 @@ app.config["JSON_SORT_KEYS"] = False
 
 CORS(app) # not sure how important this line is right now
 
-db = Database()
+db = DatabaseAPI()
 
 @app.route("/")
 def index():
