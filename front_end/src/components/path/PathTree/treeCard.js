@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { getThemeProps, useThemeProps } from "@mui/system";
 
-export default function BookmarkCard(props) {
+export default function TreeCard(props) {
   var level = props.level;
   var comp = props.comp;
   return (

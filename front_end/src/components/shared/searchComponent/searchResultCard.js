@@ -1,28 +1,90 @@
-import React from "react";
-import { Box } from "@mui/material";
-import { Card, CardContent, Typography } from "@mui/material";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import React, { useCallback } from "react";
+import { Box, Card, CardContent, Typography, Chip } from "@mui/material";
+import { gradient, opacity } from "../../theme/gradient";
+import DraggableSearchCard from "./draggableSearchCard";
 
 export default function SearchResultCard(props) {
+  const data = props.data;
+
   return (
-    <Box>
-      <Draggable key={props.name} draggableId={props.name}>
-        {(provided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
+    <Card
+      sx={{
+        mb: 1,
+        backgroundColor: "white",
+        width: "100%",
+      }}
+    >
+      <CardContent
+        sx={{
+          p: 1,
+          "&:last-child": {
+            paddingBottom: 1,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              width: "100%",
+            }}
           >
-            <Card sx={{ mb: 1, height: "100px" }}>
-              <CardContent>
-                <Typography>
-                  {props.name}
+            <DraggableSearchCard index = {props.index} data={data} />
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            pt: 1,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Chip
+              label={data.rating}
+              size="small"
+              sx={{
+                fontWeight: "bold",
+                color: gradient(data.rating),
+                backgroundColor: opacity(data.rating, 0.3),
+              }}
+            />
+            {data.distribution.map((distribution) => {
+              return (
+                <Typography
+                  sx={{ ml: 0.5, color: "color.orange", fontWeight: "bold" }}
+                >
+                  {distribution}
                 </Typography>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </Draggable>
-    </Box> 
+              );
+            })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Typography
+              sx={{ mr: 1, color: "color.darkBlue", fontWeight: "bold" }}
+            >
+              {data.availability}
+            </Typography>
+            <Typography sx={{ color: "color.grey" }}>
+              Previously Offered {data.prev_offered}
+            </Typography>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

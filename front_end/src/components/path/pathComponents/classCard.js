@@ -7,13 +7,12 @@ import { height } from "@mui/system";
 export default function ClassCard(props) {
   const course = props.class;
   return (
-    <Draggable key={course.code} draggableId={course.code} index={course.id}>
+    <Draggable key={course.code} draggableId={course.code} index = {props.index}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          isDragging={snapshot.isDragging}
         >
           <Box
             style={{
@@ -21,8 +20,8 @@ export default function ClassCard(props) {
               flex: "1",
               flexDirection: "column",
               backgroundColor: "#D7E4F4",
-              height: "45px",
-              width: "15vw",
+              height: "48px",
+              width: "13vw",
               borderRadius: 5,
               m: 1,
               padding: 1,
@@ -32,6 +31,7 @@ export default function ClassCard(props) {
              gutterBottom
               variant="h9"
               component="div"
+              noWrap
               sx={{
                 display: "flex",
                 flex: "1",
@@ -39,7 +39,9 @@ export default function ClassCard(props) {
                 noWrap: true,
                 fontWeight: 700,
                 mb: 0,
-               
+                ml: 1,
+                mt: 0.5, 
+                mr: 1,
               }}
             >
               {course.course_num}
@@ -57,6 +59,8 @@ export default function ClassCard(props) {
                 color: "#315893",
                 fontWeight: 400,
                 mt: -2,
+                ml: 1,
+                mr: 1,
               }}
             >
               {course.course_name}

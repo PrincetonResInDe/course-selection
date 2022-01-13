@@ -62,9 +62,10 @@ export default function PathCard(props) {
                   width: "100%",
                 }}
               >
-                {results.map((result) => (
+                {results.map((result, idx) => (
                   <ClassCard
                     class = {result}
+                    index = {idx}
                     name={result.course_name}
                     className={result.course_name}
                     {...provided.droppableProps}

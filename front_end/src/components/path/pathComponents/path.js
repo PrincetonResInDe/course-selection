@@ -7,6 +7,9 @@ import PathTab from "./pathTab";
 import Bookmarks from "./bookmarks";
 import { DragDropContext } from "react-beautiful-dnd";
 
+// import Search from "../../calendar/searchComponent/search";
+import Search from "../../shared/searchComponent/search"
+
 export default function Path() {
   var semesters = [{ title: "Fall 2021", courses: ["cos126"] }];
   const data = [
@@ -21,7 +24,7 @@ export default function Path() {
       id: 435345, 
     },
     {
-      code: "ORF 245",
+      code: "ORF245",
       course_num: "ORF 245",
       course_name: "Statistics",
       rating: "4.75",
@@ -29,6 +32,26 @@ export default function Path() {
       availability: ["F&S"],
       prev_offered: ["2022"],
       id : 5645463,
+    },
+    {
+      code: "MAE345",
+      course_num: "MAE345",
+      course_name: "Intro to Robotics",
+      rating: "4.15",
+      distribution: ["LA", "PDF"],
+      availability: ["F&S"],
+      prev_offered: ["2022"],
+      id: 124145,
+    },
+    {
+      code: "ELE206",
+      course_num: "ELE206",
+      course_name: "Logic Design",
+      rating: "4.75",
+      distribution: ["LA", "PDF"],
+      availability: ["F&S"],
+      prev_offered: ["2022"],
+      id: 324235345,
     },
  
   ];
@@ -50,18 +73,33 @@ export default function Path() {
     // let searchResults = this.state.searchResults;
 
     if (result.destination === null) return;
+    if(result.destination.droppableId === 'searchBar') return; 
     const destSem = result.destination.droppableId[3];
-    const sourceSem = result.source.droppableId[3];
+
+    
+    let sourceSem = result.source.droppableId; 
+    if (sourceSem !== 'searchBar') {
+      sourceSem = result.source.droppableId[3];
+    }
+
     const courseCode = result.draggableId;
     console.log('courseCode', courseCode); 
     const course = data.filter((c)=> c.code == courseCode)[0]; 
     console.log("course", course); 
     var newSem = semeseter;
 
+    let destCourseIndex = result.destination.index;
+    let sourceCourseIndex = result.source.index;
+
     // move from search to courses
     // move between semesters
-    newSem[sourceSem].splice(newSem[sourceSem].indexOf(course));
-    newSem[destSem].push(course); 
+    if(sourceSem !== 'searchBar' ){
+      
+      newSem[sourceSem].splice(newSem[sourceSem].indexOf(course));
+    } 
+    newSem[destSem].splice(destCourseIndex, 0, course);
+    
+    //  newSem[destSem].push(course); 
     // newSem[destSem].splice(-1, 0, course);
     setSemester(newSem); 
     console.log(newSem);
@@ -94,7 +132,9 @@ export default function Path() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Box sx={{ height: "100%" }}>
+
+      <Search />
+      <Box sx={{ height: "100%" , width: "60vw", mt: 2, mb: 2 }}>
         <Box sx={{ height: "5%" }}>
           <PathTab />
         </Box>
