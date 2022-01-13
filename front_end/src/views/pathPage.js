@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Path from "../components/path/pathComponents/path";
-import AppBar from "../components/shared/appBarComponent/appBar";
-import Calendar from "../components/calendar/calendarComponent/calendar";
-import CourseList from "../components/calendar/courseListComponent/courseList.js";
-import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkList.js";
 import Search from "../components/calendar/searchComponent/search";
-import Title from "../components/shared/titleComponent/title";
 import PathTree from "../components/path/PathTree/pathTree";
 import PathTab from "../components/path/pathComponents/pathTab";
 import PathCard from "../components/path/pathComponents/pathCard";
@@ -15,7 +11,6 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 export default function PathPage() {
   var semesters = [{ title: "Fall 2021", courses: ["cos126"] }];
-
   return (
     <Box
       sx={{
@@ -50,12 +45,25 @@ export default function PathPage() {
           mt: 3,
           mr: 0,
           height: "100%",
-
         }}
       >
-        <PathTree />
+        <Search />
+        <Box sx={{ width: "70vw", mt: 2 }}>
+          <Path />
+        </Box>
+        <Box
+          sx={{
+            width: "20vw",
+            mt: 2,
+            ml: 2,
+            display: "flex",
+            flexFlow: "column",
+            height: "100%",
+          }}
+        >
+          <PathTree />
+        </Box>
       </Box>
-
     </Box>
   );
 }

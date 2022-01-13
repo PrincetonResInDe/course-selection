@@ -12,13 +12,12 @@ export default function pathTree() {
       sx={{ display: "flex", width: "20vw", flexDirection: "column"}}
     >
       <Box sx={{ flex: "0 1 auto", height: "5vh" }}>
-        <AppBar />
+        <AppBar name = "Path" />
       </Box>
       <Box sx={{ flex: "1 1 auto" }}>
         <Typography variant="h6" component="div">
           {major.name}
         </Typography>
-
         <Box
           sx={{
             display: "flex",

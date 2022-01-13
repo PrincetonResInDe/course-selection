@@ -8,8 +8,8 @@ export default function TreeCard(props) {
   return (
     <Box
       sx={{
-        display: "flex", 
-        flex: 1, 
+        display: "flex",
+        flex: 1,
         m: 0.2,
         backgroundColor:
           comp === "yes"
@@ -19,10 +19,10 @@ export default function TreeCard(props) {
             : comp === "class"
             ? "white"
             : "#FBF7D2",
-        height: "40px",
-        width: level == "1" ? "95%" : level == "2" ? "85%" : "75%",
+        height: "30px",
+        width: level === "1" ? "100%" : level === "2" ? "90%" : "80%",
         borderRadius: 1.5,
-        padding: 0.8
+        padding: 0.8,
       }}
     >
       {props.name}

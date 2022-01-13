@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  Typography,
   FormControl,
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
 export default function SearchBar(props) {
   const data = [
     {
-      course_num: "COS 126 / COS 109",
-      course_name: "Computer Science: An Interdisciplinary Approach",
+      course_num: "MAT 202",
+      course_name: "Linear Algebra",
       rating: "4.75",
       distribution: ["LA", "PDF"],
       availability: ["F&S"],
@@ -27,8 +30,8 @@ export default function SearchBar(props) {
       prev_offered: ["2022"],
     },
     {
-      course_num: "COS 126 / COS 109",
-      course_name: "Computer Science: An Interdisciplinary Approach",
+      course_num: "COS 240",
+      course_name: "Reasoning About Computation",
       rating: "4.75",
       distribution: ["LA", "PDF"],
       availability: ["F&S"],
@@ -37,8 +40,9 @@ export default function SearchBar(props) {
   ];
 
   const [query, setQuery] = useState("");
+
   const handleSearch = (e) => {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       props.setSearchResults(data);
     }
   };
@@ -76,19 +80,58 @@ export default function SearchBar(props) {
           }}
         />
       </FormControl>
-      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <Button
           variant="outlined"
-          sx={{ fontSize: "body1.fontSize", p: 1, backgroundColor: "white" }}
+          size="small"
+          sx={{
+            backgroundColor: "white",
+            color: "black",
+            textTransform: "none",
+            border: "1px solid #D4D4D4",
+          }}
         >
-          Filters
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <FilterAltOutlinedIcon sx={{ height: "75%" }} />
+            <Typography sx={{ pl: 0.5 }}>Filters</Typography>
+          </Box>
         </Button>
-        <Box sx={{ flex: 1, m: 1 }} />
         <Button
           variant="outlined"
-          sx={{ fontSize: "body1.fontSize", p: 1, backgroundColor: "white" }}
+          size="small"
+          sx={{
+            backgroundColor: "white",
+            color: "black",
+            textTransform: "none",
+            border: "1px solid #D4D4D4",
+          }}
         >
-          Sort By
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <CompareArrowsIcon
+              sx={{ height: "75%", transform: "rotate(90deg)" }}
+            />
+            <Typography sx={{ pl: 0.5 }}>Sort By</Typography>
+          </Box>
         </Button>
       </Box>
     </Box>

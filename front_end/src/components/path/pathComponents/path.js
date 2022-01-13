@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../../../App.css";
-
 import Box from "@mui/material/Box";
 import PathCard from "./pathCard";
 import PathTab from "./pathTab";
