@@ -5,6 +5,7 @@ import Calendar from "../components/calendar/calendarComponent/calendar";
 import CourseList from "../components/calendar/courseListComponent/courseList.js";
 import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkList.js";
 import Search from "../components/calendar/searchComponent/search";
+
 export default function CalendarPage() {
   return (
     <Box
@@ -16,7 +17,7 @@ export default function CalendarPage() {
       }}
     >
       <Search />
-      <Box sx={{ width: "70vw", mt: 2, mb: 2, mr: 2 }}>
+      <Box sx={{ flexGrow: 1, mt: 2, mb: 2, mr: 2 }}>
         <Calendar />
       </Box>
       <Box
@@ -28,18 +29,23 @@ export default function CalendarPage() {
           flexFlow: "column",
         }}
       >
-        <Box sx={{ flex: "0 1 auto" }}>
-          <AppBar />
+        <Box>
+          <AppBar name="Calendar" />
         </Box>
-        <Box sx={{ flex: "1 1 auto", height: "94%" }}>
-          <Box sx={{ display: "flex", flexFlow: "column", height: "100%" }}>
-            <Box sx={{ height: "49%" }}>
-              <CourseList />
-            </Box>
-            <Box sx={{ mb: 2, height: "1%" }}></Box>
-            <Box sx={{ height: "48%" }}>
-              <BookmarkList />
-            </Box>
+        <Box
+          sx={{
+            flexGrow: 1,
+
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ height: "50%", mb: 0.5 }}>
+            <CourseList />
+          </Box>
+          <Box sx={{ height: "50%", mt: 0.5 }}>
+            <BookmarkList />
           </Box>
         </Box>
       </Box>

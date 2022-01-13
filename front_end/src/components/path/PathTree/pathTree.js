@@ -10,11 +10,11 @@ export default function pathTree() {
 
   return (
     <Box>
-      <Box sx={{ flex: "0 1 auto", height: "5vh"}}>
-        <AppBar />
+      <Box sx={{ flex: "0 1 auto", height: "10%" }}>
+        <AppBar name="Path" />
       </Box>
-      <Box sx={{ flex: "1 1 auto" , height: "5vh" }}>
-        <Typography variant="h6" component="div" >
+      <Box sx={{ flex: "1 1 auto", height: "5vh" }}>
+        <Typography variant="h6" component="div">
           {major.name}
         </Typography>
 
@@ -25,23 +25,27 @@ export default function pathTree() {
             height: "90vh",
             mt: 2,
             alignItems: "end",
-            overflow:'scroll'
-
+            overflow: "scroll",
           }}
         >
           {major.req_list.map((req) => (
             <>
-              <TreeCard key = {req.name} level="1" comp="yes" name={req.name} />
+              <TreeCard key={req.name} level="1" comp="yes" name={req.name} />
               {req.req_list &&
                 req.req_list.map((req) => (
                   <>
-                  <TreeCard key = {req.name} level="2" comp="yes" name={req.name} />
-                  {req.course_list && req.course_list.map((course) => 
-                    <TreeCard level="3" comp = "class" name={course} />
-                  )}
+                    <TreeCard
+                      key={req.name}
+                      level="2"
+                      comp="yes"
+                      name={req.name}
+                    />
+                    {req.course_list &&
+                      req.course_list.map((course) => (
+                        <TreeCard level="3" comp="class" name={course} />
+                      ))}
                   </>
                 ))}
-              
             </>
           ))}
 
