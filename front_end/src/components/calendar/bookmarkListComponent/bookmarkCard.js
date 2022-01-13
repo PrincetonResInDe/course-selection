@@ -6,7 +6,7 @@ export default function BookmarkCard(props) {
   const ref = useRef(null);
 
   const [, drop] = useDrop({
-    accept: "COURSE_CARD",
+    accept: "BOOKMARK_CARD",
     hover(item, monitor) {
       if (!ref.current) {
         return;
@@ -54,7 +54,7 @@ export default function BookmarkCard(props) {
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: "COURSE_CARD",
+    type: "BOOKMARK_CARD",
     item: {
       index: props.index,
       id: props.data.name,
