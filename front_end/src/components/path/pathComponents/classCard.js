@@ -18,7 +18,7 @@ export default function ClassCard(props) {
               flex: "1 1 auto",
               margin: 1,
               backgroundColor: "purple",
-              height: '40px',
+              height: '30px',
               width: "100%",
               borderRadius: 5,
               padding: 5,

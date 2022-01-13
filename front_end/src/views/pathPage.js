@@ -85,6 +85,7 @@ export default function PathPage() {
         display: "flex",
         flexDirection: "row",
         height: "100vh",
+        backgroundColor: "background.default",
       }}
     >
       <Search />
