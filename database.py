@@ -27,9 +27,6 @@ class Database:
         self.db = self.client.admin
         logger.info(f"MongoDB server status: {self.db.command('serverStatus')}")
 
-    def as_list(self, cursor):
-        return [a for a in cursor]
-
     def get_all_test(self):
         # note that when you are returning, you want it to be jsonify-able,
         # which means that all fields either have to be a str or a int/float
@@ -37,11 +34,11 @@ class Database:
         # are return by default that are created by mongo
         # you can specify which field to return or not to return in the second dict
         # you send to the db
-        logger.info("Queried for all people in test database.")
+        logger.info("Querying for all people in test database.")
         try:
-            ret = self.db_test.people.find()
+            ret = list(self.db_test.people.find({}, {"_id": 0}))
         except Exception as e:
-            logger.info(f"Failed to query for all people in test database with error {e}")
+            logger.error(f"Failed to query for all people in test database with error {e}")
             ret = None
         return ret
 
