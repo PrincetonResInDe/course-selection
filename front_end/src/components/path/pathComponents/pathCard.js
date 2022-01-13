@@ -12,13 +12,21 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 export default function PathCard(props) {
   const results = props.classes;
   const semIndex = props.semIndex;
-  console.log("semIndex" , semIndex)
+  console.log("semIndex", semIndex);
   // const semId = `sem${semIndex}`;
   // const className = "semester";
   // if (this.props.className) className += ` ${this.props.className}`;
 
   return (
-    <Card sx={{ display: "flex", width: "100%", height: "100%" }}>
+    <Card
+      sx={{
+        display: "flex",
+        width: "17vw",
+        height: "100%",
+        backgroundColor: "white",
+        m: 0.1, 
+      }}
+    >
       <CardContent sx={{ width: "100%", mb: 2 }}>
         <Box // why doesn't this push the icon to the left
           sx={{
@@ -39,24 +47,26 @@ export default function PathCard(props) {
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex" , flex: 1 , height: "100%", width: "100%"}}>
-          <Droppable  key={semIndex} droppableId= {"sem" + semIndex} >
+        <Box sx={{ display: "flex", flex: 1, height: "100%", width: "100%" }}>
+          <Droppable key={semIndex} droppableId={"sem" + semIndex}>
             {(provided) => (
               <div
                 className="searchBar"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                style={{ display: "flex" , 
-                flex: 1 , 
-                flexDirection: 'column',
-                height: "100%", 
-                width: "100%",  
+                style={{
+                  display: "flex",
+                  flex: 1,
+                  flexDirection: "column",
+                  height: "100%",
+                  width: "100%",
                 }}
               >
                 {results.map((result) => (
                   <ClassCard
-                    name={result}
-                    className={result}
+                    class = {result}
+                    name={result.course_name}
+                    className={result.course_name}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   />

@@ -22,7 +22,7 @@ export default function pathTree() {
           sx={{
             display: "flex",
             flexFlow: "column",
-            height: "90vh",
+            height: "85vh",
             mt: 2,
             alignItems: "end",
             overflow:'scroll'
