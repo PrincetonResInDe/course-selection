@@ -1,0 +1,35 @@
+{
+  "Name": "Computer Science: An Interdisciplinary Approach",
+  "Course Codes": ["COS126", "EGR126"],
+  "Distribution Area": ["QCR"],
+  "Grading Basis": "No Audit",
+  "Instructor": ["Adam Finkelstein", "Ruth Fong", "Alan Kaplan"],
+  "Links": [
+    {
+    "Books": "https://coursebooks.labyrinthbooks.com/college/by-name/SPRING%202022/COS/126/ALL",
+    "Evaluations": "https://registrarapps.princeton.edu/course-evaluation?courseinfo=002051&terminfo=1224"
+    }
+  ],
+  "Description": "Weekly: two recorded video lectures, one class meeting, two preceptorials. An introduction to computer science in the context of scientific, engineering, and commercial applications. The goal of the course is to teach basic principles and practical issues, while at the same time preparing students to use computers effectively for applications in computer science, physics, biology, chemistry, engineering, and other disciplines. Topics include: hardware and software systems; programming in Java; algorithms and data structures; fundamental principles of computation; and scientific computing, including simulation, optimization, and data analysis.",
+  "Readings": [
+    {
+      "Title": "Computer Science: An Interdisciplinary Approach",
+      "Author": "R. Sedgewick and K. Wayne"
+    }
+  ],
+  "Reading/Writing Assignments":"Video lectures, Precept exercises, Programming assignments, and Final Project. To clarify the term \"Other Exam 45%\" =Two Written Exams 30% and Two Programming Exams 15%",
+  "Requirements/Grading": [
+    "45% Other exam",
+    "40% Programming assignments",
+    "10% Design project",
+    "5% Other (see instructor)"
+  ],
+  "Other Requirements": "Course is required for concentrators",
+  "Prerequisites and Restrictions": "No prior programming experience is required. **Satisfies the SEAS computing requirement.**",
+  "Other information": "Precepts P10-P14 are extended-time precepts for students who prefer more time to ask questions and work through exercises with their preceptor and classmates. Students who aren't sure whether extended-time precepts are right for them should consider registering for a MW 11am or 1:30pm precept -- these time slots offer both regular and extended-time options (P01,P10; P03, P11) with flexibility to switch between the two in the first few weeks.",
+  "Comments": [
+    "Great class",
+    "Really fun",
+    "Loved it"
+  ]
+}
