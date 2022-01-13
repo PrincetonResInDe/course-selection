@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 BASE_URL = "https://registrarapps.princeton.edu/course-evaluation?ssub={}&courseinfo={}&terminfo={}"
-USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:93.0) Gecko/20100101 Firefox/93.0"
+USER_AGENT = "resinde-course-selection"
 
 
 def comment_eval(session, dept, course_code, term_code):
