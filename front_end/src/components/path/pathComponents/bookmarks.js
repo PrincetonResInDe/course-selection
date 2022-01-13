@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { Box, Button, Icon } from "@mui/material";
+import { Box, Icon } from "@mui/material";
 import ClassCard from "./classCard";
 
 export default function Path(props) {

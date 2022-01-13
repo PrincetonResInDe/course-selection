@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import { Card, Box, Typography, IconButton } from "@mui/material";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import React from "react";
+import { Box, Typography } from "@mui/material";
 import { useDrag } from "react-dnd";
 import { useCalendarStore } from "../../../zustand/calendar";
 
 export default function DraggableSearchCard(props) {
-  const data = props.data;
-  const [bookmarked, setBookmarked] = useState(false);
-  const handleBookmark = () => {
-    setBookmarked(!bookmarked);
-  };
+  const [setHoveredClass] = useCalendarStore((state) => [
+    state.setHoveredClass,
+  ]);
 
-  const setHoveredClass = useCalendarStore((state) => state.setHoveredClass);
+  const data = props.data;
 
   // handle dragging search card
   const [{ isDragging }, drag] = useDrag({
@@ -26,20 +22,22 @@ export default function DraggableSearchCard(props) {
   });
 
   return (
-    <Card
+    <Box
       ref={drag}
       sx={{
+        width: "100%",
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
         alignItems: "center",
         backgroundColor: "background.paper",
         p: 1,
-        boxShadow: "none",
+        cursor: isDragging ? "grabbing" : "grab",
         "&:hover": {
+          borderRadius: 1,
           boxShadow:
             "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
         },
+        borderRadius: 0,
       }}
       onMouseEnter={() => {
         setHoveredClass(data);
@@ -53,6 +51,7 @@ export default function DraggableSearchCard(props) {
           flex: "0 1 auto",
           overflow: "hidden",
           display: "inline-grid",
+          width: "100%",
         }}
       >
         <Box
@@ -62,6 +61,10 @@ export default function DraggableSearchCard(props) {
             whiteSpace: "nowrap",
             width: "100%",
             color: "color.blue",
+            display: "flex",
+            flexDireciton: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <Typography
@@ -70,6 +73,9 @@ export default function DraggableSearchCard(props) {
               fontWeight: "bold",
               color: "color.blue",
               display: "inline",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
             {data.course_num}
@@ -94,16 +100,6 @@ export default function DraggableSearchCard(props) {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ flex: "0 1 auto" }}>
-        <IconButton
-          sx={{ p: 0 }}
-          onClick={() => {
-            handleBookmark();
-          }}
-        >
-          {bookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-        </IconButton>
-      </Box>
-    </Card>
+    </Box>
   );
 }
