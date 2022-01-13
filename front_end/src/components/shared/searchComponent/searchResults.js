@@ -3,11 +3,13 @@ import { Box } from "@mui/material";
 import SearchResultCard from "./searchResultCard";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-export default function SearchResults() {
-  const results = ["COS126", "MAE345", "ELE206"];
+export default function SearchResults(props) {
+
+
+  const results = props.results; 
   return (
     <Box>
-      {results.map((result) => (
+      {results.map((result, idx) => (
         <Droppable droppableId="searchBar" key = {0} >
           {(provided) => (
             <div
@@ -16,7 +18,8 @@ export default function SearchResults() {
               ref={provided.innerRef}
             >
               <SearchResultCard
-                name={result}
+                data={result}
+                index = {idx}
                 className={result}
                 {...provided.droppableProps}
                 ref={provided.innerRef}

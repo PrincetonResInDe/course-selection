@@ -6,27 +6,28 @@ import Typography from "@mui/material/Typography";
 import majors from "../../../data/majors_and_certificates/majors/ELE.json";
 export default function pathTree() {
   let major = majors;
-  major.req_list.map((req) => console.log(req.name));
 
   return (
-    <Box>
-      <Box sx={{ flex: "0 1 auto", height: "10%" }}>
-        <AppBar name="Path" />
+    <Box
+      sx={{ display: "flex", width: "20vw", flexDirection: "column"}}
+    >
+      <Box sx={{ flex: "0 1 auto", height: "5vh" }}>
+        <AppBar name = "Path" />
       </Box>
-      <Box sx={{ flex: "1 1 auto", height: "5vh" }}>
+      <Box sx={{ flex: "1 1 auto" }}>
         <Typography variant="h6" component="div">
           {major.name}
         </Typography>
-
         <Box
           sx={{
             display: "flex",
             flexFlow: "column",
-            height: "90vh",
+            height: "85vh",
             mt: 2,
             alignItems: "end",
             overflow: "scroll",
           }}
+          ƒ
         >
           {major.req_list.map((req) => (
             <>
