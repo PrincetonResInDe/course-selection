@@ -5,6 +5,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { gradient, opacity } from "../../theme/gradient";
 
 export default function CalendarTab(props) {
+  // state to determine which tab user is on
   const [clicked, setClicked] = useState("MAIN");
 
   const tabs = ["MAIN", "IDEAL", "PLAN-B"];
@@ -16,9 +17,10 @@ export default function CalendarTab(props) {
         flexDirection: "row",
       }}
     >
-      {tabs.map((tab) => {
+      {tabs.map((tab, index) => {
         return (
           <Box
+            key={index}
             sx={{
               backgroundColor:
                 clicked === tab && props.isOver

@@ -30,6 +30,7 @@ export default function BookmarkList() {
     { id: 9, number: "NEU 201", name: "Introdcution to Neuroscience" },
   ]);
 
+  // handler to change state when bookmark card is moved
   const moveCard = (dragIndex, hoverIndex) => {
     const dragItem = data[dragIndex];
 

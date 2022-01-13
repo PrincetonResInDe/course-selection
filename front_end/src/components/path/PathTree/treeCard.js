@@ -17,7 +17,7 @@ export default function BookmarkCard(props) {
             ? "white"
             : "#FBF7D2",
         height: "30px",
-        width: level == "1" ? "100%" : level == "2" ? "90%" : "80%",
+        width: level === "1" ? "100%" : level === "2" ? "90%" : "80%",
         borderRadius: 1.5,
         padding: 0,
       }}

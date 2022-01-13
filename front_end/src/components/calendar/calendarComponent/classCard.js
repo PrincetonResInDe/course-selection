@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Card, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useResizeDetector } from "react-resize-detector";
+// import { useResizeDetector } from "react-resize-detector";
 
 export default function ClassCard(props) {
-  const { _, height, ref } = useResizeDetector();
+  // const { _, height, ref } = useResizeDetector(); TODO: add ref to Card
 
   let initialHeight = props.height;
 
@@ -16,7 +16,6 @@ export default function ClassCard(props) {
         height: initialHeight,
         zIndex: 1,
       }}
-      ref={ref}
     >
       <Box
         sx={{

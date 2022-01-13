@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import SearchBar from "./searchBar";
-import SearchResults from "./searchResults";
+import SearchResultCard from "./searchResultCard";
 import Title from "../../shared/titleComponent/title";
 import { useResizeDetector } from "react-resize-detector";
 import { useCalendarStore } from "../../../zustand/calendar";
@@ -9,11 +9,12 @@ import { useCalendarStore } from "../../../zustand/calendar";
 export default function Search() {
   const [searchResults, setSearchResults] = useState([]);
   const [setSearchWidth] = useCalendarStore((state) => [state.setSearchWidth]);
-  const { width, _, ref } = useResizeDetector();
+  const { width, ref } = useResizeDetector();
 
+  // update searchWidth on load to determine width of courselist and bookmarks
   useEffect(() => {
     setSearchWidth(width);
-  }, [width]);
+  }, [width, setSearchWidth]);
 
   return (
     <Box
@@ -37,7 +38,9 @@ export default function Search() {
           overflow: "auto",
         }}
       >
-        <SearchResults results={searchResults} />
+        {searchResults.map((result, index) => {
+          return <SearchResultCard data={result} key={index} />;
+        })}
       </Box>
     </Box>
   );

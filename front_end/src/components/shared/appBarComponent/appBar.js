@@ -17,9 +17,10 @@ export default function AppBar(props) {
         alignItems: "center",
       }}
     >
-      {buttons.map((button) => {
+      {buttons.map((button, index) => {
         return (
           <Button
+            key={index}
             disableRipple
             disableFocusRipple
             href={button.href}

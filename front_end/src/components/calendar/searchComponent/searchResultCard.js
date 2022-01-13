@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Card, CardContent, Typography, IconButton } from "@mui/material";
 import { gradient, opacity } from "../../theme/gradient";
 import DraggableSearchCard from "./draggableSearchCard";
@@ -6,10 +6,12 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function SearchResultCard(props) {
+  // state to determine whether course is bookmarked
   const [bookmarked, setBookmarked] = useState(false);
   const handleBookmark = () => {
     setBookmarked(!bookmarked);
   };
+
   const data = props.data;
 
   return (

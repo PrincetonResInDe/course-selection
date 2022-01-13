@@ -40,8 +40,9 @@ export default function SearchBar(props) {
   ];
 
   const [query, setQuery] = useState("");
+
   const handleSearch = (e) => {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       props.setSearchResults(data);
     }
   };

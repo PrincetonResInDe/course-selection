@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
-import { Card, Typography, Box, Checkbox } from "@mui/material";
+import { Typography, Box, Checkbox } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 
 export default function CourseListCard(props) {
   const ref = useRef(null);
 
+  // hook to determine where to drop card
   const [, drop] = useDrop({
     accept: "COURSE_CARD",
     hover(item, monitor) {
@@ -53,6 +54,7 @@ export default function CourseListCard(props) {
     },
   });
 
+  // hook to make course list card draggable
   const [{ isDragging }, drag] = useDrag({
     type: "COURSE_CARD",
     item: {

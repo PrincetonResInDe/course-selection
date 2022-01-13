@@ -1,9 +1,5 @@
 import * as React from "react";
 import "../../../App.css";
-import ReactDOM from "react-dom";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PathCard from "./pathCard";
 import PathTab from "./pathTab";

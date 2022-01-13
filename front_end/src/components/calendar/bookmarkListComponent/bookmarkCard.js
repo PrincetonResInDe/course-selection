@@ -5,6 +5,7 @@ import { useDrag, useDrop } from "react-dnd";
 export default function BookmarkCard(props) {
   const ref = useRef(null);
 
+  // determines where to drop bookmark card
   const [, drop] = useDrop({
     accept: "BOOKMARK_CARD",
     hover(item, monitor) {
@@ -53,6 +54,7 @@ export default function BookmarkCard(props) {
     },
   });
 
+  // makes bookmark card draggable
   const [{ isDragging }, drag] = useDrag({
     type: "BOOKMARK_CARD",
     item: {

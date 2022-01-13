@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
-import { useResizeDetector } from "react-resize-detector";
-import { useCalendarStore } from "../../../zustand/calendar";
-import ClassCard from "./classCard";
+// import { useResizeDetector } from "react-resize-detector";
+// import { useCalendarStore } from "../../../zustand/calendar";
+// import ClassCard from "./classCard";
 
 function HourSlot(props) {
-  const { _, height, ref } = useResizeDetector();
-  const hoveredClass = useCalendarStore((state) => state.hoveredClass);
+  //   const { _, height, ref } = useResizeDetector();
+  //   const hoveredClass = useCalendarStore((state) => state.hoveredClass);
 
   return (
     <Box sx={{ height: "100%" }}>
@@ -27,7 +27,7 @@ function HourSlot(props) {
         )}
         <Divider sx={{ flexGrow: 1 }} />
       </Box>
-      {/* <Box
+      {/* TO DO WHEN SEARCH ENDPOINT COMPLETED:<Box
         sx={{
           position: "relative",
           top: "-100%",
@@ -43,9 +43,9 @@ function HourSlot(props) {
 }
 
 export default function CalendarTable(props) {
-  const [calendarClasses] = useCalendarStore((state) => [
-    state.calendarClasses,
-  ]);
+  // const [calendarClasses] = useCalendarStore((state) => [
+  //   state.calendarClasses,
+  // ]);
 
   const times = [
     "8am",
@@ -78,9 +78,10 @@ export default function CalendarTable(props) {
         backgroundColor: props.isOver ? "color.lightBlue" : "white",
       }}
     >
-      {days.map((day) => {
+      {days.map((day, index) => {
         return (
           <Box
+            key={index}
             sx={{
               flexGrow: 1,
               height: "100%",
@@ -103,8 +104,8 @@ export default function CalendarTable(props) {
               }}
             >
               <Divider sx={{ flexGrow: 1 }} />
-              {times.map((time) => {
-                return <HourSlot day={day} time={time} />;
+              {times.map((time, index) => {
+                return <HourSlot key={index} day={day} time={time} />;
               })}
             </Box>
           </Box>

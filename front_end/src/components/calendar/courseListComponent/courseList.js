@@ -30,6 +30,7 @@ export default function CourseList() {
     { id: 9, number: "NEU 201", name: "Introdcution to Neuroscience" },
   ]);
 
+  // handler to update state of data when course list card is moved
   const moveCard = (dragIndex, hoverIndex) => {
     const dragItem = data[dragIndex];
 

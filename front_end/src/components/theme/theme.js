@@ -14,6 +14,12 @@ const theme = createTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(","),
+    body1: {
+      fontSize: "12px",
+    },
+    body2: {
+      fontSize: "10px",
+    },
   },
   palette: {
     background: {
@@ -26,14 +32,6 @@ const theme = createTheme({
       lightBlue: "#e6f9ff",
       grey: "#AAAAAA",
       orange: "#FFCA7B",
-    },
-  },
-  typography: {
-    body1: {
-      fontSize: "12px",
-    },
-    body2: {
-      fontSize: "10px",
     },
   },
 });

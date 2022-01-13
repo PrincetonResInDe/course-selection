@@ -1,11 +1,10 @@
 import * as React from "react";
 import "../../../App.css";
-import ReactDOM from "react-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CalendarViewMonthIcon from "@mui/icons-material/CalendarViewMonth";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import ClassCard from "./classCard";
 
 export default function Path(props) {
