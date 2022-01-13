@@ -4,7 +4,7 @@ Script to pull latest term from MobileApp and update term data in database.
 $ python update_db_term.py
 """
 
-from database import Database
+from database_utils import DatabaseUtils
 from mobileapp import MobileApp
 import logging
 
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 # add current term data to semesters collection (ignores if already exists)
 def add_current_term() -> None:
-    db = Database()
+    db = DatabaseUtils()
     try:
         data = MobileApp().get_current_term_data()
         new_data = {

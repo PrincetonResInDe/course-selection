@@ -3,16 +3,24 @@ from dotenv import load_dotenv
 import os
 from typing import List
 import logging
+import certifi
 
 load_dotenv()
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Handles queries from and updates to database
-class Database:
+"""
+    This class handles querying from and updating the database. 
+    Database methods that serve the API are contained in the DatabaseAPI class.
+"""
+class DatabaseUtils:
+
     def __init__(self) -> None:
-        self.client = MongoClient(os.getenv("MONGO"))
+        self.connect()
+
+    def connect(self):
+        self.client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
         self.db = self.client.course_selection
 
     def get_db(self):
@@ -87,4 +95,4 @@ class Database:
 
 
 if __name__ == "__main__":
-    db = Database()    
+    db = DatabaseUtils()    

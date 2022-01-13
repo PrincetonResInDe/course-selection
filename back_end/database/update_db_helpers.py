@@ -3,7 +3,7 @@ Contains helper methods used in update_db_*.py scripts to update term and course
 """
 
 import json
-from database import Database
+from database_utils import DatabaseUtils
 from mobileapp import MobileApp
 from registrar import RegistrarAPI
 import logging
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 # update course info for single term
 # collections updated: courses, instructors
 def update_courses_for_one_term(term: str) -> None:
-    db = Database()
+    db = DatabaseUtils()
 
     # get course data from mobileapp api
     try:

@@ -8,8 +8,7 @@ To update courses for all terms:
 $ python update_db_courses.py --all
 """
 
-from database import Database
-from sys import argv
+from database_utils import DatabaseUtils
 from multiprocessing import Pool
 from mobileapp import MobileApp
 import os
@@ -34,7 +33,7 @@ def update_courses_for_current_term() -> None:
 # TO-DO: work witb OIT about timeout issue
 def update_courses_for_all_terms() -> None:
     try:
-        db = Database()
+        db = DatabaseUtils()
         terms = db.get_all_terms()
 
         # use multiprocessing to update terms in parallel
