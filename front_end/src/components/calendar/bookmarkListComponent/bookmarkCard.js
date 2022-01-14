@@ -102,6 +102,7 @@ export default function BookmarkCard(props) {
         display: "flex",
         flexDirection: "row",
         opacity: isDragging ? 0.4 : 1,
+        cursor: isDragging ? "grabbing" : "initial",
         m: 1,
         padding: 1,
         boxShadow: "none",

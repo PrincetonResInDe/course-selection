@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { Typography, Box, Checkbox } from "@mui/material";
+import React, { useRef } from "react";
+import { Typography, Box, IconButton } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function CourseListCard(props) {
   const ref = useRef(null);
@@ -88,6 +89,12 @@ export default function CourseListCard(props) {
     }),
   });
 
+  const handleXButton = () => {
+    let copy = [...props.allData];
+    copy = copy.filter((e) => e.id !== props.data.id);
+    props.setData(copy);
+  };
+
   drag(drop(ref));
 
   return (
@@ -100,7 +107,7 @@ export default function CourseListCard(props) {
         alignItems: "center",
         backgroundColor: "background.paper",
         p: 1,
-        cursor: isDragging ? "grabbing" : "grab",
+        cursor: isDragging ? "grabbing" : "pointer",
         mb: 1,
         borderRadius: 1,
         "&:hover": {
@@ -164,9 +171,15 @@ export default function CourseListCard(props) {
           </Typography>
         </Box>
       </Box>
-      <Box>
-        <Checkbox size="small" sx={{ p: 0.1 }} />
-      </Box>
+      <IconButton
+        disableRipple
+        onClick={() => {
+          handleXButton();
+        }}
+        sx={{ "&:hover": { backgroundColor: "Background.paper" } }}
+      >
+        <ClearIcon sx={{ width: "75%" }} />
+      </IconButton>
     </Box>
   );
 }
