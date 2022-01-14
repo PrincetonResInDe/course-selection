@@ -95,6 +95,19 @@ class DatabaseUtils:
             self.db.courses.update_one({"guid": guid}, {"$set": data}, upsert=True)
         except:
             logger.error(f"failed to update course data for {guid}")
+    
+    # Update evaluations data in evaluations collection
+    # guid = course guid, data = new eval data
+    def update_evals_data(self, guid: str, data: dict) -> None:
+        try:
+            self.db.evaluations.update_one({"guid": guid}, {"$set": data}, upsert=True)
+        except:
+            logger.error(f"failed to update evals data for {guid}")
+    
+    # Check if term code exists in semesters collection
+    # code = term code
+    def is_valid_term_code(self, code: str) -> bool:
+        return self.db.semesters.find_one({"code": code}) is not None
 
 
 if __name__ == "__main__":
