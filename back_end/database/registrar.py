@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
     available in a separate student API.
 """
 
+
 class RegistrarAPI:
     def __init__(self):
         self.api_token = self._generate_token()

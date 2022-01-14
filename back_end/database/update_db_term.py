@@ -19,6 +19,8 @@ logger = logging.getLogger(__name__)
 """
     Add/update current term data in db
 """
+
+
 def update_current_term() -> None:
     db = DatabaseUtils()
     try:

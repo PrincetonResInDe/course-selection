@@ -30,6 +30,8 @@ logger = logging.getLogger(__name__)
 """
     Update course information in db for current term
 """
+
+
 def update_courses_for_current_term() -> None:
     try:
         curr_term = MobileApp().get_current_term_code()
@@ -43,6 +45,8 @@ def update_courses_for_current_term() -> None:
     Update course information in db for specified terms
     terms: list of term codes or None
 """
+
+
 def update_courses_for_terms(terms: List[str] = None) -> None:
     try:
         db = DatabaseUtils()
@@ -61,9 +65,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    group.add_argument(
-        "--terms", nargs="*", help="update courses for specified terms"
-    )
+    group.add_argument("--terms", nargs="*", help="update courses for specified terms")
     group.add_argument(
         "--curr", help="update courses in DB for current term", action="store_true"
     )
@@ -78,6 +80,6 @@ if __name__ == "__main__":
     elif args.curr:
         print("Running script to update courses in DB for current term...")
         update_courses_for_current_term()
-    else: 
+    else:
         print("Running script to update courses in DB for specified terms...")
         update_courses_for_terms(terms=args.terms)

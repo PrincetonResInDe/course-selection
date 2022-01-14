@@ -29,15 +29,16 @@ logger = logging.getLogger(__name__)
     Update evaluations data in db for one term
     term = term code
 """
+
+
 def update_evals_for_one_term(term: str) -> None:
     db = DatabaseUtils()
     evals = EvalsScraper()
 
-
     if not db.is_valid_term_code(code=term):
         logger.error(f"invalid term code {term} provided")
         return
-    
+
     # get course data from mobileapp api
     try:
         logger.info(f"getting course data for term {term} from mobileapp")
@@ -60,11 +61,11 @@ def update_evals_for_one_term(term: str) -> None:
             try:
                 evals_dict = evals.get_evals(dept, course_id, term)
                 data = {
-                    "guid": guid, 
-                    "term": term, 
-                    "course_id": course_id, 
+                    "guid": guid,
+                    "term": term,
+                    "course_id": course_id,
                     "ratings": evals_dict["ratings"],
-                    "comments": evals_dict["comments"]
+                    "comments": evals_dict["comments"],
                 }
                 db.update_evals_data(guid, data)
             except ValueError:
@@ -73,16 +74,17 @@ def update_evals_for_one_term(term: str) -> None:
                 logger.error(
                     f"failed to get evals for course {guid}, likely need to update evals scraper code"
                 )
-            except Exception as e: 
-                logger.error(
-                    f"failed to update evals for course {guid}"
-                )
+            except Exception as e:
+                logger.error(f"failed to update evals for course {guid}")
                 print(e)
+
 
 """
     Update evaluations data in db for specified terms
     terms = list of term codes or None
 """
+
+
 def update_evals_for_terms(terms: List[str] = None):
     try:
         db = DatabaseUtils()
@@ -101,9 +103,7 @@ def update_evals_for_terms(terms: List[str] = None):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--terms", nargs="*", help="update evals for specified terms"
-    )
+    parser.add_argument("--terms", nargs="*", help="update evals for specified terms")
 
     args = parser.parse_args()
 

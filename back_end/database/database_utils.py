@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
     Database methods that serve the API are contained in the DatabaseAPI class (database_api.py).
 """
 
+
 class DatabaseUtils:
     def __init__(self) -> None:
         self.connect()
@@ -80,11 +81,9 @@ class DatabaseUtils:
                 upsert=True,
             )
         except:
-            logger.error(
-                f"failed to add course {guid} for instructor {emplid}"
-            )
+            logger.error(f"failed to add course {guid} for instructor {emplid}")
 
-    # Update current term data in semesters collection 
+    # Update current term data in semesters collection
     # data = new term data
     def update_current_term(self, data: dict) -> None:
         try:
@@ -101,7 +100,7 @@ class DatabaseUtils:
             self.db.courses.update_one({"guid": guid}, {"$set": data}, upsert=True)
         except:
             logger.error(f"failed to update course data for {guid}")
-    
+
     # Update evaluations data in evaluations collection
     # guid = course guid, data = new eval data
     def update_evals_data(self, guid: str, data: dict) -> None:
@@ -109,7 +108,7 @@ class DatabaseUtils:
             self.db.evaluations.update_one({"guid": guid}, {"$set": data}, upsert=True)
         except:
             logger.error(f"failed to update evals data for {guid}")
-    
+
     # Check if term code exists in semesters collection
     # code = term code
     def is_valid_term_code(self, code: str) -> bool:
