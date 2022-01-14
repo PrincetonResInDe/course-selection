@@ -18,7 +18,7 @@ export default function BookmarkList() {
   ]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ["COURSE_CARD", "BOOKMARK_CARD"],
+    accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
     drop: (item) => {
       if (data.filter((e) => e.id === item.id).length === 0) {
         setData([...data, item]);

@@ -39,7 +39,7 @@ export default function CourseList() {
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ["COURSE_CARD", "BOOKMARK_CARD"],
+    accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
     drop: (item) => {
       // check item not in data
       if (data.filter((e) => e.id === item.id).length === 0) {

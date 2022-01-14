@@ -14,7 +14,9 @@ export default function DraggableSearchCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "SEARCH_CARD",
     item: {
-      id: data.course_name,
+      id: data.id,
+      name: data.name,
+      number: data.number,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
