@@ -41,6 +41,7 @@ export default function CourseListCard(props) {
       if (!ref.current) {
         return;
       }
+
       const dragIndex = item.index;
       const hoverIndex = props.index;
 

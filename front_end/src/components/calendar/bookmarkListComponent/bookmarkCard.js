@@ -7,7 +7,7 @@ export default function BookmarkCard(props) {
 
   // determines where to drop bookmark card
   const [, drop] = useDrop({
-    accept: ["COURSE_CARD", "BOOKMARK_CARD"],
+    accept: "BOOKMARK_CARD",
     hover(item, monitor) {
       if (!ref.current) {
         return;
