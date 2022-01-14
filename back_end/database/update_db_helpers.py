@@ -1,7 +1,3 @@
-"""
-Contains helper methods used in update_db_*.py scripts to update term and course data in the database.
-"""
-
 import json
 from database_utils import DatabaseUtils
 from mobileapp import MobileApp
@@ -15,20 +11,31 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# update course info for single term
-# collections updated: courses, instructors
+"""
+This file contains helper methods used in update_db_*.py scripts to update term and course data in the database.
+"""
+
+"""
+    Update course information for one term
+    term: term code
+"""
 def update_courses_for_one_term(term: str) -> None:
     db = DatabaseUtils()
+
+    if not db.is_valid_term_code(code=term):
+        logger.error(f"invalid term code {term} provided")
+        return
 
     # get course data from mobileapp api
     try:
         logger.info(f"getting course data for term {term} from mobileapp")
         all_courses = MobileApp().get_all_courses(term)
-    except:
+    except Exception as e:
         logger.error(f"unable to get course data for term {term} from mobileapp")
+        print(e)
         return
 
-    # NOTE: it's possible that courses can be deleted, instructors
+    # NOTE: it may be possible that courses can be deleted, instructors
     # removed from a course. only do two clearing operations below
     # if confident that update for all courses will not fail.
     # db.clear_courses_for_one_term(term)
@@ -45,16 +52,17 @@ def update_courses_for_one_term(term: str) -> None:
 
             # get course data from registrar's api
             try:
-                logger.info(f"getting data for course {course_id} from registrar's api")
+                logger.info(f"getting data for course {guid} from registrar's api")
                 # NOTE: this operation slows down the script, but not sure
                 # if it's worth optimizing because we will switch to OIT's
                 # student API, where we can pull mobileapp & registrar api's
                 # data at the same time
                 reg_course = RegistrarAPI().get_course_data(term, course_id)
-            except:
+            except Exception as e:
                 logger.error(
-                    f"failed to get data for course {course_id} from registrar's api"
+                    f"failed to get data for course {guid} from registrar's api"
                 )
+                print(e)
                 continue
 
             try:
@@ -73,20 +81,28 @@ def update_courses_for_one_term(term: str) -> None:
 
                 # update courses collection with course data
                 db.update_course_data(guid, data)
-            except:
+            except Exception as e:
                 logger.error(
                     f"failed to update course & instructors data for course {guid}"
                 )
+                print(e)
 
-
-# Helper to combine mobileapp and registrar's data into one dict
+"""
+    Combines MobileApp and Registrar's API data into one dictionary
+    res = resulting dictionary to store data into
+    mapp_course = raw data returned by MobileApp
+    reg_course = raw data returned by Registrar
+"""
 def parse_course_data(res: dict, mapp_course: json, reg_course: json) -> dict:
     res.update(parse_mobileapp_course_data(mapp_course))
     res.update(parse_registrar_course_data(reg_course))
     return res
 
 
-# Helper to parse raw course data from mobileapp api
+"""
+    Parse raw course data returned by MobileApp API
+    course = json returned by API
+"""
 def parse_mobileapp_course_data(course: json) -> dict:
 
     data = {}
@@ -105,10 +121,12 @@ def parse_mobileapp_course_data(course: json) -> dict:
 
     return data
 
-
-# Helper to parse raw course data from registrar's api
-# Adapted from Princeton Course's importBasicCourseDetails.js script
-# https://github.com/PrincetonUSG/PrincetonCourses/blob/master/importers/importBasicCourseDetails.js#L131
+"""
+    Parse raw course data returned by Registrar's API
+    course = json returned by API
+    Adapted from Princeton Course's importBasicCourseDetails.js script
+    https://github.com/PrincetonUSG/PrincetonCourses/blob/master/importers/importBasicCourseDetails.js#L131
+"""
 def parse_registrar_course_data(course: json) -> dict:
 
     # Mappings copied from Princeton Course's importBasicCourseDetails.js script

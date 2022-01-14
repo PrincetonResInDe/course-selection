@@ -15,10 +15,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 """
-    This class handles querying from and updating the database. 
-    Database methods that serve the API are contained in the DatabaseAPI class.
-"""
+    This class handles connecting to, querying from, and updating the database. 
 
+    Database methods that serve the API are contained in the DatabaseAPI class (database_api.py).
+"""
 
 class DatabaseUtils:
     def __init__(self) -> None:
@@ -31,7 +31,7 @@ class DatabaseUtils:
     def get_db(self):
         return self.db
 
-    # return list of term codes from semesters collection
+    # Return list of term codes from semesters collection
     def get_all_terms(self) -> List[str]:
         try:
             terms_dict = list(self.db.semesters.find({}, {"code": 1, "_id": 0}))
@@ -42,14 +42,16 @@ class DatabaseUtils:
         except:
             logger.error("failed to get all terms from semesters collection")
 
-    # remove one term's courses from courses collection
+    # Remove one term's courses from courses collection
+    # term = term code
     def clear_courses_for_one_term(self, term: str) -> None:
         try:
             self.db.courses.delete_many({"term": term})
-        except:
+        except Exception as e:
             logger.error(f"failed to clear courses for term {term}")
 
-    # remove one term's courses for instructors in instructors collection
+    # Remove one term's courses for instructors in instructors collection
+    # term = term code
     def clear_courses_for_instructor_for_one_term(self, term: str) -> None:
         try:
             self.db.instructors.update_many(
@@ -58,7 +60,9 @@ class DatabaseUtils:
         except:
             logger.error(f"failed to clear all instructor's courses for term {term}")
 
-    # add a course for an instructor in instructors collection
+    # Add course for an instructor in instructors collection
+    # instr = data about instructor (emplid, first name, last name)
+    # guid = course guid
     def add_course_for_instructor(self, instr: dict, guid: str) -> None:
         try:
             emplid = instr["emplid"]
@@ -77,11 +81,12 @@ class DatabaseUtils:
             )
         except:
             logger.error(
-                f"failed to add course {guid} for instructor {instr['emplid']}"
+                f"failed to add course {guid} for instructor {emplid}"
             )
 
-    # add current term data to semesters collection (does nothing if term already exists)
-    def add_current_term(self, data: dict) -> None:
+    # Update current term data in semesters collection 
+    # data = new term data
+    def update_current_term(self, data: dict) -> None:
         try:
             self.db.semesters.update_one(
                 {"code": data["code"]}, {"$set": data}, upsert=True
@@ -89,7 +94,8 @@ class DatabaseUtils:
         except:
             logger.error("failed to add current term data to semesters collection")
 
-    # update data for course (inserts course if doesn't exist)
+    # Update data for course in courses collection
+    # guid = course guid, data = new course data
     def update_course_data(self, guid: str, data: dict) -> None:
         try:
             self.db.courses.update_one({"guid": guid}, {"$set": data}, upsert=True)

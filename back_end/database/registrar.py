@@ -2,8 +2,14 @@ import requests
 import json
 from bs4 import BeautifulSoup
 
-# Handles requests to Registrar's API
-# TO-DO: Retire code once OIT provides Registrar's API data in a student API
+
+"""
+    Handles requests to the Registrar's API.
+
+    This code will be retired once OIT makes Registrar's API data 
+    available in a separate student API.
+"""
+
 class RegistrarAPI:
     def __init__(self):
         self.api_token = self._generate_token()
