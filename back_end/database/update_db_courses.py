@@ -27,11 +27,7 @@ logger = logging.getLogger(__name__)
     $ python update_db_courses.py
 """
 
-"""
-    Update course information in db for current term
-"""
-
-
+# Update course information in db for current term
 def update_courses_for_current_term() -> None:
     try:
         curr_term = MobileApp().get_current_term_code()
@@ -41,12 +37,8 @@ def update_courses_for_current_term() -> None:
         print(e)
 
 
-"""
-    Update course information in db for specified terms
-    terms: list of term codes or None
-"""
-
-
+# Update course information in db for specified terms
+# terms: list of term codes or None
 def update_courses_for_terms(terms: List[str] = None) -> None:
     try:
         db = DatabaseUtils()
@@ -67,7 +59,7 @@ if __name__ == "__main__":
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--terms", nargs="*", help="update courses for specified terms")
     group.add_argument(
-        "--curr", help="update courses in DB for current term", action="store_true"
+        "--curr", help="update courses for current term", action="store_true"
     )
 
     args = parser.parse_args()

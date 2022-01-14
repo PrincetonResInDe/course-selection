@@ -23,18 +23,20 @@ logger = logging.getLogger(__name__)
 
     To update courses for all terms:
     $ python update_db_evals.py
+
+    INSTRUCTIONS: Before running the evals update script, 
+    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
+    (https://github.com/borisbabic/browser_cookie3). Or, you can 
+    manually add a valid "PHPSESSID" token in your .env file.
 """
 
-"""
-    Update evaluations data in db for one term
-    term = term code
-"""
-
-
+# Update evaluations data in db for one term
+# term = term code
 def update_evals_for_one_term(term: str) -> None:
     db = DatabaseUtils()
     evals = EvalsScraper()
 
+    # check term code is valid
     if not db.is_valid_term_code(code=term):
         logger.error(f"invalid term code {term} provided")
         return
@@ -59,6 +61,7 @@ def update_evals_for_one_term(term: str) -> None:
 
             logger.info(f"scraping evals data for course {guid}")
             try:
+                # run scraper for this course
                 evals_dict = evals.get_evals(dept, course_id, term)
                 data = {
                     "guid": guid,
@@ -67,6 +70,8 @@ def update_evals_for_one_term(term: str) -> None:
                     "ratings": evals_dict["ratings"],
                     "comments": evals_dict["comments"],
                 }
+
+                # update evals for this course
                 db.update_evals_data(guid, data)
             except ValueError:
                 logger.info(f"no evals for course {guid}")
@@ -79,12 +84,8 @@ def update_evals_for_one_term(term: str) -> None:
                 print(e)
 
 
-"""
-    Update evaluations data in db for specified terms
-    terms = list of term codes or None
-"""
-
-
+# Update evaluations data in db for specified terms
+# terms = list of term codes or None
 def update_evals_for_terms(terms: List[str] = None):
     try:
         db = DatabaseUtils()

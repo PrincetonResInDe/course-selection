@@ -15,12 +15,8 @@ logger = logging.getLogger(__name__)
 This file contains helper methods used in update_db_*.py scripts to update term and course data in the database.
 """
 
-"""
-    Update course information for one term
-    term: term code
-"""
-
-
+# Update course information for one term
+# term: term code
 def update_courses_for_one_term(term: str) -> None:
     db = DatabaseUtils()
 
@@ -90,26 +86,18 @@ def update_courses_for_one_term(term: str) -> None:
                 print(e)
 
 
-"""
-    Combines MobileApp and Registrar's API data into one dictionary
-    res = resulting dictionary to store data into
-    mapp_course = raw data returned by MobileApp
-    reg_course = raw data returned by Registrar
-"""
-
-
+# Combines MobileApp and Registrar's API data into one dictionary
+# res = resulting dictionary to store data into
+# mapp_course = raw data returned by MobileApp
+# reg_course = raw data returned by Registrar
 def parse_course_data(res: dict, mapp_course: json, reg_course: json) -> dict:
     res.update(parse_mobileapp_course_data(mapp_course))
     res.update(parse_registrar_course_data(reg_course))
     return res
 
 
-"""
-    Parse raw course data returned by MobileApp API
-    course = json returned by API
-"""
-
-
+# Parse raw course data returned by MobileApp API
+# course = json returned by API
 def parse_mobileapp_course_data(course: json) -> dict:
 
     data = {}
@@ -129,14 +117,10 @@ def parse_mobileapp_course_data(course: json) -> dict:
     return data
 
 
-"""
-    Parse raw course data returned by Registrar's API
-    course = json returned by API
-    Adapted from Princeton Course's importBasicCourseDetails.js script
-    https://github.com/PrincetonUSG/PrincetonCourses/blob/master/importers/importBasicCourseDetails.js#L131
-"""
-
-
+# Parse raw course data returned by Registrar's API
+# course = json returned by API
+# Adapted from Princeton Course's importBasicCourseDetails.js script
+# https://github.com/PrincetonUSG/PrincetonCourses/blob/master/importers/importBasicCourseDetails.js#L131
 def parse_registrar_course_data(course: json) -> dict:
 
     # Mappings copied from Princeton Course's importBasicCourseDetails.js script

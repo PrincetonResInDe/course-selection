@@ -9,8 +9,8 @@ load_dotenv()
 """
     This class handles scraping for course evaluations.
 
-    Before creating an EvalsScraper object, make sure you are logged 
-    into CAS on one of the browsers supported by browser_cookie3
+    INSTRUCTIONS: Before creating an EvalsScraper object, 
+    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
     (https://github.com/borisbabic/browser_cookie3). Or, you can 
     manually add a valid "PHPSESSID" token in your .env file.
 """
@@ -41,8 +41,8 @@ class EvalsScraper:
         equals the expected term.
         Why? If a course does not have evals for a given term (but does have evals
         for other terms), then the evals page redirects to the evals page for the
-        most recent evals page possible. We want to check that the eval page returned
-        by the scraper response is not a redirection, i.e. the evals are for the expected term.
+        most recent evals possible. We want to check that the eval page returned
+        by the scraper response is not a redirection, i.e. the evals returned are for the expected term.
         evals_url = url returned by scraper response
         term = expected term code
     """
@@ -58,9 +58,9 @@ class EvalsScraper:
     """
         Scrapes the comments and ratings for a specific course.
         Input:
-            dept: the department code
-            course_code: the course code
-            term_code: the term code
+            dept: department code
+            course_id: course id
+            term: term code
         Output:
             All the course evaluations as a list in the form of:
                 return [comment1, comment2, comment3, ...]
@@ -92,9 +92,9 @@ class EvalsScraper:
     """
         Scrapes the evaluation for a specific course.
         Input:
-            dept: the department code
-            course_code: the course code
-            term_code: the term code
+            dept: department code
+            course_id: course id
+            term: term code
         Output:
             All the course evaluations as a dictionary in the form of:
             {
@@ -124,17 +124,16 @@ class EvalsScraper:
 
         soup = BeautifulSoup(response.text, "html.parser")
 
-        # with open('response.html', 'w') as f:
-        #     f.write(response.text)
+        # check if course does not have evals yet
+        no_results = soup.find_all("div", {"class": "no-results"})
+        if len(no_results) > 0:
+            raise ValueError(f"No evaluations yet for course {course_id} in any term.")
 
+        # check that evaluations page returned is for the correct term
         if not self._is_correct_term(response.url, term):
             raise ValueError(
                 f"No evaluations yet for course {course_id} in term {term}. URL was redirected to evaluations page for a different term."
             )
-
-        no_results = soup.find_all("div", {"class": "no-results"})
-        if len(no_results) > 0:
-            raise ValueError(f"No evaluations yet for course {course_id} in any term.")
 
         if not "Office of the Registrar" in soup.header.text.strip():
             raise AssertionError(

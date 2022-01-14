@@ -48,7 +48,7 @@ class DatabaseUtils:
     def clear_courses_for_one_term(self, term: str) -> None:
         try:
             self.db.courses.delete_many({"term": term})
-        except Exception as e:
+        except Exception:
             logger.error(f"failed to clear courses for term {term}")
 
     # Remove one term's courses for instructors in instructors collection
