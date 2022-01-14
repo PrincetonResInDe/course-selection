@@ -18,16 +18,16 @@ logger = logging.getLogger(__name__)
 """
     This script scrapes course evaluations and update evals stored in the database.
 
+    INSTRUCTIONS: Before running the evals update script, 
+    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
+    (https://github.com/borisbabic/browser_cookie3). Or, you can 
+    manually add a valid "PHPSESSID" token in your .env file.
+
     To update courses for specified term(s):
     $ python update_db_evals.py <term_code_1> <term_code_2> ...
 
     To update courses for all terms:
     $ python update_db_evals.py
-
-    INSTRUCTIONS: Before running the evals update script, 
-    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
-    (https://github.com/borisbabic/browser_cookie3). Or, you can 
-    manually add a valid "PHPSESSID" token in your .env file.
 """
 
 # Update evaluations data in db for one term
