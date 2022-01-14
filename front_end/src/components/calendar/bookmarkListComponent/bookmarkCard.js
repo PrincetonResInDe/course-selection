@@ -7,7 +7,7 @@ export default function BookmarkCard(props) {
 
   // determines where to drop bookmark card
   const [, drop] = useDrop({
-    accept: "BOOKMARK_CARD",
+    accept: ["COURSE_CARD", "BOOKMARK_CARD"],
     hover(item, monitor) {
       if (!ref.current) {
         return;
@@ -58,10 +58,26 @@ export default function BookmarkCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "BOOKMARK_CARD",
     item: {
-      index: props.index,
-      id: props.data.name,
+      id: props.data.number,
+      number: props.data.number,
+      name: props.data.name,
     },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
 
+      const column = dropResult.column;
+
+      switch (column) {
+        case "BOOKMARK_LIST":
+          // filter out item
+          let copy = [...props.allData];
+          copy = copy.filter((e) => e.id !== item.id);
+          props.setData(copy);
+          break;
+        default:
+          break;
+      }
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

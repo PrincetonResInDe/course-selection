@@ -1,9 +1,38 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Typography, Box, Checkbox } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 
 export default function CourseListCard(props) {
   const ref = useRef(null);
+
+  // hook to make course list card draggable
+  const [{ isDragging }, drag] = useDrag({
+    type: "COURSE_CARD",
+    item: {
+      id: props.data.number,
+      number: props.data.number,
+      name: props.data.name,
+    },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+
+      const column = dropResult.column;
+
+      switch (column) {
+        case "COURSE_LIST":
+          // filter out item
+          let copy = [...props.allData];
+          copy = copy.filter((e) => e.id !== item.id);
+          props.setData(copy);
+          break;
+        default:
+          break;
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   // hook to determine where to drop card
   const [, drop] = useDrop({
@@ -52,18 +81,9 @@ export default function CourseListCard(props) {
       // to avoid expensive index searches.
       item.index = hoverIndex;
     },
-  });
-
-  // hook to make course list card draggable
-  const [{ isDragging }, drag] = useDrag({
-    type: "COURSE_CARD",
-    item: {
-      index: props.index,
-      id: props.data.name,
-    },
-
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      canDrop: monitor.canDrop(),
+      isOver: monitor.isOver(),
     }),
   });
 

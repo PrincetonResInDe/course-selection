@@ -1,34 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import CourseListCard from "./courseListCard";
 import { useCalendarStore } from "../../../zustand/calendar";
+import { useDrop } from "react-dnd";
 
 export default function CourseList() {
   const [searchWidth] = useCalendarStore((state) => [state.searchWidth]);
 
   const [data, setData] = useState([
-    { id: 1, number: "MAT 202", name: "Linear Algebra" },
+    { id: "MAT 202", number: "MAT 202", name: "Linear Algebra" },
     {
-      id: 2,
+      id: "COS 126",
       number: "COS 126",
       name: "Computer Science: An Interdisciplinary Approach",
     },
-    { id: 3, number: "NEU 201", name: "Introduction to Neuroscience" },
-    { id: 4, number: "MAT 202", name: "Linear Algebra" },
     {
-      id: 5,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
+      id: "NEU 201",
+      number: "NEU 201",
+      name: "Introduction to Neuroscience Part 1",
     },
-    { id: 6, number: "NEU 201", name: "Introdcution to Neuroscience" },
-    { id: 7, number: "MAT 202", name: "Linear Algebra" },
-    {
-      id: 8,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
-    },
-    { id: 9, number: "NEU 201", name: "Introdcution to Neuroscience" },
   ]);
+
+  const ref = useRef(null);
 
   // handler to update state of data when course list card is moved
   const moveCard = (dragIndex, hoverIndex) => {
@@ -45,8 +38,29 @@ export default function CourseList() {
     }
   };
 
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ["COURSE_CARD", "BOOKMARK_CARD"],
+    drop: (item) => {
+      // check item not in data
+      if (data.filter((e) => e.id === item.id).length === 0) {
+        setData([...data, item]);
+      }
+      return { column: "BOOKMARK_LIST" };
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+    canDrop: (item) => {
+      return true;
+    },
+  });
+
+  drop(ref);
+
   return (
     <Box
+      ref={ref}
       sx={{
         display: "flex",
         flexFlow: "column",
@@ -69,8 +83,10 @@ export default function CourseList() {
           {data.map((d, i) => {
             return (
               <CourseListCard
+                allData={data}
                 key={d.id}
                 data={d}
+                setData={setData}
                 index={i}
                 moveCard={moveCard}
               />

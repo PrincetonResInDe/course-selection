@@ -41,10 +41,10 @@ export default function CalendarPage() {
             flexDirection: "column",
           }}
         >
-          <Box sx={{ height: "50%", mb: 0.5 }}>
+          <Box sx={{ height: "50%", mb: 1 }}>
             <CourseList />
           </Box>
-          <Box sx={{ height: "50%", mt: 0.5 }}>
+          <Box sx={{ height: "50%", mt: 1 }}>
             <BookmarkList />
           </Box>
         </Box>
