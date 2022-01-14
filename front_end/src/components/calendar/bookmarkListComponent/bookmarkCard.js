@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
-import { Card, Typography, Box } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Card, Typography, Box, IconButton } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function BookmarkCard(props) {
   const ref = useRef(null);
+  const [bookmarked, setBookmarked] = useState(true);
 
   // determines where to drop bookmark card
   const [, drop] = useDrop({
@@ -83,12 +86,21 @@ export default function BookmarkCard(props) {
     }),
   });
 
+  const handleBookmarked = () => {
+    setBookmarked(!bookmarked);
+    let copy = [...props.allData];
+    copy = copy.filter((e) => e.id !== props.data.id);
+    props.setData(copy);
+  };
+
   drag(drop(ref));
 
   return (
     <Card
       ref={ref}
       sx={{
+        display: "flex",
+        flexDirection: "row",
         opacity: isDragging ? 0.4 : 1,
         m: 1,
         padding: 1,
@@ -101,9 +113,10 @@ export default function BookmarkCard(props) {
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
+          flex: "0 1 auto",
+          overflow: "hidden",
+          display: "inline-grid",
+          width: "100%",
         }}
       >
         <Box
@@ -152,6 +165,23 @@ export default function BookmarkCard(props) {
           </Typography>
         </Box>
       </Box>
+      <IconButton
+        onClick={() => {
+          handleBookmarked();
+        }}
+        sx={{
+          "&:hover": {
+            backgroundColor: "background.paper",
+          },
+        }}
+        disableRipple
+      >
+        {bookmarked ? (
+          <BookmarkIcon sx={{ width: "75%" }} />
+        ) : (
+          <BookmarkBorderIcon sx={{ width: "75%" }} />
+        )}
+      </IconButton>
     </Card>
   );
 }
