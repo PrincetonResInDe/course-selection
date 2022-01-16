@@ -15,10 +15,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# add current term data to semesters collection (ignores if already exists)
-def add_current_term() -> None:
-    db = DatabaseUtils()
+
+# Add/update current term data in db
+def update_current_term() -> None:
     try:
+        db = DatabaseUtils()
         data = MobileApp().get_current_term_data()
         new_data = {
             "code": data["code"],
@@ -26,11 +27,11 @@ def add_current_term() -> None:
             "start_date": data["start_date"],
             "end_date": data["end_date"],
         }
-        db.add_current_term(new_data)
-    except:
-        logger.error("unable to update current term data")
+        db.update_current_term(new_data)
+    except Exception as e:
+        logger.error(f"unable to update current term data with error {e}")
 
 
 if __name__ == "__main__":
     print("Running script to update current term data in DB...")
-    add_current_term()
+    update_current_term()
