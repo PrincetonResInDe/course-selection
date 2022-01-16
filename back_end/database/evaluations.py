@@ -56,40 +56,6 @@ class EvalsScraper:
         return term_from_url == term
 
     """
-        Scrapes the comments and ratings for a specific course.
-        Input:
-            dept: department code
-            course_id: course id
-            term: term code
-        Output:
-            All the course evaluations as a list in the form of:
-                return [comment1, comment2, comment3, ...]
-    """
-
-    def get_comments(self, dept, course_id, term):
-
-        url = self.BASE_URL.format(dept, course_id, term)
-
-        response = self.session.get(url)
-        if response.status_code != 200:
-            raise AssertionError(
-                f"Expected status code 200 in response, got {response.status_code}"
-            )
-
-        soup = BeautifulSoup(response.text, "html.parser")
-
-        if not "Office of the Registrar" in soup.header.text.strip():
-            raise AssertionError(
-                f'Expected "Office of the Registrar" in the response header. Check the response to see if the evaluation page was retrieved correctly. Header found: {soup.header.text.strip()}'
-            )
-
-        comments = soup.find_all(
-            "div", {"class": lambda l: l and l.startswith("comment ")}
-        )
-        output = [c.text.strip() for c in comments]
-        return output
-
-    """
         Scrapes the evaluation for a specific course.
         Input:
             dept: department code
@@ -185,5 +151,4 @@ if __name__ == "__main__":
     course_id = "002051"
     term = "1214"
 
-    print(evals.get_comments(dept=dept, course_id=course_id, term=term))
     print(evals.get_evals(dept=dept, course_id=course_id, term=term))

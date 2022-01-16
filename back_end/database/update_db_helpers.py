@@ -29,8 +29,9 @@ def update_courses_for_one_term(term: str) -> None:
         logger.info(f"getting course data for term {term} from mobileapp")
         all_courses = MobileApp().get_all_courses(term)
     except Exception as e:
-        logger.error(f"unable to get course data for term {term} from mobileapp")
-        print(e)
+        logger.error(
+            f"unable to get course data for term {term} from mobileapp with error {e}"
+        )
         return
 
     # NOTE: it may be possible that courses can be deleted, instructors
@@ -58,32 +59,32 @@ def update_courses_for_one_term(term: str) -> None:
                 reg_course = RegistrarAPI().get_course_data(term, course_id)
             except Exception as e:
                 logger.error(
-                    f"failed to get data for course {guid} from registrar's api"
+                    f"failed to get data for course {guid} from registrar's api with error {e}"
                 )
-                print(e)
                 continue
 
-            try:
-                # if possible that course data is duplicated in all_courses,
-                # add check here that a course has not been updated
+            # update instructors collection with course guid
+            if "instructors" in mapp_course:
+                for instr in mapp_course["instructors"]:
+                    try:
+                        db.add_course_for_instructor(instr, guid)
+                    except Exception as e:
+                        logger.error(
+                            f"failed to add course {guid} for instructor {instr['emplid']} with error {e}"
+                        )
 
+            try:
                 data = {"term": term, "department": dept}
                 data = parse_course_data(
                     res=data, mapp_course=mapp_course, reg_course=reg_course
                 )
 
-                # update instructors collection with course guid
-                if "instructors" in mapp_course:
-                    for instr in mapp_course["instructors"]:
-                        db.add_course_for_instructor(instr, guid)
-
                 # update courses collection with course data
                 db.update_course_data(guid, data)
             except Exception as e:
                 logger.error(
-                    f"failed to update course & instructors data for course {guid}"
+                    f"failed to parse & update course data for course {guid} with error {e}"
                 )
-                print(e)
 
 
 # Combines MobileApp and Registrar's API data into one dictionary

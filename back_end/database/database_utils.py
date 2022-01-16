@@ -34,22 +34,19 @@ class DatabaseUtils:
 
     # Return list of term codes from semesters collection
     def get_all_terms(self) -> List[str]:
-        try:
-            terms_dict = list(self.db.semesters.find({}, {"code": 1, "_id": 0}))
-            terms = []
-            for term in terms_dict:
-                terms.append(term["code"])
-            return terms
-        except:
-            logger.error("failed to get all terms from semesters collection")
+        terms_dict = list(self.db.semesters.find({}, {"code": 1, "_id": 0}))
+        terms = []
+        for term in terms_dict:
+            terms.append(term["code"])
+        return terms
 
     # Remove one term's courses from courses collection
     # term = term code
     def clear_courses_for_one_term(self, term: str) -> None:
         try:
             self.db.courses.delete_many({"term": term})
-        except Exception:
-            logger.error(f"failed to clear courses for term {term}")
+        except Exception as e:
+            logger.error(f"failed to clear courses for term {term} with error {e}")
 
     # Remove one term's courses for instructors in instructors collection
     # term = term code
@@ -58,56 +55,51 @@ class DatabaseUtils:
             self.db.instructors.update_many(
                 {}, {"$pull": {"courses": {"$regex": r"^" + term}}}
             )
-        except:
-            logger.error(f"failed to clear all instructor's courses for term {term}")
+        except Exception as e:
+            logger.error(
+                f"failed to clear all instructor's courses for term {term} with error {e}"
+            )
 
     # Add course for an instructor in instructors collection
     # instr = data about instructor (emplid, first name, last name)
     # guid = course guid
     def add_course_for_instructor(self, instr: dict, guid: str) -> None:
-        try:
-            emplid = instr["emplid"]
-            self.db.instructors.update_one(
-                {"emplid": emplid},
-                {
-                    "$set": {
-                        "name": {
-                            "first_name": instr["first_name"],
-                            "last_name": instr["last_name"],
-                        }
-                    },
-                    "$addToSet": {"courses": guid},
+        self.db.instructors.update_one(
+            {"emplid": instr["emplid"]},
+            {
+                "$set": {
+                    "name": {
+                        "first_name": instr["first_name"],
+                        "last_name": instr["last_name"],
+                    }
                 },
-                upsert=True,
-            )
-        except:
-            logger.error(f"failed to add course {guid} for instructor {emplid}")
+                "$addToSet": {"courses": guid},
+            },
+            upsert=True,
+        )
 
     # Update current term data in semesters collection
     # data = new term data
     def update_current_term(self, data: dict) -> None:
-        try:
-            self.db.semesters.update_one(
-                {"code": data["code"]}, {"$set": data}, upsert=True
-            )
-        except:
-            logger.error("failed to add current term data to semesters collection")
+        self.db.semesters.update_one(
+            {"code": data["code"]}, {"$set": data}, upsert=True
+        )
 
     # Update data for course in courses collection
     # guid = course guid, data = new course data
     def update_course_data(self, guid: str, data: dict) -> None:
         try:
             self.db.courses.update_one({"guid": guid}, {"$set": data}, upsert=True)
-        except:
-            logger.error(f"failed to update course data for {guid}")
+        except Exception as e:
+            logger.error(f"failed to update course data for {guid} with error {e}")
 
     # Update evaluations data in evaluations collection
     # guid = course guid, data = new eval data
     def update_evals_data(self, guid: str, data: dict) -> None:
         try:
             self.db.evaluations.update_one({"guid": guid}, {"$set": data}, upsert=True)
-        except:
-            logger.error(f"failed to update evals data for {guid}")
+        except Exception as e:
+            logger.error(f"failed to update evals data for {guid} with error {e}")
 
     # Check if term code exists in semesters collection
     # code = term code

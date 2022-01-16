@@ -33,8 +33,7 @@ def update_courses_for_current_term() -> None:
         curr_term = MobileApp().get_current_term_code()
         update_courses_for_one_term(curr_term)
     except Exception as e:
-        logger.error("failed to update courses for current term")
-        print(e)
+        logger.error(f"failed to update courses for current term with error {e}")
 
 
 # Update course information in db for specified terms
@@ -49,8 +48,7 @@ def update_courses_for_terms(terms: List[str] = None) -> None:
         with Pool(os.cpu_count()) as pool:
             pool.map(update_courses_for_one_term, terms)
     except Exception as e:
-        logger.error("failed to add courses for all terms")
-        print(e)
+        logger.error(f"failed to update courses for all terms with error {e}")
 
 
 if __name__ == "__main__":

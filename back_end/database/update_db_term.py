@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 
 # Add/update current term data in db
 def update_current_term() -> None:
-    db = DatabaseUtils()
     try:
+        db = DatabaseUtils()
         data = MobileApp().get_current_term_data()
         new_data = {
             "code": data["code"],
@@ -28,8 +28,8 @@ def update_current_term() -> None:
             "end_date": data["end_date"],
         }
         db.update_current_term(new_data)
-    except:
-        logger.error("unable to update current term data")
+    except Exception as e:
+        logger.error(f"unable to update current term data with error {e}")
 
 
 if __name__ == "__main__":
