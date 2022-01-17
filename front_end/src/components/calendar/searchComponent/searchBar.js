@@ -10,49 +10,18 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import { useSearchStore } from "../../../zustand/search";
 
 export default function SearchBar(props) {
-  const data = [
-    {
-      id: "MAT 203",
-      number: "MAT 203",
-      name: "Advanced Math",
-      course_num: "MAT 203",
-      course_name: "Advanced Math",
-      rating: "4.75",
-      distribution: ["LA", "PDF"],
-      availability: ["F&S"],
-      prev_offered: ["2022"],
-    },
-    {
-      id: "COS 126 / COS 109",
-      name: "Computer Science: An Interdisciplinary Approach",
-      number: "COS 126 / COS 109",
-      course_num: "COS 126 / COS 109",
-      course_name: "Computer Science: An Interdisciplinary Approach",
-      rating: "4.75",
-      distribution: ["LA", "PDF"],
-      availability: ["F&S"],
-      prev_offered: ["2022"],
-    },
-    {
-      id: "COS 240",
-      number: "COS 240",
-      name: "Reasoning About Computation",
-      course_num: "COS 240",
-      course_name: "Reasoning About Computation",
-      rating: "4.75",
-      distribution: ["LA", "PDF"],
-      availability: ["F&S"],
-      prev_offered: ["2022"],
-    },
-  ];
+  const [setSearchResults] = useSearchStore((state) => [
+    state.setSearchResults,
+  ]);
 
   const [query, setQuery] = useState("");
 
   const handleSearch = (e) => {
     if (e.keyCode === 13) {
-      props.setSearchResults(data);
+      setSearchResults(query);
     }
   };
 

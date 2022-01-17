@@ -5,9 +5,10 @@ import SearchResultCard from "./searchResultCard";
 import Title from "../../shared/titleComponent/title";
 import { useResizeDetector } from "react-resize-detector";
 import { useCalendarStore } from "../../../zustand/calendar";
+import { useSearchStore } from "../../../zustand/search";
 
 export default function Search() {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults] = useSearchStore((state) => [state.searchResults]);
   const [setSearchWidth] = useCalendarStore((state) => [state.setSearchWidth]);
   const { width, ref } = useResizeDetector();
 
@@ -29,7 +30,7 @@ export default function Search() {
         <Title />
       </Box>
       <Box sx={{ flex: "0 1 auto" }}>
-        <SearchBar setSearchResults={setSearchResults} />
+        <SearchBar />
       </Box>
       <Box
         ref={ref}
@@ -38,8 +39,8 @@ export default function Search() {
           overflow: "auto",
         }}
       >
-        {searchResults.map((result, index) => {
-          return <SearchResultCard data={result} key={index} />;
+        {searchResults.map((result) => {
+          return <SearchResultCard data={result} key={result.course_id} />;
         })}
       </Box>
     </Box>

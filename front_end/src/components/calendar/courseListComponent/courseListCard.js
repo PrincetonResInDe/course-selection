@@ -10,9 +10,9 @@ export default function CourseListCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "COURSE_CARD",
     item: {
-      id: props.data.number,
-      number: props.data.number,
-      name: props.data.name,
+      course_id: props.data.course_id,
+      course_number: props.data.course_number,
+      title: props.data.title,
     },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
@@ -25,7 +25,7 @@ export default function CourseListCard(props) {
         case "COURSE_LIST":
           // filter out item
           let copy = [...props.allData];
-          copy = copy.filter((e) => e.id !== item.id);
+          copy = copy.filter((e) => e.course_id !== item.course_id);
           props.setData(copy);
           break;
         default:
@@ -93,7 +93,7 @@ export default function CourseListCard(props) {
 
   const handleXButton = () => {
     let copy = [...props.allData];
-    copy = copy.filter((e) => e.id !== props.data.id);
+    copy = copy.filter((e) => e.course_id !== props.data.course_id);
     props.setData(copy);
   };
 
@@ -151,7 +151,7 @@ export default function CourseListCard(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {props.data.number}
+            {props.data.course_number}
           </Typography>
         </Box>
         <Box
@@ -169,7 +169,7 @@ export default function CourseListCard(props) {
               display: "inline",
             }}
           >
-            {props.data.name}
+            {props.data.title}
           </Typography>
         </Box>
       </Box>

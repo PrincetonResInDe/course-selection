@@ -9,18 +9,18 @@ export default function BookmarkList() {
   const ref = useRef(null);
 
   const [data, setData] = useState([
-    { id: "MAT 201", number: "MAT 201", name: "Linear Algebra" },
+    { course_id: "MAT 201", course_number: "MAT 201", title: "Linear Algebra" },
     {
-      id: "NEU 202",
-      number: "NEU 202",
-      name: "Introduction to Neuroscience Part 2",
+      course_id: "NEU 202",
+      course_number: "NEU 202",
+      title: "Introduction to Neuroscience Part 2",
     },
   ]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
     drop: (item) => {
-      if (data.filter((e) => e.id === item.id).length === 0) {
+      if (data.filter((e) => e.course_id === item.course_id).length === 0) {
         setData([...data, item]);
       }
       return { column: "COURSE_LIST" };
@@ -75,7 +75,7 @@ export default function BookmarkList() {
           {data.map((d, i) => {
             return (
               <BookmarkCard
-                key={d.id}
+                key={d.course_id}
                 allData={data}
                 setData={setData}
                 data={d}
