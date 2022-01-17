@@ -67,6 +67,9 @@ export default function BookmarkCard(props) {
     },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
+      if (!dropResult) {
+        return;
+      }
 
       const column = dropResult.column;
 
@@ -103,7 +106,7 @@ export default function BookmarkCard(props) {
         flexDirection: "row",
         opacity: isDragging ? 0.4 : 1,
         cursor: isDragging ? "grabbing" : "initial",
-        m: 1,
+        m: 0.5,
         padding: 1,
         boxShadow: "none",
         "&:hover": {

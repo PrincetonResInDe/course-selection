@@ -4,6 +4,7 @@ import { gradient, opacity } from "../../theme/gradient";
 import DraggableSearchCard from "./draggableSearchCard";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function SearchResultCard(props) {
   // state to determine whether course is bookmarked
@@ -24,7 +25,7 @@ export default function SearchResultCard(props) {
     >
       <CardContent
         sx={{
-          p: 0,
+          p: 0.5,
           "&:last-child": {
             paddingBottom: 0.5,
           },
@@ -87,7 +88,6 @@ export default function SearchResultCard(props) {
           </Typography>
           <Box sx={{ flexGrow: 1 }}></Box>
           <IconButton
-            disableRipple
             sx={{ p: 0, "&:hover": { backgroundColor: "white" } }}
             onClick={() => {
               handleBookmark();

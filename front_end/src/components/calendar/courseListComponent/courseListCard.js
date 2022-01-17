@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Typography, Box, IconButton } from "@mui/material";
+import { Typography, Box, IconButton, Checkbox } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 import ClearIcon from "@mui/icons-material/Clear";
 
@@ -16,7 +16,9 @@ export default function CourseListCard(props) {
     },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
-
+      if (!dropResult) {
+        return;
+      }
       const column = dropResult.column;
 
       switch (column) {
@@ -108,7 +110,7 @@ export default function CourseListCard(props) {
         backgroundColor: "background.paper",
         p: 1,
         cursor: isDragging ? "grabbing" : "pointer",
-        mb: 1,
+        mb: 0.5,
         borderRadius: 1,
         "&:hover": {
           borderRadius: 1,
@@ -171,6 +173,7 @@ export default function CourseListCard(props) {
           </Typography>
         </Box>
       </Box>
+      {/* <Checkbox sx={{ width: "75%" }}></Checkbox> */}
       <IconButton
         disableRipple
         onClick={() => {

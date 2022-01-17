@@ -57,7 +57,7 @@ export default function BookmarkList() {
       sx={{
         display: "flex",
         flexFlow: "column",
-        width: `calc(${searchWidth}px + 16px)`,
+        width: searchWidth,
         height: "100%",
         backgroundColor: "white",
         borderRadius: 1,
@@ -65,7 +65,7 @@ export default function BookmarkList() {
     >
       <Typography
         variant="caption"
-        sx={{ pt: 1, textAlign: "center", fontWeight: 600 }}
+        sx={{ pt: 0.5, textAlign: "center", fontWeight: 600 }}
       >
         BOOKMARKS
       </Typography>

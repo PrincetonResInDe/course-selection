@@ -64,7 +64,7 @@ export default function CourseList() {
       sx={{
         display: "flex",
         flexFlow: "column",
-        width: `calc(${searchWidth}px + 16px)`,
+        width: searchWidth,
         height: "100%",
         backgroundColor: "white",
         borderRadius: 2,
@@ -72,13 +72,13 @@ export default function CourseList() {
     >
       <Typography
         variant="caption"
-        sx={{ pt: 1, textAlign: "center", fontWeight: 600 }}
+        sx={{ pt: 0.5, textAlign: "center", fontWeight: 600 }}
       >
         2021 SPRING
       </Typography>
       <Divider />
 
-      <Box sx={{ flexGrow: 1, overflow: "auto", mb: 1, p: 1 }}>
+      <Box sx={{ flexGrow: 1, overflow: "auto", mb: 1, p: 0.5 }}>
         <Box sx={{ height: 0 }}>
           {data.map((d, i) => {
             return (
