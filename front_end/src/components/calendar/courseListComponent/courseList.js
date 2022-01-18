@@ -8,7 +8,11 @@ export default function CourseList() {
   const [searchWidth] = useCalendarStore((state) => [state.searchWidth]);
 
   const [data, setData] = useState([
-    { course_id: "MAT 202", course_number: "MAT 202", title: "Linear Algebra" },
+    {
+      course_id: "MAT 202",
+      course_number: "MAT 202",
+      title: "Linear Algebra",
+    },
     {
       course_id: "COS 126",
       course_number: "COS 126",
