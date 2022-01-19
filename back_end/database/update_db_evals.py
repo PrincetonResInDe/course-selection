@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 # Update evaluations data in db for one term
 # term = term code
-# batch = set to True to make batch query to MobileApp 
+# batch = set to True to make batch query to MobileApp
 def update_evals_for_one_term(term: str, batch: bool = False) -> None:
     db = DatabaseUtils()
     evals = EvalsScraper()
@@ -44,7 +44,9 @@ def update_evals_for_one_term(term: str, batch: bool = False) -> None:
 
     # get course data from mobileapp api
     try:
-        logger.info(f"getting course data for term {term} from mobileapp ({'non-batch' if not batch else 'batch'} query)")
+        logger.info(
+            f"getting course data for term {term} from mobileapp ({'non-batch' if not batch else 'batch'} query)"
+        )
         if batch:
             all_courses = MobileApp().get_all_courses_BATCH(term)
         else:
@@ -55,13 +57,13 @@ def update_evals_for_one_term(term: str, batch: bool = False) -> None:
         )
         return
 
-    id_tracker = set() # track seen course ids
-    counter = 0 # count num courses updated
+    id_tracker = set()  # track seen course ids
+    counter = 0  # count num courses updated
 
     logger.info(f"started updating evals data for term {term}")
     for subject in all_courses:
         dept = subject["code"]
-        
+
         logger.info(f"processing {'all' if batch else 'some'} courses for {dept}")
         for mapp_course in subject["courses"]:
             course_id = mapp_course["course_id"]
@@ -80,10 +82,12 @@ def update_evals_for_one_term(term: str, batch: bool = False) -> None:
                     evals_dict = evals.get_evals(dept, course_id, term)
                 except ValueError:
                     logger.info(f"no evals for course {guid}")
+                    continue
                 except AssertionError:
                     logger.error(
                         f"failed to get evals for course {guid}, likely need to update evals scraper code"
                     )
+                    continue
 
                 data = {
                     "guid": guid,
@@ -97,7 +101,7 @@ def update_evals_for_one_term(term: str, batch: bool = False) -> None:
                 counter += 1
             except Exception as e:
                 logger.error(f"failed to update evals for course {guid} with error {e}")
-    
+
     logger.info(f"updated evals for {counter} courses in term {term}")
 
 
@@ -107,11 +111,8 @@ def update_evals_for_terms(terms: List[str] = None):
     try:
         db = DatabaseUtils()
         if terms is None:
-            print('getting terms...')
             terms = db.get_all_terms()
-            print('got terms...')
 
-        print('starting to update here...')
         # use multiprocessing to update terms in parallel
         with Pool(os.cpu_count()) as pool:
             pool.map(update_evals_for_one_term, terms)
