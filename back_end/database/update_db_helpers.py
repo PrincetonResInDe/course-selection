@@ -177,7 +177,7 @@ def parse_registrar_course_data(course: json) -> dict:
             "audit": False,
         },
         "NPD": {"pdf": {"required": False, "permitted": False}, "audit": True},  # npdf
-        "NPD": {  # P/D/F only
+        "PDF": {  # P/D/F only
             "pdf": {"required": True, "permitted": True},
             "audit": True,
         },
