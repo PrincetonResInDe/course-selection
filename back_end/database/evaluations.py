@@ -24,13 +24,16 @@ class EvalsScraper:
         headers = {"user-agent": self.USER_AGENT}
 
         # Set up the cookies for getting past CAS
+        print("creating browser cookie obj...")
         cj = browser_cookie3.load(domain_name="registrarapps.princeton.edu")
+        print("extracting cookies...")
         cookies = requests.utils.dict_from_cookiejar(cj)
         if "PHPSESSID" in cookies:
             cookies = {"PHPSESSID": cookies["PHPSESSID"]}
         else:
             cookies = {"PHPSESSID": os.getenv("PHPSESSID")}
 
+        print("creating session...")
         session = requests.Session()
         session.cookies.update(cookies)
         session.headers.update(headers)
