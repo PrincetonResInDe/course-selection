@@ -32,7 +32,8 @@ logger = logging.getLogger(__name__)
 
 # Update evaluations data in db for one term
 # term = term code
-def update_evals_for_one_term(term: str) -> None:
+# batch = set to True to make batch query to MobileApp 
+def update_evals_for_one_term(term: str, batch: bool = False) -> None:
     db = DatabaseUtils()
     evals = EvalsScraper()
 
@@ -43,22 +44,34 @@ def update_evals_for_one_term(term: str) -> None:
 
     # get course data from mobileapp api
     try:
-        logger.info(f"getting course data for term {term} from mobileapp")
-        all_courses = MobileApp().get_all_courses(term)
+        logger.info(f"getting course data for term {term} from mobileapp ({'non-batch' if not batch else 'batch'} query)")
+        if batch:
+            all_courses = MobileApp().get_all_courses_BATCH(term)
+        else:
+            all_courses = MobileApp().get_all_courses_INDIV(term)
     except Exception as e:
         logger.error(
             f"unable to get course data for term {term} from mobileapp with error {e}"
         )
         return
 
-    logger.info(f"started updating evals data for term {term}")
+    id_tracker = set() # track seen course ids
+    counter = 0 # count num courses updated
 
+    logger.info(f"started updating evals data for term {term}")
     for subject in all_courses:
         dept = subject["code"]
-        logger.info(f"processing courses for {dept}")
+        
+        logger.info(f"processing {'all' if batch else 'some'} courses for {dept}")
         for mapp_course in subject["courses"]:
             course_id = mapp_course["course_id"]
             guid = mapp_course["guid"]
+
+            # skip duped courses (only applies for non-batch course queries)
+            if not batch:
+                if course_id in id_tracker:
+                    continue
+                id_tracker.add(course_id)
 
             logger.info(f"scraping evals data for course {guid}")
             try:
@@ -81,8 +94,11 @@ def update_evals_for_one_term(term: str) -> None:
                 }
                 # update evals for this course
                 db.update_evals_data(guid, data)
+                counter += 1
             except Exception as e:
                 logger.error(f"failed to update evals for course {guid} with error {e}")
+    
+    logger.info(f"updated evals for {counter} courses in term {term}")
 
 
 # Update evaluations data in db for specified terms

@@ -101,7 +101,7 @@ class MobileApp:
     def get_current_term_code(self) -> str:
         return self.get_current_term_data()["code"]
 
-    # return department codes as comma-separated string for a given term
+    # return list of department codes for a given term
     def get_department_codes(self, term: str) -> str:
         depts = self.api.getJSON(
             self.configs.COURSE_COURSES, term=term, subject="list", fmt="json"
@@ -110,7 +110,7 @@ class MobileApp:
         dept_codes = []
         for dept in depts["term"][0]["subjects"]:
             dept_codes.append(dept["code"])
-        return ",".join(dept_codes)
+        return dept_codes
 
     # get course info via /courses/courses endpoint
     # kwargs must include key "term"
@@ -119,15 +119,30 @@ class MobileApp:
         return self.api.getJSON(self.configs.COURSE_COURSES, **kwargs)
 
     # return course info for all courses in a given term
-    def get_all_courses(self, term: str) -> dict:
-        dept_codes = self.get_department_codes(term=term)
+    # makes a batch query to MobileApp (all depts at once)
+    # NOTE: should only use batch to get courses for current term;
+    # otherwise, MobileApp timeout error may occur, 
+    def get_all_courses_BATCH(self, term: str) -> dict:
+        dept_codes =  ",".join(self.get_department_codes(term=term))
         courses = []
         courses_raw = self.get_courses(term=term, subject=dept_codes, fmt="json")
-        if len(courses_raw["term"]) > 0:
-            if "subjects" in courses_raw["term"][0]:
+        if len(courses_raw["term"]) > 0 and "subjects" in courses_raw["term"][0]:
                 courses = courses_raw["term"][0]["subjects"]
         return courses
 
+    # return course info for all courses in a given term
+    # instead of making batch query to MobileApp, makes a Mobileapp
+    # query for each dept to avoid MobileApp timeout issue
+    # NOTE: resulting dict may include duplicate course entries 
+    # for cross-listed courses
+    def get_all_courses_INDIV(self, term: str) -> dict:
+        dept_codes = self.get_department_codes(term=term)
+        courses = []        
+        for dept in dept_codes:
+            courses_raw = self.get_courses(term=term, subject=dept, fmt="json")
+            if len(courses_raw["term"]) > 0 and "subjects" in courses_raw["term"][0]:
+                courses.extend(courses_raw["term"][0]["subjects"])
+        return courses
 
 if __name__ == "__main__":
     api = MobileApp()
@@ -138,4 +153,4 @@ if __name__ == "__main__":
         "VIS courses from this semester:",
         api.get_courses(term=curr_term, subject="VIS", fmt="json"),
     )
-    print("ALL courses from this semester:", api.get_all_courses(term=curr_term))
+    print("ALL courses from this semester:", api.get_all_courses_BATCH(term=curr_term))

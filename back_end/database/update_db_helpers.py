@@ -17,7 +17,8 @@ This file contains helper methods used in update_db_*.py scripts to update term 
 
 # Update course information for one term
 # term: term code
-def update_courses_for_one_term(term: str) -> None:
+# batch: set to True to make batch query to MobileApp 
+def update_courses_for_one_term(term: str, batch: bool = False) -> None:
     db = DatabaseUtils()
 
     if not db.is_valid_term_code(code=term):
@@ -26,8 +27,11 @@ def update_courses_for_one_term(term: str) -> None:
 
     # get course data from mobileapp api
     try:
-        logger.info(f"getting course data for term {term} from mobileapp")
-        all_courses = MobileApp().get_all_courses(term)
+        logger.info(f"getting course data for term {term} from mobileapp ({'non-batch' if not batch else 'batch'} query)")
+        if batch:
+            all_courses = MobileApp().get_all_courses_BATCH(term)
+        else:
+            all_courses = MobileApp().get_all_courses_INDIV(term)
     except Exception as e:
         logger.error(
             f"unable to get course data for term {term} from mobileapp with error {e}"
@@ -36,18 +40,28 @@ def update_courses_for_one_term(term: str) -> None:
 
     # NOTE: it may be possible that courses can be deleted, instructors
     # removed from a course. only do two clearing operations below
-    # if confident that update for all courses will not fail.
+    # for current term and if confident that update for all courses 
+    # will not fail.
     # db.clear_courses_for_one_term(term)
     # db.clear_courses_for_instructor_for_one_term(term)
+    
+    id_tracker = set() # track seen course ids
+    counter = 0 # count num courses updated
 
     logger.info(f"started updating courses for term {term}")
     for subject in all_courses:
         dept = subject["code"]
 
-        logger.info(f"processing courses for {dept}")
+        logger.info(f"processing {'all' if batch else 'some'} courses for {dept}")
         for mapp_course in subject["courses"]:
             guid = mapp_course["guid"]
             course_id = mapp_course["course_id"]
+
+            # skip duped courses (only applies for non-batch course queries)
+            if not batch:
+                if course_id in id_tracker:
+                    continue
+                id_tracker.add(course_id)
 
             # get course data from registrar's api
             try:
@@ -81,10 +95,13 @@ def update_courses_for_one_term(term: str) -> None:
 
                 # update courses collection with course data
                 db.update_course_data(guid, data)
+                counter += 1
             except Exception as e:
                 logger.error(
                     f"failed to parse & update course data for course {guid} with error {e}"
                 )
+    
+    logger.info(f"updated {counter} courses for term {term}")
 
 
 # Combines MobileApp and Registrar's API data into one dictionary
@@ -109,7 +126,6 @@ def parse_mobileapp_course_data(course: json) -> dict:
     data["crosslistings"] = course.get("crosslistings", [])
     data["classes"] = course.get("classes", [])
 
-    # change to use get()
     if "detail" in course:
         details = course["detail"]
         data["description"] = details.get("description", None)

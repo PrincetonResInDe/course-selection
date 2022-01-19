@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 def update_courses_for_current_term() -> None:
     try:
         curr_term = MobileApp().get_current_term_code()
-        update_courses_for_one_term(curr_term)
+        update_courses_for_one_term(term=curr_term, batch=True)
     except Exception as e:
         logger.error(f"failed to update courses for current term with error {e}")
 
