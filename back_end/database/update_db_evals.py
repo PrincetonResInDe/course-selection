@@ -107,8 +107,11 @@ def update_evals_for_terms(terms: List[str] = None):
     try:
         db = DatabaseUtils()
         if terms is None:
+            print('getting terms...')
             terms = db.get_all_terms()
+            print('got terms...')
 
+        print('starting to update here...')
         # use multiprocessing to update terms in parallel
         with Pool(os.cpu_count()) as pool:
             pool.map(update_evals_for_one_term, terms)
