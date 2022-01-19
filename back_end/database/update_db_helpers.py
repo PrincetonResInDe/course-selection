@@ -17,7 +17,7 @@ This file contains helper methods used in update_db_*.py scripts to update term 
 
 # Update course information for one term
 # term: term code
-# batch: set to True to make batch query to MobileApp 
+# batch: set to True to make batch query to MobileApp
 def update_courses_for_one_term(term: str, batch: bool = False) -> None:
     db = DatabaseUtils()
 
@@ -27,7 +27,9 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
 
     # get course data from mobileapp api
     try:
-        logger.info(f"getting course data for term {term} from mobileapp ({'non-batch' if not batch else 'batch'} query)")
+        logger.info(
+            f"getting course data for term {term} from mobileapp ({'non-batch' if not batch else 'batch'} query)"
+        )
         if batch:
             all_courses = MobileApp().get_all_courses_BATCH(term)
         else:
@@ -40,13 +42,13 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
 
     # NOTE: it may be possible that courses can be deleted, instructors
     # removed from a course. only do two clearing operations below
-    # for current term and if confident that update for all courses 
+    # for current term and if confident that update for all courses
     # will not fail.
     db.clear_courses_for_one_term(term)
     db.clear_courses_for_instructor_for_one_term(term)
-    
-    id_tracker = set() # track seen course ids
-    counter = 0 # count num courses updated
+
+    id_tracker = set()  # track seen course ids
+    counter = 0  # count num courses updated
 
     logger.info(f"started updating courses for term {term}")
     for subject in all_courses:
@@ -100,7 +102,7 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
                 logger.error(
                     f"failed to parse & update course data for course {guid} with error {e}"
                 )
-    
+
     logger.info(f"updated {counter} courses for term {term}")
 
 

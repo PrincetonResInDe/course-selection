@@ -121,28 +121,29 @@ class MobileApp:
     # return course info for all courses in a given term
     # makes a batch query to MobileApp (all depts at once)
     # NOTE: should only use batch to get courses for current term;
-    # otherwise, MobileApp timeout error may occur, 
+    # otherwise, MobileApp timeout error may occur,
     def get_all_courses_BATCH(self, term: str) -> dict:
-        dept_codes =  ",".join(self.get_department_codes(term=term))
+        dept_codes = ",".join(self.get_department_codes(term=term))
         courses = []
         courses_raw = self.get_courses(term=term, subject=dept_codes, fmt="json")
         if len(courses_raw["term"]) > 0 and "subjects" in courses_raw["term"][0]:
-                courses = courses_raw["term"][0]["subjects"]
+            courses = courses_raw["term"][0]["subjects"]
         return courses
 
     # return course info for all courses in a given term
     # instead of making batch query to MobileApp, makes a Mobileapp
     # query for each dept to avoid MobileApp timeout issue
-    # NOTE: resulting dict may include duplicate course entries 
+    # NOTE: resulting dict may include duplicate course entries
     # for cross-listed courses
     def get_all_courses_INDIV(self, term: str) -> dict:
         dept_codes = self.get_department_codes(term=term)
-        courses = []        
+        courses = []
         for dept in dept_codes:
             courses_raw = self.get_courses(term=term, subject=dept, fmt="json")
             if len(courses_raw["term"]) > 0 and "subjects" in courses_raw["term"][0]:
                 courses.extend(courses_raw["term"][0]["subjects"])
         return courses
+
 
 if __name__ == "__main__":
     api = MobileApp()
