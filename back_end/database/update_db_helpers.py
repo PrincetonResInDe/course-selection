@@ -42,8 +42,8 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
     # removed from a course. only do two clearing operations below
     # for current term and if confident that update for all courses 
     # will not fail.
-    # db.clear_courses_for_one_term(term)
-    # db.clear_courses_for_instructor_for_one_term(term)
+    db.clear_courses_for_one_term(term)
+    db.clear_courses_for_instructor_for_one_term(term)
     
     id_tracker = set() # track seen course ids
     counter = 0 # count num courses updated
