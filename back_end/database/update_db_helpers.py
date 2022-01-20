@@ -44,11 +44,12 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
     # removed from a course. only do two clearing operations below
     # for current term and if confident that update for all courses
     # will not fail.
-    db.clear_courses_for_one_term(term)
-    db.clear_courses_for_instructor_for_one_term(term)
+    # db.clear_courses_for_one_term(term)
+    # db.clear_courses_for_instructor_for_one_term(term)
 
     id_tracker = set()  # track seen course ids
-    counter = 0  # count num courses updated
+    up_counter = 0  # count num courses updated
+    total_counter = 0 # count total courses processed
 
     logger.info(f"started updating courses for term {term}")
     for subject in all_courses:
@@ -64,6 +65,8 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
                 if course_id in id_tracker:
                     continue
                 id_tracker.add(course_id)
+
+            total_counter += 1
 
             # get course data from registrar's api
             try:
@@ -97,13 +100,13 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
 
                 # update courses collection with course data
                 db.update_course_data(guid, data)
-                counter += 1
+                up_counter += 1
             except Exception as e:
                 logger.error(
                     f"failed to parse & update course data for course {guid} with error {e}"
                 )
 
-    logger.info(f"updated {counter} courses for term {term}")
+    logger.info(f"updated data for {up_counter}/{total_counter} courses in term {term}")
 
 
 # Combines MobileApp and Registrar's API data into one dictionary
@@ -230,4 +233,4 @@ def parse_registrar_course_data(course: json) -> dict:
 
 
 if __name__ == "__main__":
-    update_courses_for_one_term(term="1224")
+    update_courses_for_one_term(term="1224", batch=True)
