@@ -55,7 +55,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--terms", nargs="*", help="update courses for specified term(s) [please provide term code(s)]")
+    group.add_argument(
+        "--terms",
+        nargs="*",
+        help="update courses for specified term(s) [please provide term code(s)]",
+    )
     group.add_argument(
         "--curr", help="update courses for current term", action="store_true"
     )

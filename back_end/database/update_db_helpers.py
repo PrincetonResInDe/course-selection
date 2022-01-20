@@ -49,7 +49,7 @@ def update_courses_for_one_term(term: str, batch: bool = False) -> None:
 
     id_tracker = set()  # track seen course ids
     up_counter = 0  # count num courses updated
-    total_counter = 0 # count total courses processed
+    total_counter = 0  # count total courses processed
 
     logger.info(f"started updating courses for term {term}")
     for subject in all_courses:

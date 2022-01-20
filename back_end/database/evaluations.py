@@ -9,10 +9,14 @@ load_dotenv()
 """
     This class handles scraping for course evaluations.
 
-    INSTRUCTIONS: Before creating an EvalsScraper object, 
-    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
-    (https://github.com/borisbabic/browser_cookie3). Or, you can 
-    manually add a valid "PHPSESSID" token in your .env file.
+    If running the code in EvalsScraper LOCALLY, log into CAS on one of the browsers 
+    supported by browser_cookie3 (https://github.com/borisbabic/browser_cookie3).
+    Or, you can manually add a valid "PHPSESSID" token in your .env file.
+
+    If running the code in EvalsScraper ON HEROKU, log into CAS, then retrieve the
+    value of the "PHPSESSID" cookie from your browser's Developer Console. 
+    Add "PHPSESSID" (key) and the retrieved token (value) as a Heroku Config Var in 
+    the Heroku app. 
 """
 
 

@@ -18,10 +18,16 @@ logger = logging.getLogger(__name__)
 """
     This script scrapes course evaluations and update evals stored in the database.
 
-    INSTRUCTIONS: Before running the evals update script, 
-    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
-    (https://github.com/borisbabic/browser_cookie3). Or, you can 
-    manually add a valid "PHPSESSID" token in your .env file.
+    INSTRUCTIONS: 
+
+    If running the evals update script LOCALLY, log into CAS on one of the browsers 
+    supported by browser_cookie3 (https://github.com/borisbabic/browser_cookie3).
+    Or, you can manually add a valid "PHPSESSID" token in your .env file.
+
+    If running the evals update script ON HEROKU, log into CAS, then retrieve the
+    value of the "PHPSESSID" cookie from your browser's Developer Console. 
+    Add "PHPSESSID" (key) and the retrieved token (value) as a Heroku Config Var in 
+    the Heroku app. 
 
     To update courses for specified term(s):
     $ python update_db_evals.py --terms <term_code_1> <term_code_2> ...
@@ -59,7 +65,7 @@ def update_evals_for_one_term(term: str, batch: bool = False) -> None:
 
     id_tracker = set()  # track seen course ids
     up_counter = 0  # count num courses updated
-    total_counter = 0 # count total courses processed
+    total_counter = 0  # count total courses processed
 
     logger.info(f"started updating evals data for term {term}")
     for subject in all_courses:
@@ -105,7 +111,9 @@ def update_evals_for_one_term(term: str, batch: bool = False) -> None:
             except Exception as e:
                 logger.error(f"failed to update evals for course {guid} with error {e}")
 
-    logger.info(f"updated evals for {up_counter}/{total_counter} courses in term {term}")
+    logger.info(
+        f"updated evals for {up_counter}/{total_counter} courses in term {term}"
+    )
 
 
 # Update evaluations data in db for specified terms
@@ -126,7 +134,11 @@ def update_evals_for_terms(terms: List[str] = None):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--terms", nargs="*", help="update evals for specified term(s) [please provide term code(s)]")
+    parser.add_argument(
+        "--terms",
+        nargs="*",
+        help="update evals for specified term(s) [please provide term code(s)]",
+    )
 
     args = parser.parse_args()
 
