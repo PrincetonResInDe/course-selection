@@ -34,7 +34,7 @@ export default function DraggableSearchCard(props) {
         p: 1,
         cursor: isDragging ? "grabbing" : "grab",
         "&:hover": {
-          boxShadow: "2px 2px 6px rgb(0 0 0 / 50%)",
+          boxShadow: "2px 2px 3px rgb(0 0 0 / 50%)",
           borderRadius: 1,
         },
         borderTopLeftRadius: "4px",
