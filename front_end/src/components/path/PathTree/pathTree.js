@@ -3,16 +3,27 @@ import { Box } from "@mui/material";
 import AppBar from "../../shared/appBarComponent/appBar";
 import TreeCard from "./treeCard";
 import Typography from "@mui/material/Typography";
-import majors from "../../../data/majors_and_certificates/majors/ELE.json";
+
+
+// import majors from "../../../../../majors_and_certificates/majors/ELE.yaml";
 export default function pathTree() {
-  let major = majors;
+
+  // const fs = require("fs");
+  // const yaml = require("js-yaml");
+  // const file_path = "../../../../../majors_and_certificates/majors/ELE.yaml"
+  let major = '';
+  // try {
+  //   let fileContents = fs.readFileSync(file_path, "utf8");
+  //   major = yaml.safeLoad(fileContents);
+  //   console.log(major);
+  // } catch (e) {
+  //   console.log(e);
+  // }
 
   return (
-    <Box
-      sx={{ display: "flex", width: "20vw", flexDirection: "column"}}
-    >
+    <Box sx={{ display: "flex", width: "20vw", flexDirection: "column" }}>
       <Box sx={{ flex: "0 1 auto", height: "5vh" }}>
-        <AppBar name = "Path" />
+        <AppBar name="Path" />
       </Box>
       <Box sx={{ flex: "1 1 auto" }}>
         <Typography variant="h6" component="div">
@@ -29,7 +40,7 @@ export default function pathTree() {
           }}
           ƒ
         >
-          {major.req_list.map((req) => (
+          {/* {major.req_list.map((req) => (
             <>
               <TreeCard key={req.name} level="1" comp="yes" name={req.name} />
               {req.req_list &&
@@ -48,7 +59,7 @@ export default function pathTree() {
                   </>
                 ))}
             </>
-          ))}
+          ))} */}
 
           {/* 
           <TreeCard level="1" comp="yes" />
