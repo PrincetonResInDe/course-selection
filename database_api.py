@@ -71,6 +71,7 @@ class DatabaseAPI:
 
         string = query["string"]
         semester = query["semester"]
+
         query_filters = query["filters"]
         special = query_filters["special"]
         dists = query_filters["dists"]
@@ -93,14 +94,17 @@ class DatabaseAPI:
             }
         )
 
+        # Flag used to determine whether we query for courses
+        # Remains False if no filters are set AND no query string entered
+        get_courses = False
+
         # Assume special options are "*" (all courses), "NEW" (new courses)
         # Assume only one option can be selected
-        get_courses = False
         if special == "*":
             get_courses = True
         elif special == "NEW":
             get_courses = True
-            # figure out how to do this?
+            # TO-DO: implement getting NEW courses
 
         # Assume selected distribution codes are passed in as list
         # e.g. 'CD', 'EC', ...
@@ -190,32 +194,43 @@ class DatabaseAPI:
             course_filters["$and"].append(
                 {
                     "$or": [
-                        {"title": {"$regex": string}},
-                        {"catalog_title": {"$regex": string.replace(" ", "")}},
+                        {"title": {"$regex": string, "$options": "i"}},
+                        {
+                            "catalog_title": {
+                                "$regex": string.replace(" ", ""),
+                                "$options": "i",
+                            }
+                        },
                     ]
                 }
             )
 
             names = string.split(" ")
-            instr_filters = {
-                "$or": [
-                    {"name.first_name": {"$in": names}},
-                    {"name.last_name": {"$in": names}},
-                ]
-            }
+            names = list(
+                map(lambda name: {"$regex": r"^" + name, "$options": "i"}, names)
+            )
+            instr_filters["$or"] = []
+            for name in names:
+                instr_filters["$or"].extend(
+                    [{"name.first_name": name}, {"name.last_name": name},]
+                )
 
         if not get_courses:
             return []
 
-        print("== Course Filters: ==")
-        print(course_filters)
-        print("== Instructor Filters: ==")
-        print(instr_filters)
+        # For debugging search tests:
+        # print("== Course Filters: ==")
+        # print(course_filters)
+        # print("== Instructor Filters: ==")
+        # print(instr_filters)
 
         course_res = self.db.courses.find(course_filters)
         instr_res = self.db.instructors.find(instr_filters)
 
         # TO-DO: do sort after retrieving results
+        # TO-DO: return course information for each instructor retrieved
+
+        # result[0] is list of courses, result[1] is list of instructors
         return [list(course_res), list(instr_res)]
 
 
@@ -252,6 +267,7 @@ if __name__ == "__main__":
         },
     }
 
+    # For debugging search tests
     def call_search(get_course, get_instr):
         res = db.search(query)
         if get_course:
@@ -293,7 +309,12 @@ if __name__ == "__main__":
     query["string"] = "COS 126"
     call_search(True, True)
 
-    print("\nQUERY FOR COURSE (CODE)")
+    print("\nQUERY FOR COURSE (CODE) - CASE INSENSITIVE")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "cos 126"
+    call_search(True, True)
+
+    print("\nQUERY FOR CROSS-LISTED COURSE (CODE)")
     query = copy.deepcopy(empty_query)
     query["string"] = "EGR 126"
     call_search(True, True)
@@ -308,14 +329,29 @@ if __name__ == "__main__":
     query["string"] = "Race"
     call_search(True, True)
 
+    print("\nQUERY FOR COURSE (TITLE) - CASE INSENSITIVE")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "rAcE"
+    call_search(True, True)
+
     print("\nQUERY FOR INSTRUCTORS")
     query = copy.deepcopy(empty_query)
     query["string"] = "Kevin"
     call_search(True, True)
 
+    print("\nQUERY FOR INSTRUCTORS - CASE INSENSITIVE")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "keViN"
+    call_search(True, True)
+
     print("\nQUERY FOR INSTRUCTORS")
     query = copy.deepcopy(empty_query)
     query["string"] = "Wayne"
+    call_search(True, True)
+
+    print("\nQUERY FOR INSTRUCTORS - TWO NAMES")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "kevin wayne"
     call_search(True, True)
 
     print("\nSET MULTIPLE FILTERS")
