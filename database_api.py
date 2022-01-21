@@ -24,11 +24,12 @@ class DatabaseAPI:
     def __init__(self):
         self.connect()
         self.db_test = self.client.test
+        self.db = self.client.course_selection
 
     def connect(self):
         self.client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
-        self.db = self.client.admin
-        logger.info(f"MongoDB server status: {self.db.command('serverStatus')}")
+        self.db_admin = self.client.admin
+        logger.info(f"MongoDB server status: {self.db_admin.command('serverStatus')}")
 
     def get_all_test(self):
         # note that when you are returning, you want it to be jsonify-able,
@@ -50,9 +51,281 @@ class DatabaseAPI:
     def close(self):
         self.client.close()
 
+    """
+        This is how input dict query should be structured.
+        query = {
+            "string": "the query string",
+            "semester": "one of the semester",
+            "sort": "Course Code, Relevance, Rating, Title",
+            "filters": {
+                "special": "*" or "NEW",
+                "dist": [list of dist codes],
+                "grading": [list of grading categorise],
+                "level": [list of levels],
+                "depts": [list of dept codes]
+            }
+        }
+    """
+
+    def search(self, query: dict) -> dict:
+
+        string = query["string"]
+        semester = query["semester"]
+        query_filters = query["filters"]
+        special = query_filters["special"]
+        dists = query_filters["dists"]
+        grading = query_filters["grading"]
+        levels = query_filters["levels"]
+        depts = query_filters["depts"]
+        # sort = query.sort
+
+        # Filters passed into MongoDB query to get courses
+        course_filters = {"$and": []}
+        # Filters passed into MongoDB query to get instructors
+        instr_filters = {}
+
+        # Assume semester is passed in as "[Fall/Spring/Summer] [Year]"
+        course_filters["$and"].append(
+            {
+                "term": self.db.semesters.find_one(
+                    {"name": semester}, {"_id": 0, "code": 1}
+                )["code"]
+            }
+        )
+
+        # Assume special options are "*" (all courses), "NEW" (new courses)
+        # Assume only one option can be selected
+        get_courses = False
+        if special == "*":
+            get_courses = True
+        elif special == "NEW":
+            get_courses = True
+            # figure out how to do this?
+
+        # Assume selected distribution codes are passed in as list
+        # e.g. 'CD', 'EC', ...
+        DIST_EQUIVALENTS = {
+            "QCR": "QR",
+            "SEL": "STL",
+            "SEN": "STN",
+        }
+        if len(dists) > 0:
+            get_courses = True
+            all_dists = []
+            for dist in dists:
+                if dist in DIST_EQUIVALENTS:
+                    # regex handles courses with multiple distributions, e.g. "CD or SA"
+                    all_dists.append(
+                        {"distribution": {"$regex": DIST_EQUIVALENTS[dist]}}
+                    )
+                all_dists.append({"distribution": {"$regex": dist}})
+            course_filters["$and"].append({"$or": all_dists})
+
+        # Assume selected department codes are passed in as list
+        # e.g. 'AAS', 'COS', ...
+        if len(depts) > 0:
+            get_courses = True
+            course_filters["$and"].append(
+                {
+                    "$or": [
+                        {"department": {"$in": depts}},
+                        {"crosslistings.subject": {"$in": depts}},
+                    ]
+                }
+            )
+
+        # Assume selected levels are passed in as list
+        # Based on Princeton Courses, options are [1-5]XX, UGRD, GRAD
+        if len(levels) > 0:
+            get_courses = True
+            tracks, catalog_nums = [], []
+            for level in levels:
+                if level in ["UGRD", "GRAD"]:
+                    tracks.append(level)
+                else:
+                    pattern = {"$regex": r"^" + level[0]}
+                    catalog_nums.extend(
+                        [
+                            {"catalog_number": pattern},
+                            {"crosslistings.catalog_number": pattern},
+                        ]
+                    )
+
+            if len(tracks) > 0:
+                course_filters["$and"].append({"track": {"$in": tracks}})
+
+            if len(catalog_nums) > 0:
+                course_filters["$and"].append({"$or": catalog_nums})
+
+        # Assume selected grading is passed in as list
+        # Based on Princeton Courses, options are PDF, PDFO, or NPDF (for PDF)
+        # or AUDIT, NAUDIT (for AUDIT)
+        # Assume only one PDF option, one AUDIT option can be selected
+        PDF_MAPPINGS = {
+            "PDF": {"required": False, "permitted": True},
+            "PDFO": {"required": True, "permitted": True},
+            "NPDF": {"required": False, "permitted": False},
+        }
+
+        AUDIT_MAPPINGS = {"AUDIT": True, "NAUDIT": False}
+
+        if len(grading) > 0:
+            get_courses = True
+            pdf, audit = None, None
+            for code in grading:
+                if code in PDF_MAPPINGS.keys():
+                    pdf = PDF_MAPPINGS[code]
+                elif code in AUDIT_MAPPINGS.keys():
+                    audit = AUDIT_MAPPINGS[code]
+
+            if pdf is not None:
+                course_filters["$and"].append({"pdf": pdf})
+
+            if audit is not None:
+                course_filters["$and"].append({"audit": audit})
+
+        # Search by course code + number, title, or instructor
+        if string != "":
+            get_courses = True
+            course_filters["$and"].append(
+                {
+                    "$or": [
+                        {"title": {"$regex": string}},
+                        {"catalog_title": {"$regex": string.replace(" ", "")}},
+                    ]
+                }
+            )
+
+            names = string.split(" ")
+            instr_filters = {
+                "$or": [
+                    {"name.first_name": {"$in": names}},
+                    {"name.last_name": {"$in": names}},
+                ]
+            }
+
+        if not get_courses:
+            return []
+
+        print("== Course Filters: ==")
+        print(course_filters)
+        print("== Instructor Filters: ==")
+        print(instr_filters)
+
+        course_res = self.db.courses.find(course_filters)
+        instr_res = self.db.instructors.find(instr_filters)
+
+        # TO-DO: do sort after retrieving results
+        return [list(course_res), list(instr_res)]
+
 
 if __name__ == "__main__":
     # a basic example of how to use, can remove later
+    import copy
+
     db = DatabaseAPI()
+
+    """
+        query = {
+            "string": "the query string",
+            "semester": "one of the semester",
+            "sort": "Course Code, Relevance, Rating, Title",
+            "filters": {
+                "special": "*" or "NEW",
+                "dist": [list of dist codes],
+                "grading": [list of grading categorise],
+                "level": [list of levels],
+                "depts": [list of dept codes]
+            }
+        }
+    """
+
+    empty_query = {
+        "string": "",
+        "semester": "Spring 2022",
+        "filters": {
+            "special": "",
+            "dists": [],
+            "grading": [],
+            "levels": [],
+            "depts": [],
+        },
+    }
+
+    def call_search(get_course, get_instr):
+        res = db.search(query)
+        if get_course:
+            print("# Courses returned:", len(res[0]))
+        if get_instr:
+            print("# Instructors returned:", len(res[1]))
+
+    print("NO QUERY")
+    query = copy.deepcopy(empty_query)
+    print("# courses returned:", len(db.search(query)))
+
+    print("\nALL COURSES")
+    query = copy.deepcopy(empty_query)
+    query["filters"]["special"] = "*"
+    call_search(True, False)
+
+    print("\nSET DISTRIBUTIONS")
+    query = copy.deepcopy(empty_query)
+    query["filters"]["dists"] = ["CD", "QCR", "SEL", "SEN"]
+    call_search(True, False)
+
+    print("\nSET LEVELS")
+    query = copy.deepcopy(empty_query)
+    query["filters"]["levels"] = ["1XX", "5XX", "UGRD", "GRAD"]
+    call_search(True, False)
+
+    print("\nSET GRADING")
+    query = copy.deepcopy(empty_query)
+    query["filters"]["grading"] = ["PDFO", "AUDIT"]
+    call_search(True, False)
+
+    print("\nSET DEPTS")
+    query = copy.deepcopy(empty_query)
+    query["filters"]["depts"] = ["AAS", "COS", "NEU"]
+    call_search(True, False)
+
+    print("\nQUERY FOR COURSE (CODE)")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "COS 126"
+    call_search(True, True)
+
+    print("\nQUERY FOR COURSE (CODE)")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "EGR 126"
+    call_search(True, True)
+
+    print("\nQUERY FOR COURSE (CODE)")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "202"
+    call_search(True, True)
+
+    print("\nQUERY FOR COURSE (TITLE)")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "Race"
+    call_search(True, True)
+
+    print("\nQUERY FOR INSTRUCTORS")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "Kevin"
+    call_search(True, True)
+
+    print("\nQUERY FOR INSTRUCTORS")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "Wayne"
+    call_search(True, True)
+
+    print("\nSET MULTIPLE FILTERS")
+    query = copy.deepcopy(empty_query)
+    query["string"] = "Race"
+    query["filters"]["depts"] = ["AAS"]
+    query["filters"]["dists"] = ["SA", "HA"]
+    query["filters"]["grading"] = ["NPDF"]
+    query["filters"]["levels"] = ["3XX"]
+    call_search(True, False)
+
     logger.info(db.get_all_test())
     db.close()
