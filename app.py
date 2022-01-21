@@ -62,3 +62,15 @@ def path():
 def test_database():
     logger.info("Reached /api/test-database")
     return jsonify(db.get_all_test())
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    if request.method == "GET":
+        query = request.args.get("query")
+    else:
+        query = request.form.get("query")
+
+    db = DatabaseAPI()
+
+    # See database_api.py for structure of input query
+    db.search(query)
