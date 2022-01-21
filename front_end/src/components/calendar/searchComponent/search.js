@@ -6,6 +6,7 @@ import Title from "../../shared/titleComponent/title";
 import { useResizeDetector } from "react-resize-detector";
 import { useCalendarStore } from "../../../zustand/calendar";
 import { useSearchStore } from "../../../zustand/search";
+import DraggableSearchCard from "./draggableSearchCard";
 
 export default function Search() {
   const [searchResults] = useSearchStore((state) => [state.searchResults]);

@@ -27,10 +27,6 @@ export default function DraggableSearchCard(props) {
     <Box
       ref={drag}
       sx={{
-        borderStyle: "solid",
-        borderWidth: "thin",
-        borderColor: "white",
-        width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -39,8 +35,10 @@ export default function DraggableSearchCard(props) {
         cursor: isDragging ? "grabbing" : "grab",
         "&:hover": {
           boxShadow: "2px 2px 6px rgb(0 0 0 / 50%)",
+          borderRadius: 1,
         },
-        borderRadius: 1,
+        borderTopLeftRadius: "4px",
+        borderTopRightRadius: "4px",
       }}
       onMouseEnter={() => {
         setHoveredClass(data);
