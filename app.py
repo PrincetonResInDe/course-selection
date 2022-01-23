@@ -12,6 +12,7 @@ import os
 from flask_cors import CORS
 from database_api import DatabaseAPI
 import logging
+from search import do_search
 
 load_dotenv()
 
@@ -62,3 +63,32 @@ def path():
 def test_database():
     logger.info("Reached /api/test-database")
     return jsonify(db.get_all_test())
+
+@app.route("/search", methods=["GET"])
+def search():
+    args = request.args
+    query = args.get("query", "")
+    semester = args.get("semester", "")
+    special = args.get("special", "")
+
+    # Assume multiple values are passed in as comma-separated values
+    dists = args.get("dists", None)
+    grading = args.get("grading", None)
+    levels = args.get("levels", None)
+    depts = args.get("depts", None)
+
+    query_dict = {
+        "string": query,
+        "semester": semester,
+        "filters": {
+            "special": special,
+            "dists": dists.split(",") if dists else [],
+            "grading": grading.split(",") if grading else [],
+            "levels": levels.split(",") if levels else [],
+            "depts": depts.split(",") if depts else []
+        }
+    }
+
+    # See database_api.py for structure of input query
+    res = do_search(query_dict)
+    return jsonify(res)

@@ -204,9 +204,14 @@ def parse_registrar_course_data(course: json) -> dict:
     data["other_restrictions"] = course.get("other_restrictions", None)
     data["other_information"] = course.get("other_information", None)
     data["distribution"] = course.get("distribution_area_short", None)
-    data["crosslistings_title"] = course.get("crosslistings", None)
     data["website"] = course.get("web_address", None)
     data["assignments"] = course.get("reading_writing_assignment", None)
+    data["catalog_title"] = None
+    if "crosslistings" in course:
+        course_codes = course["crosslistings"].split("/")
+        for i, code in enumerate(course_codes):
+            course_codes[i] = code.replace(" ", "")
+        data["catalog_title"] = " / ".join(course_codes)
 
     return data
 

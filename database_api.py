@@ -24,11 +24,12 @@ class DatabaseAPI:
     def __init__(self):
         self.connect()
         self.db_test = self.client.test
+        self.db = self.client.course_selection
 
     def connect(self):
         self.client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
-        self.db = self.client.admin
-        logger.info(f"MongoDB server status: {self.db.command('serverStatus')}")
+        self.db_admin = self.client.admin
+        logger.info(f"MongoDB server status: {self.db_admin.command('serverStatus')}")
 
     def get_all_test(self):
         # note that when you are returning, you want it to be jsonify-able,
@@ -49,6 +50,7 @@ class DatabaseAPI:
 
     def close(self):
         self.client.close()
+
 
 
 if __name__ == "__main__":
