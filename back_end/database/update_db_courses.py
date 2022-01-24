@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
     $ python update_db_courses.py --curr
 
     To update courses for specified term(s):
-    $ python update_db_courses.py <term_code_1> <term_code_2> ...
+    $ python update_db_courses.py --terms <term_code_1> <term_code_2> ...
 
     To update courses for all terms:
     $ python update_db_courses.py
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 def update_courses_for_current_term() -> None:
     try:
         curr_term = MobileApp().get_current_term_code()
-        update_courses_for_one_term(curr_term)
+        update_courses_for_one_term(term=curr_term, batch=True)
     except Exception as e:
         logger.error(f"failed to update courses for current term with error {e}")
 
@@ -55,7 +55,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--terms", nargs="*", help="update courses for specified terms")
+    group.add_argument(
+        "--terms",
+        nargs="*",
+        help="update courses for specified term(s) [please provide term code(s)]",
+    )
     group.add_argument(
         "--curr", help="update courses for current term", action="store_true"
     )
@@ -63,8 +67,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.terms is None and args.curr is False:
-        # DO NOT RUN: CURRENTLY CRASHES MID-WAY DUE TO MOBILEAPP TIMEOUT ERROR
-        # TO-DO: work witb OIT about timeout issue
         print("Running script to update courses in DB for all terms...")
         update_courses_for_terms()
     elif args.curr:

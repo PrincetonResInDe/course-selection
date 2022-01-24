@@ -9,10 +9,14 @@ load_dotenv()
 """
     This class handles scraping for course evaluations.
 
-    INSTRUCTIONS: Before creating an EvalsScraper object, 
-    make sure you are logged into CAS on one of the browsers supported by browser_cookie3
-    (https://github.com/borisbabic/browser_cookie3). Or, you can 
-    manually add a valid "PHPSESSID" token in your .env file.
+    If running the code in EvalsScraper LOCALLY, log into CAS on one of the browsers 
+    supported by browser_cookie3 (https://github.com/borisbabic/browser_cookie3).
+    Or, you can manually add a valid "PHPSESSID" token in your .env file.
+
+    If running the code in EvalsScraper ON HEROKU, log into CAS, then retrieve the
+    value of the "PHPSESSID" cookie from your browser's Developer Console. 
+    Add "PHPSESSID" (key) and the retrieved token (value) as a Heroku Config Var in 
+    the Heroku app. 
 """
 
 
@@ -24,11 +28,11 @@ class EvalsScraper:
         headers = {"user-agent": self.USER_AGENT}
 
         # Set up the cookies for getting past CAS
-        cj = browser_cookie3.load(domain_name="registrarapps.princeton.edu")
-        cookies = requests.utils.dict_from_cookiejar(cj)
-        if "PHPSESSID" in cookies:
+        try:
+            cj = browser_cookie3.load(domain_name="registrarapps.princeton.edu")
+            cookies = requests.utils.dict_from_cookiejar(cj)
             cookies = {"PHPSESSID": cookies["PHPSESSID"]}
-        else:
+        except:
             cookies = {"PHPSESSID": os.getenv("PHPSESSID")}
 
         session = requests.Session()
