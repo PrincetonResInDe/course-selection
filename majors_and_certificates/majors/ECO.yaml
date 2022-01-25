@@ -187,7 +187,7 @@
           "explanation": "Economics majors are allowed to count a maximum of two courses from other departments as cognates. These courses need to have substantial economics content. A course with an Economics cross-listing (indicated by an ECO 3XX, ECO 4XX, or ECO 5XX number in its first or second listing) counts as a regular departmental, not as a cognate. Courses that will be automatically recognized by SCORE as cognates are listed below. No application is necessary for these courses.",
           "course_list": [
             "COS 445",
-            "ELE 381",
+            "ECE 381",
             "ENE 422/MAE 422",
             "HIS 474",
             "MAT 378",

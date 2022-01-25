@@ -13,14 +13,14 @@ export default function Path() {
   var semesters = [{ title: "Fall 2021", courses: ["cos126"] }];
   const data = [
     {
-      code : "COS126", 
+      code : "COS126",
       course_num: "COS 126 / COS 109",
       course_name: "Computer Science: An Interdisciplinary Approach",
       rating: "4.75",
       distribution: ["LA", "PDF"],
       availability: ["F&S"],
       prev_offered: ["2022"],
-      id: 435345, 
+      id: 435345,
     },
     {
       code: "ORF245",
@@ -43,8 +43,8 @@ export default function Path() {
       id: 124145,
     },
     {
-      code: "ELE206",
-      course_num: "ELE206",
+      code: "ECE206",
+      course_num: "ECE206",
       course_name: "Logic Design",
       rating: "4.75",
       distribution: ["LA", "PDF"],
@@ -52,7 +52,7 @@ export default function Path() {
       prev_offered: ["2022"],
       id: 324235345,
     },
- 
+
   ];
   const [semeseter, setSemester] = useState([
     [], // leave empty
@@ -72,19 +72,19 @@ export default function Path() {
     // let searchResults = this.state.searchResults;
 
     if (result.destination === null) return;
-    if(result.destination.droppableId === 'searchBar') return; 
+    if(result.destination.droppableId === 'searchBar') return;
     const destSem = result.destination.droppableId[3];
 
-    
-    let sourceSem = result.source.droppableId; 
+
+    let sourceSem = result.source.droppableId;
     if (sourceSem !== 'searchBar') {
       sourceSem = result.source.droppableId[3];
     }
 
     const courseCode = result.draggableId;
-    console.log('courseCode', courseCode); 
-    const course = data.filter((c)=> c.code == courseCode)[0]; 
-    console.log("course", course); 
+    console.log('courseCode', courseCode);
+    const course = data.filter((c)=> c.code == courseCode)[0];
+    console.log("course", course);
     var newSem = semeseter;
 
     let destCourseIndex = result.destination.index;
@@ -93,14 +93,14 @@ export default function Path() {
     // move from search to courses
     // move between semesters
     if(sourceSem !== 'searchBar' ){
-      
+
       newSem[sourceSem].splice(newSem[sourceSem].indexOf(course));
-    } 
+    }
     newSem[destSem].splice(destCourseIndex, 0, course);
-    
-    //  newSem[destSem].push(course); 
+
+    //  newSem[destSem].push(course);
     // newSem[destSem].splice(-1, 0, course);
-    setSemester(newSem); 
+    setSemester(newSem);
     console.log(newSem);
     //remove class from one semester
 
