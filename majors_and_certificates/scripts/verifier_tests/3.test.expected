@@ -67,7 +67,7 @@
   ],
   [
     {
-      "name": "COS 351/ SOC 353 /WWS351",
+      "name": "COS 351/ SOC 353 /SPI351",
       "possible_reqs": [
         "Major//2018//COS-AB//Core Courses//General"
       ],
@@ -308,7 +308,7 @@
           "min_needed": 2,
           "max_counted": 1,
           "settled": [
-            "COS 351/ SOC 353 /WWS351",
+            "COS 351/ SOC 353 /SPI351",
             "NEU 330 / PSY 330",
             "COS 401 / LIN 304 / TRA 301"
           ],

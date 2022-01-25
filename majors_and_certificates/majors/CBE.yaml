@@ -187,7 +187,7 @@
                         "MOL 348",
                         "MOL 380",
                         "MOL 415",
-                        "MOL 425/WWS 355/GHP 425",
+                        "MOL 425/SPI 355/GHP 425",
                         "MOL 431",
                         "MOL 433/CBE 434/GHP 433",
                         "MOL 455/QCB 455/COS 455",
@@ -310,9 +310,9 @@
                     "pdfs_allowed": false,
                     "course_list": [
                         "CBE 260/EGR 260",
-                        "CEE 334/WWS 452/ENV 334/ENE 334",
+                        "CEE 334/SPI 452/ENV 334/ENE 334",
                         "CEE 460",
-                        "CHV 331/WWS 372",
+                        "CHV 331/SPI 372",
                         "COS 432",
                         "ECO 310",
                         "ECO 311",
@@ -324,13 +324,13 @@
                         "EGR 497",
                         "ECE 491",
                         "ENV 324",
-                        "GEO 366/ENV 339/WWS 451/ENE 366",
+                        "GEO 366/ENV 339/SPI 451/ENE 366",
                         "ORF 245",
                         "ORF 335",
                         "ORF 360",
                         "ORF 435",
                         "SML 201",
-                        "WWS 327/CHM 443",
+                        "SPI 327/CHM 443",
                         "ECO 362"
                     ]
                 },
@@ -351,7 +351,7 @@
                         "CEE 306",
                         "CEE 308",
                         "CEE 311/CHM 311/GEO 311",
-                        "CEE 334/WWS 452/ENV 334/ENE 334",
+                        "CEE 334/SPI 452/ENV 334/ENE 334",
                         "CEE 471",
                         "CEE 474/ENV 474",
                         "CEE 477/ENE 477",
@@ -380,7 +380,7 @@
                         "GEO 361/ENV 361/CEE 360",
                         "GEO 363/CHM 331/ENV 331",
                         "GEO 364/CHM 364",
-                        "GEO 366/ENV 339/WWS 451/ENE 366",
+                        "GEO 366/ENV 339/SPI 451/ENE 366",
                         "GEO 418/CHM 418",
                         "GEO 423/CEE 423",
                         "GEO 424/CEE 424/ENE 425",
@@ -388,7 +388,7 @@
                         "MAE 328/EGR 328/ENV 328",
                         "MAE 424/ENE 424",
                         "MAE 427",
-                        "WWS 306/ECO 329"
+                        "SPI 306/ECO 329"
                     ]
                 },
                 {
@@ -624,9 +624,9 @@
                     "pdfs_allowed": false,
                     "course_list": [
                         "CBE 260/EGR 260",
-                        "CEE 334/WWS 452/ENV 334/ENE 334",
+                        "CEE 334/SPI 452/ENV 334/ENE 334",
                         "CEE 460",
-                        "CHV 331/WWS 372",
+                        "CHV 331/SPI 372",
                         "COS 432",
                         "ECO 310",
                         "ECO 311",
@@ -638,13 +638,13 @@
                         "EGR 497",
                         "ECE 491",
                         "ENV 324",
-                        "GEO 366/ENV 339/WWS 451/ENE 366",
+                        "GEO 366/ENV 339/SPI 451/ENE 366",
                         "ORF 245",
                         "ORF 335",
                         "ORF 360",
                         "ORF 435",
                         "SML 201",
-                        "WWS 327/CHM 443",
+                        "SPI 327/CHM 443",
                         "ECO 362"
                     ]
                 },
@@ -665,7 +665,7 @@
                         "CEE 306",
                         "CEE 308",
                         "CEE 311/CHM 311/GEO 311",
-                        "CEE 334/WWS 452/ENV 334/ENE 334",
+                        "CEE 334/SPI 452/ENV 334/ENE 334",
                         "CEE 471",
                         "CEE 474/ENV 474",
                         "CEE 477/ENE 477",
@@ -694,7 +694,7 @@
                         "GEO 361/ENV 361/CEE 360",
                         "GEO 363/CHM 331/ENV 331",
                         "GEO 364/CHM 364",
-                        "GEO 366/ENV 339/WWS 451/ENE 366",
+                        "GEO 366/ENV 339/SPI 451/ENE 366",
                         "GEO 418/CHM 418",
                         "GEO 423/CEE 423",
                         "GEO 424/CEE 424/ENE 425",
@@ -702,7 +702,7 @@
                         "MAE 328/EGR 328/ENV 328",
                         "MAE 424/ENE 424",
                         "MAE 427",
-                        "WWS 306/ECO 329"
+                        "SPI 306/ECO 329"
                     ]
                 },
                 {
