@@ -602,13 +602,9 @@ req_list:
       - POL 320
       - POL 326
       - SPI 370/POL 308
-      - POL 314
-      - POL 315
-      - POL 316
       - POL 319
       - POL 321
       - POL 328
-      - POL 332
   - name: Political Economy
     max_counted: 1
     min_needed: ALL

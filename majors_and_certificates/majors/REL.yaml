@@ -31,6 +31,7 @@ req_list:
 - name: Departmentals
   max_counted:
   min_needed: ALL
+  explanation:
   req_list:
   - name: Streams
     max_counted: 1
@@ -44,10 +45,12 @@ req_list:
     - name: Traditions
       max_counted: 1
       min_needed: 1
+      explanation:
       req_list:
       - name: Ancient Judaism, Christianity, and Greek and Roman Religions
         max_counted:
         min_needed: 3
+        explanation:
         course_list:
         - REL 246/JDS 246
         - REL 251/HLS 251/MED 251
@@ -66,6 +69,7 @@ req_list:
       - name: Islam
         max_counted:
         min_needed: 3
+        explanation:
         course_list:
         - REL 236/NES 236
         - REL 235/NES 235
@@ -78,6 +82,7 @@ req_list:
       - name: Religion in America
         max_counted:
         min_needed: 3
+        explanation:
         course_list:
         - REL 254
         - REL 357/HIS 310
@@ -98,6 +103,7 @@ req_list:
       - name: Religions of Asia
         max_counted:
         min_needed: 3
+        explanation:
         course_list:
         - REL 210
         - REL 216/SAS 216/PHI 216
@@ -113,6 +119,7 @@ req_list:
       - name: Philosophical and Ethical Approaches to Religion
         max_counted:
         min_needed: 3
+        explanation:
         course_list:
         - REL 263
         - REL394/CHV 394

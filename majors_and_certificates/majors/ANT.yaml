@@ -191,6 +191,7 @@ req_list:
         req_list:
         - name:
           max_counted:
+          min_needed:
           explanation:
           course_list:
           - ANT 201
@@ -304,6 +305,7 @@ req_list:
         req_list:
         - name:
           max_counted:
+          min_needed:
           explanation:
           course_list:
           - ANT 201

@@ -37,12 +37,14 @@ req_list:
   - name: Pre-20th Century
     max_counted:
     min_needed: 1
+    explanation:
     course_list:
     - AAS 353
     - AAS 366
   - name: 20th Century and Beyond
     max_counted: 1
     min_needed:
+    explanation:
     course_list:
     - AAS 245
     - AAS 359

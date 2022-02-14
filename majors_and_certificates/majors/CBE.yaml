@@ -482,7 +482,6 @@ req_list:
       - MAE 306
       - MAE 336
       - MAE 423
-      - CBE 421
       - CHM 305
       - CHM 306
       - CHM 405
@@ -744,7 +743,6 @@ req_list:
     - MAE 306
     - MAE 336
     - MAE 423
-    - CBE 421
     - CHM 305
     - CHM 306
     - CHM 405
