@@ -31,7 +31,7 @@ def main():
                 satisfied, courses, req_tree = verifier.check_degree(req_name, courses, year)
             elif "Certificate:" in req_name:
                 req_name = ''.join(req_name.split('Certificate:')[1:])
-                major_filename = req_name + "_" + str(year)  + ".json"
+                major_filename = req_name + ".yaml"
                 major_filepath = os.path.join(DIR_PATH, verifier.CERTIFICATES_LOCATION, major_filename)
                 with open(major_filepath, 'r', encoding="utf8") as f:
                     requirements = yaml.safe_load(f)
@@ -40,7 +40,7 @@ def main():
                 jsonschema.validate(requirements,schema)
                 satisfied, courses, req_tree = verifier.check_certificate(req_name, courses, year)
             else: # checking major
-                major_filename = req_name + "_" + str(year)  + ".json"
+                major_filename = req_name + ".yaml"
                 major_filepath = os.path.join(DIR_PATH, verifier.MAJORS_LOCATION, major_filename)
                 with open(major_filepath, 'r', encoding="utf8") as f:
                     requirements = yaml.safe_load(f)
