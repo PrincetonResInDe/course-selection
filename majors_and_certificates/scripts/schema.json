@@ -304,7 +304,7 @@
             "uniqueItems": true,
             "items": {
               "$id": "/properties/req_list/items/properties/course_list/items",
-              "type": "string",
+              "type": ["string", "object"],
               "title": "",
               "default": "NST 100",
               "examples": [

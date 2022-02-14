@@ -602,6 +602,11 @@ def _check_degree_progress(req, courses):
     return num_courses
 
 def _course_match(course_name, pattern):
+    if type(pattern) is dict:
+        if len(pattern.items()) > 1:
+            raise ValueError("Each course must be a separate item in the course list."
+                " Please split the courses onto individual list items: \n" + str(pattern))
+        [(pattern, _)] = pattern.items()
     pattern = pattern.split(':')[0] # remove course title
     pattern = ["".join(p.split()).upper() for p in pattern.split('/')] # split by '/' and
     course = ["".join(c.split()).upper() for c in course_name.split('/')] # remove spaces

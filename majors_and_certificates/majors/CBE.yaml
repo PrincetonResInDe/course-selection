@@ -50,13 +50,13 @@ req_list:
     double_counting_allowed: false
     pdfs_allowed: false
     course_list:
-    - 'CBE 245: Introduction to Chemical Engineering Principles'
-    - 'CBE 246: Thermodynamics'
-    - 'CBE 250: Separations in Chemical Engineering and Biotechnology'
-    - 'CBE 341: Mass, Momentum, and Energy Transport'
-    - 'CBE 346: Chemical Engineering Laboratory'
-    - 'CBE 441: Chemical Reaction Engineering'
-    - 'CBE 442: Design, Synthesis, and Optimization of Chemical Processes'
+    - CBE 245: Introduction to Chemical Engineering Principles
+    - CBE 246: Thermodynamics
+    - CBE 250: Separations in Chemical Engineering and Biotechnology
+    - CBE 341: Mass, Momentum, and Energy Transport
+    - CBE 346: Chemical Engineering Laboratory
+    - CBE 441: Chemical Reaction Engineering
+    - CBE 442: Design, Synthesis, and Optimization of Chemical Processes
   - name: Senior Independent Work
     max_counted: 1
     min_needed: 1
@@ -74,8 +74,8 @@ req_list:
       double_counting_allowed: false
       pdfs_allowed: false
       course_list:
-      - 'CBE 451: Senior Independent Work (Fall)'
-      - 'CBE 452: Senior Independent Work (Spring)'
+      - CBE 451: Senior Independent Work (Fall)
+      - CBE 452: Senior Independent Work (Spring)
     - name:
       max_counted: 1
       min_needed: ALL
@@ -83,7 +83,7 @@ req_list:
       double_counting_allowed: false
       pdfs_allowed: false
       course_list:
-      - 'CBE 454: Senior Thesis'
+      - CBE 454: Senior Thesis
 - name: Chemistry Requirement
   max_counted: 1
   min_needed: ALL
@@ -168,8 +168,8 @@ req_list:
     - CHM 4**
     - CHM 5**
     - CBE 411/MOL 411
-    - 'CBE 415: Polymers'
-    - 'CBE 421: Catalytic Chemistry'
+    - CBE 415: Polymers
+    - CBE 421: Catalytic Chemistry
     - EEB 309
     - EEB 320
     - EEB 325
@@ -179,7 +179,7 @@ req_list:
     - GEO 360
     - GEO 363
     - GEO 417
-    - 'GEO 418: Environmental Aqueous Geochemistry'
+    - GEO 418: Environmental Aqueous Geochemistry
     - MOL 310/NEU 301
     - MOL 340
     - MOL 342

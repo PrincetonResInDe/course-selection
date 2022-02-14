@@ -144,7 +144,7 @@ req_list: # the highest level **must** contain a req_list
     - NST 312C # and, optionally, a colon-sparated course name which is ignored
     - NST 96 # by the parser (only for human reference)
     - NST 482/ACR 382 # (see the course code conventions table above)
-    - 'NST 487: The Study of Modern Names'
+    - NST 487: The Study of Modern Names
     # an optional list of courses excluded from counting for this requirement
     excluded_course_list: # the format is the same as for a course_list
     - NST 221 # this prevents NST 221 from counting, despite NST 2** listed above
