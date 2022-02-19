@@ -6,6 +6,7 @@ import PathPage from "./views/pathPage";
 import ProfilePage from "./views/profilePage";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./components/theme/theme";
+import ReviewPage from "./views/reviewPage";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/calendar" component={CalendarPage} />
           <Route exact path="/path" component={PathPage} />
           <Route path="/profile/:uid" component={ProfilePage} />
+          <Route path="/review" component={ReviewPage} />
         </Switch>
       </Router>
     </ThemeProvider>

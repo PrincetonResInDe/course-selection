@@ -1,12 +1,19 @@
-import React from "react";
-import { Box } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button } from "@mui/material";
 import AppBar from "../components/shared/appBarComponent/appBar";
 import Calendar from "../components/calendar/calendarComponent/calendar";
 import CourseList from "../components/calendar/courseListComponent/courseList.js";
 import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkList.js";
 import Search from "../components/calendar/searchComponent/search";
+import ReviewPage from "./reviewPage";
 
 export default function CalendarPage() {
+  const review = <ReviewPage
+    sx = {{ position: "absolute"}}>
+  </ReviewPage>
+
+  const [show, setShow] = useState(false);
+
   return (
     <Box
       sx={{
@@ -22,11 +29,13 @@ export default function CalendarPage() {
       </Box>
       <Box
         sx={{
-          mr: 2,
-          mt: 2,
-          mb: 2,
           display: "flex",
-          flexFlow: "column",
+          flexDirection: "row",
+          height: "100vh",
+          backgroundColor: "background.default",
+          position: 'relative',
+          top: 0,
+          left: 0
         }}
       >
         <Box>
@@ -49,6 +58,9 @@ export default function CalendarPage() {
           </Box>
         </Box>
       </Box>
+
+      {review }
+
     </Box>
   );
 }
