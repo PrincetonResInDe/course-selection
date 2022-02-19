@@ -8,10 +8,6 @@ import Search from "../components/calendar/searchComponent/search";
 import ReviewPage from "./reviewPage";
 
 export default function CalendarPage() {
-  const review = <ReviewPage
-    sx = {{ position: "absolute"}}>
-  </ReviewPage>
-
   const [show, setShow] = useState(false);
 
   return (
@@ -33,13 +29,14 @@ export default function CalendarPage() {
           flexDirection: "row",
           height: "100vh",
           backgroundColor: "background.default",
-          position: 'relative',
+          position: "relative",
           top: 0,
-          left: 0
+          left: 0,
         }}
       >
-        <Box>
-          <AppBar name="Calendar" />
+        <Search setShow={setShow} show={show} />
+        <Box sx={{ width: "70vw", mt: 2, mb: 2, mr: 2 }}>
+          {!show ? <Calendar /> : <ReviewPage />}
         </Box>
         <Box
           sx={{
@@ -53,14 +50,19 @@ export default function CalendarPage() {
           <Box sx={{ height: "50%", mb: 1 }}>
             <CourseList />
           </Box>
-          <Box sx={{ height: "50%", mt: 1 }}>
-            <BookmarkList />
+          <Box sx={{ flex: "1 1 auto", height: "94%" }}>
+            <Box sx={{ display: "flex", flexFlow: "column", height: "100%" }}>
+              <Box sx={{ height: "49%" }}>
+                <CourseList />
+              </Box>
+              <Box sx={{ mb: 2, height: "1%" }}></Box>
+              <Box sx={{ height: "48%" }}>
+                <BookmarkList />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Box>
-
-      {review }
-
     </Box>
   );
 }
