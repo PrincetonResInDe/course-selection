@@ -1,9 +1,12 @@
-import React, { useRef } from "react";
-import { Card, Typography, Box } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Card, Typography, Box, IconButton } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function BookmarkCard(props) {
   const ref = useRef(null);
+  const [bookmarked, setBookmarked] = useState(true);
 
   // determines where to drop bookmark card
   const [, drop] = useDrop({
@@ -58,14 +61,40 @@ export default function BookmarkCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "BOOKMARK_CARD",
     item: {
-      index: props.index,
-      id: props.data.name,
+      course_id: props.data.course_id,
+      course_number: props.data.course_number,
+      title: props.data.title,
     },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (!dropResult) {
+        return;
+      }
 
+      const column = dropResult.column;
+
+      switch (column) {
+        case "BOOKMARK_LIST":
+          // filter out item
+          let copy = [...props.allData];
+          copy = copy.filter((e) => e.course_id !== item.course_id);
+          props.setData(copy);
+          break;
+        default:
+          break;
+      }
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
+
+  const handleBookmarked = () => {
+    setBookmarked(!bookmarked);
+    let copy = [...props.allData];
+    copy = copy.filter((e) => e.course_id !== props.data.course_id);
+    props.setData(copy);
+  };
 
   drag(drop(ref));
 
@@ -73,8 +102,11 @@ export default function BookmarkCard(props) {
     <Card
       ref={ref}
       sx={{
+        display: "flex",
+        flexDirection: "row",
         opacity: isDragging ? 0.4 : 1,
-        m: 1,
+        cursor: isDragging ? "grabbing" : "initial",
+        m: 0.5,
         padding: 1,
         boxShadow: "none",
         "&:hover": {
@@ -85,9 +117,10 @@ export default function BookmarkCard(props) {
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
+          flex: "0 1 auto",
+          overflow: "hidden",
+          display: "inline-grid",
+          width: "100%",
         }}
       >
         <Box
@@ -114,7 +147,7 @@ export default function BookmarkCard(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {props.data.number}
+            {props.data.course_number}
           </Typography>
         </Box>
         <Box
@@ -132,10 +165,27 @@ export default function BookmarkCard(props) {
               display: "inline",
             }}
           >
-            {props.data.name}
+            {props.data.title}
           </Typography>
         </Box>
       </Box>
+      <IconButton
+        onClick={() => {
+          handleBookmarked();
+        }}
+        sx={{
+          "&:hover": {
+            backgroundColor: "background.paper",
+          },
+        }}
+        disableRipple
+      >
+        {bookmarked ? (
+          <BookmarkIcon sx={{ width: "75%" }} />
+        ) : (
+          <BookmarkBorderIcon sx={{ width: "75%" }} />
+        )}
+      </IconButton>
     </Card>
   );
 }

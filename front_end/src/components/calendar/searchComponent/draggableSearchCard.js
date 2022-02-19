@@ -14,7 +14,9 @@ export default function DraggableSearchCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "SEARCH_CARD",
     item: {
-      id: data.course_name,
+      course_id: data.course_id,
+      course_number: data.course_number,
+      title: data.title,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -25,7 +27,6 @@ export default function DraggableSearchCard(props) {
     <Box
       ref={drag}
       sx={{
-        width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -33,11 +34,11 @@ export default function DraggableSearchCard(props) {
         p: 1,
         cursor: isDragging ? "grabbing" : "grab",
         "&:hover": {
+          boxShadow: "2px 2px 3px rgb(0 0 0 / 50%)",
           borderRadius: 1,
-          boxShadow:
-            "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
         },
-        borderRadius: 0,
+        borderTopLeftRadius: "4px",
+        borderTopRightRadius: "4px",
       }}
       onMouseEnter={() => {
         setHoveredClass(data);
@@ -78,7 +79,7 @@ export default function DraggableSearchCard(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {data.course_num}
+            {data.course_number}
           </Typography>
         </Box>
         <Box
@@ -96,7 +97,7 @@ export default function DraggableSearchCard(props) {
               display: "inline",
             }}
           >
-            {data.course_name}
+            {data.title}
           </Typography>
         </Box>
       </Box>

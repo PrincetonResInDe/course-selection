@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, IconButton, Chip } from "@mui/material";
+import { Box, Typography, IconButton, Chip, Divider } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ClearIcon from "@mui/icons-material/Clear";
 import { gradient, opacity } from "../../theme/gradient";
@@ -58,12 +58,19 @@ export default function CalendarTab(props) {
               disableRipple
               sx={{
                 "&:hover": {
-                  backgroundColor: "white",
+                  backgroundColor: "transparent",
                 },
               }}
             >
               <ClearIcon sx={{ width: "75%" }} />
             </IconButton>
+            <Divider
+              orientation="vertical"
+              sx={{
+                height: "50%",
+                borderColor: clicked === tab ? "white" : "",
+              }}
+            />
           </Box>
         );
       })}

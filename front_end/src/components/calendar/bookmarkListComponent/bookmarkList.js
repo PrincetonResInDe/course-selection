@@ -1,34 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import BookmarkCard from "./bookmarkCard";
 import { useCalendarStore } from "../../../zustand/calendar";
+import { useDrop } from "react-dnd";
 
 export default function BookmarkList() {
   const [searchWidth] = useCalendarStore((state) => [state.searchWidth]);
+  const ref = useRef(null);
 
   const [data, setData] = useState([
-    { id: 1, number: "MAT 202", name: "Linear Algebra" },
+    { course_id: "MAT 201", course_number: "MAT 201", title: "Linear Algebra" },
     {
-      id: 2,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
+      course_id: "NEU 202",
+      course_number: "NEU 202",
+      title: "Introduction to Neuroscience Part 2",
     },
-    { id: 3, number: "NEU 201", name: "Introduction to Neuroscience" },
-    { id: 4, number: "MAT 202", name: "Linear Algebra" },
-    {
-      id: 5,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
-    },
-    { id: 6, number: "NEU 201", name: "Introdcution to Neuroscience" },
-    { id: 7, number: "MAT 202", name: "Linear Algebra" },
-    {
-      id: 8,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
-    },
-    { id: 9, number: "NEU 201", name: "Introdcution to Neuroscience" },
   ]);
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
+    drop: (item) => {
+      if (data.filter((e) => e.course_id === item.course_id).length === 0) {
+        setData([...data, item]);
+      }
+      return { column: "COURSE_LIST" };
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+    canDrop: (item) => {
+      return true;
+    },
+  });
 
   // handler to change state when bookmark card is moved
   const moveCard = (dragIndex, hoverIndex) => {
@@ -45,12 +49,15 @@ export default function BookmarkList() {
     }
   };
 
+  drop(ref);
+
   return (
     <Box
+      ref={ref}
       sx={{
         display: "flex",
         flexFlow: "column",
-        width: `calc(${searchWidth}px + 16px)`,
+        width: searchWidth,
         height: "100%",
         backgroundColor: "white",
         borderRadius: 1,
@@ -58,7 +65,7 @@ export default function BookmarkList() {
     >
       <Typography
         variant="caption"
-        sx={{ pt: 1, textAlign: "center", fontWeight: 600 }}
+        sx={{ pt: 0.5, textAlign: "center", fontWeight: 600 }}
       >
         BOOKMARKS
       </Typography>
@@ -67,7 +74,14 @@ export default function BookmarkList() {
         <Box sx={{ height: 0 }}>
           {data.map((d, i) => {
             return (
-              <BookmarkCard key={d.id} data={d} index={i} moveCard={moveCard} />
+              <BookmarkCard
+                key={d.course_id}
+                allData={data}
+                setData={setData}
+                data={d}
+                index={i}
+                moveCard={moveCard}
+              />
             );
           })}
         </Box>

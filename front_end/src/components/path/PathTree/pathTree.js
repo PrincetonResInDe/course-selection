@@ -3,16 +3,15 @@ import { Box } from "@mui/material";
 import AppBar from "../../shared/appBarComponent/appBar";
 import TreeCard from "./treeCard";
 import Typography from "@mui/material/Typography";
-import majors from "../../../data/majors_and_certificates/majors/ELE.json";
+// import majors from "/../../../../../majors_and_certificates/majors/ELE.json";
+
 export default function pathTree() {
-  let major = majors;
+  let major = "";
 
   return (
-    <Box
-      sx={{ display: "flex", width: "20vw", flexDirection: "column"}}
-    >
+    <Box sx={{ display: "flex", width: "20vw", flexDirection: "column" }}>
       <Box sx={{ flex: "0 1 auto", height: "5vh" }}>
-        <AppBar name = "Path" />
+        <AppBar name="Path" />
       </Box>
       <Box sx={{ flex: "1 1 auto" }}>
         <Typography variant="h6" component="div">

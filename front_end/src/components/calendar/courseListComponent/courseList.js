@@ -1,34 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import CourseListCard from "./courseListCard";
 import { useCalendarStore } from "../../../zustand/calendar";
+import { useDrop } from "react-dnd";
 
 export default function CourseList() {
   const [searchWidth] = useCalendarStore((state) => [state.searchWidth]);
 
   const [data, setData] = useState([
-    { id: 1, number: "MAT 202", name: "Linear Algebra" },
     {
-      id: 2,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
+      course_id: "MAT 202",
+      course_number: "MAT 202",
+      title: "Linear Algebra",
     },
-    { id: 3, number: "NEU 201", name: "Introduction to Neuroscience" },
-    { id: 4, number: "MAT 202", name: "Linear Algebra" },
     {
-      id: 5,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
+      course_id: "COS 126",
+      course_number: "COS 126",
+      title: "Computer Science: An Interdisciplinary Approach",
     },
-    { id: 6, number: "NEU 201", name: "Introdcution to Neuroscience" },
-    { id: 7, number: "MAT 202", name: "Linear Algebra" },
     {
-      id: 8,
-      number: "COS 126",
-      name: "Computer Science: An Interdisciplinary Approach",
+      course_id: "NEU 201",
+      course_number: "NEU 201",
+      title: "Introduction to Neuroscience Part 1",
     },
-    { id: 9, number: "NEU 201", name: "Introdcution to Neuroscience" },
   ]);
+
+  const ref = useRef(null);
 
   // handler to update state of data when course list card is moved
   const moveCard = (dragIndex, hoverIndex) => {
@@ -45,12 +42,33 @@ export default function CourseList() {
     }
   };
 
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
+    drop: (item) => {
+      // check item not in data
+      if (data.filter((e) => e.course_id === item.course_id).length === 0) {
+        setData([...data, item]);
+      }
+      return { column: "BOOKMARK_LIST" };
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+    canDrop: (item) => {
+      return true;
+    },
+  });
+
+  drop(ref);
+
   return (
     <Box
+      ref={ref}
       sx={{
         display: "flex",
         flexFlow: "column",
-        width: `calc(${searchWidth}px + 16px)`,
+        width: searchWidth,
         height: "100%",
         backgroundColor: "white",
         borderRadius: 2,
@@ -58,19 +76,21 @@ export default function CourseList() {
     >
       <Typography
         variant="caption"
-        sx={{ pt: 1, textAlign: "center", fontWeight: 600 }}
+        sx={{ pt: 0.5, textAlign: "center", fontWeight: 600 }}
       >
         2021 SPRING
       </Typography>
       <Divider />
 
-      <Box sx={{ flexGrow: 1, overflow: "auto", mb: 1, p: 1 }}>
+      <Box sx={{ flexGrow: 1, overflow: "auto", mb: 1, p: 0.5 }}>
         <Box sx={{ height: 0 }}>
           {data.map((d, i) => {
             return (
               <CourseListCard
-                key={d.id}
+                allData={data}
+                key={d.course_id}
                 data={d}
+                setData={setData}
                 index={i}
                 moveCard={moveCard}
               />

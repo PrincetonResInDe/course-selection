@@ -1,9 +1,41 @@
 import React, { useRef } from "react";
-import { Typography, Box, Checkbox } from "@mui/material";
+import { Typography, Box, IconButton, Checkbox } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function CourseListCard(props) {
   const ref = useRef(null);
+
+  // hook to make course list card draggable
+  const [{ isDragging }, drag] = useDrag({
+    type: "COURSE_CARD",
+    item: {
+      course_id: props.data.course_id,
+      course_number: props.data.course_number,
+      title: props.data.title,
+    },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (!dropResult) {
+        return;
+      }
+      const column = dropResult.column;
+
+      switch (column) {
+        case "COURSE_LIST":
+          // filter out item
+          let copy = [...props.allData];
+          copy = copy.filter((e) => e.course_id !== item.course_id);
+          props.setData(copy);
+          break;
+        default:
+          break;
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   // hook to determine where to drop card
   const [, drop] = useDrop({
@@ -12,6 +44,7 @@ export default function CourseListCard(props) {
       if (!ref.current) {
         return;
       }
+
       const dragIndex = item.index;
       const hoverIndex = props.index;
 
@@ -52,20 +85,17 @@ export default function CourseListCard(props) {
       // to avoid expensive index searches.
       item.index = hoverIndex;
     },
-  });
-
-  // hook to make course list card draggable
-  const [{ isDragging }, drag] = useDrag({
-    type: "COURSE_CARD",
-    item: {
-      index: props.index,
-      id: props.data.name,
-    },
-
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      canDrop: monitor.canDrop(),
+      isOver: monitor.isOver(),
     }),
   });
+
+  const handleXButton = () => {
+    let copy = [...props.allData];
+    copy = copy.filter((e) => e.course_id !== props.data.course_id);
+    props.setData(copy);
+  };
 
   drag(drop(ref));
 
@@ -79,8 +109,8 @@ export default function CourseListCard(props) {
         alignItems: "center",
         backgroundColor: "background.paper",
         p: 1,
-        cursor: isDragging ? "grabbing" : "grab",
-        mb: 1,
+        cursor: isDragging ? "grabbing" : "pointer",
+        mb: 0.5,
         borderRadius: 1,
         "&:hover": {
           borderRadius: 1,
@@ -121,7 +151,7 @@ export default function CourseListCard(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {props.data.number}
+            {props.data.course_number}
           </Typography>
         </Box>
         <Box
@@ -139,13 +169,20 @@ export default function CourseListCard(props) {
               display: "inline",
             }}
           >
-            {props.data.name}
+            {props.data.title}
           </Typography>
         </Box>
       </Box>
-      <Box>
-        <Checkbox size="small" sx={{ p: 0.1 }} />
-      </Box>
+      {/* <Checkbox sx={{ width: "75%" }}></Checkbox> */}
+      <IconButton
+        disableRipple
+        onClick={() => {
+          handleXButton();
+        }}
+        sx={{ "&:hover": { backgroundColor: "Background.paper" } }}
+      >
+        <ClearIcon sx={{ width: "75%" }} />
+      </IconButton>
     </Box>
   );
 }

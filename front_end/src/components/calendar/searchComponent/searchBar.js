@@ -10,40 +10,18 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import { useSearchStore } from "../../../zustand/search";
 
 export default function SearchBar(props) {
-  const data = [
-    {
-      course_num: "MAT 202",
-      course_name: "Linear Algebra",
-      rating: "4.75",
-      distribution: ["LA", "PDF"],
-      availability: ["F&S"],
-      prev_offered: ["2022"],
-    },
-    {
-      course_num: "COS 126 / COS 109",
-      course_name: "Computer Science: An Interdisciplinary Approach",
-      rating: "4.75",
-      distribution: ["LA", "PDF"],
-      availability: ["F&S"],
-      prev_offered: ["2022"],
-    },
-    {
-      course_num: "COS 240",
-      course_name: "Reasoning About Computation",
-      rating: "4.75",
-      distribution: ["LA", "PDF"],
-      availability: ["F&S"],
-      prev_offered: ["2022"],
-    },
-  ];
+  const [setSearchResults] = useSearchStore((state) => [
+    state.setSearchResults,
+  ]);
 
   const [query, setQuery] = useState("");
 
   const handleSearch = (e) => {
     if (e.keyCode === 13) {
-      props.setSearchResults(data);
+      setSearchResults(query);
     }
   };
 
