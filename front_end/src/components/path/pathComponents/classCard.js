@@ -3,9 +3,23 @@ import { Box } from "@mui/material";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Typography from "@mui/material/Typography";
 import { height } from "@mui/system";
+import { useDrag } from "react-dnd";
 
 export default function ClassCard(props) {
   const course = props.class;
+  const data = props.class; 
+
+
+  const [{ isDragging }, drag] = useDrag({
+    type: "SEARCH_CARD",
+    item: {
+      id: data.course_name,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   return (
     <Draggable key={course.code} draggableId={course.code} index = {props.index}>
       {(provided, snapshot) => (
@@ -14,57 +28,85 @@ export default function ClassCard(props) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Box
-            style={{
+        <Box
+            ref={drag}
+            sx={{
+              width: "14vw",
               display: "flex",
-              flex: "1",
-              flexDirection: "column",
-              backgroundColor: "#D7E4F4",
-              height: "48px",
-              width: "13vw",
-              borderRadius: 5,
-              m: 1,
-              padding: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "background.paper",
+              p: 1,
+              mb: 0.5, 
+              cursor: isDragging ? "grabbing" : "grab",
+              "&:hover": {
+                borderRadius: 1,
+                boxShadow:
+                  "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+              },
+              borderRadius: 0,
             }}
+            // onMouseEnter={() => {
+            //   setHoveredClass(data);
+            // }}
+            // onMouseLeave={() => {
+            //   setHoveredClass({});
+            // }}
           >
-            <Typography
-             gutterBottom
-              variant="h9"
-              component="div"
-              noWrap
+            <Box
               sx={{
-                display: "flex",
-                flex: "1",
-                color: "#315893",
-                noWrap: true,
-                fontWeight: 700,
-                mb: 0,
-                ml: 1,
-                mt: 0.5, 
-                mr: 1,
+                flex: "0 1 auto",
+                overflow: "hidden",
+                display: "inline-grid",
+                width: "100%",
               }}
             >
-              {course.course_num}
-            </Typography>
-            <br />
-
-            <Typography
-            gutterBottom
-              variant="h9"
-              component="div"
-              noWrap
-              sx={{
-                display: "flex",
-                flex: "1",
-                color: "#315893",
-                fontWeight: 400,
-                mt: -2,
-                ml: 1,
-                mr: 1,
-              }}
-            >
-              {course.course_name}
-            </Typography>
+              <Box
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  color: "color.blue",
+                  display: "flex",
+                  flexDireciton: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "color.blue",
+                    display: "inline",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {data.course_num}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  color: "color.blue",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "color.blue",
+                    display: "inline",
+                  }}
+                >
+                  {data.course_name}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         </div>
       )}

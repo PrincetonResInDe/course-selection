@@ -33,7 +33,7 @@ export default function Search() {
       sx={{
         display: "flex",
         flexFlow: "column",
-        width: "20vw",
+        width: "14vw",
         m: 2,
       }}
     >

@@ -47,20 +47,7 @@ export default function PathPage() {
       > */}
         <Path />
       </Box>
-
-      {/* <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          width: "10vw",
-          mt: 3,
-          mr: 0,
-          height: "100%",
-        }}
-      >
-        <PathTree />
-      </Box> */}
+      <PathTree />
     </Box>
   );
 }

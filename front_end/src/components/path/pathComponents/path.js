@@ -133,7 +133,7 @@ export default function Path() {
     <DragDropContext onDragEnd={onDragEnd}>
 
       <Search />
-      <Box sx={{ height: "100%" , width: "60vw", mt: 2, mb: 2 }}>
+      <Box sx={{ height: "100%" , width: "65vw", mt: 2, mb: 2 }}>
         <Box sx={{ height: "5%" }}>
           <PathTab />
         </Box>

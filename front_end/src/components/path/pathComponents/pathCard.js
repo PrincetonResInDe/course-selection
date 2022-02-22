@@ -20,10 +20,9 @@ export default function PathCard(props) {
     <Card
       sx={{
         display: "flex",
-        width: "17vw",
-        height: "100%",
+        height: "45vh",
         backgroundColor: "white",
-        m: 0.1, 
+        m: 0.1,
       }}
     >
       <CardContent sx={{ width: "100%", mb: 2 }}>
@@ -46,7 +45,7 @@ export default function PathCard(props) {
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex", flex: 1, height: "100%", width: "100%" }}>
+        <Box sx={{ display: "flex", flex: 1, height: "100%" , width: "15vw"}}>
           <Droppable key={semIndex} droppableId={"sem" + semIndex}>
             {(provided) => (
               <div
@@ -63,8 +62,8 @@ export default function PathCard(props) {
               >
                 {results.map((result, idx) => (
                   <ClassCard
-                    class = {result}
-                    index = {idx}
+                    class={result}
+                    index={idx}
                     name={result.course_name}
                     className={result.course_name}
                     {...provided.droppableProps}
