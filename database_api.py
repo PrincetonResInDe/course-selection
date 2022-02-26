@@ -1,3 +1,4 @@
+from flask import jsonify
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import logging
@@ -27,9 +28,11 @@ class DatabaseAPI:
         self.db = self.client.course_selection
 
     def connect(self):
-        self.client = MongoClient(os.getenv("MONGO"), tlsCAFile=certifi.where())
+        self.client = MongoClient(os.getenv("MONGO"),
+                                  tlsCAFile=certifi.where())
         self.db_admin = self.client.admin
-        logger.info(f"MongoDB server status: {self.db_admin.command('serverStatus')}")
+        logger.info(
+            f"MongoDB server status: {self.db_admin.command('serverStatus')}")
 
     def get_all_test(self):
         # note that when you are returning, you want it to be jsonify-able,
@@ -48,9 +51,55 @@ class DatabaseAPI:
             ret = None
         return ret
 
+    def get_course_info(self, course_id, semester):
+        """
+        Retrieves course info from the database for a specific
+        course_id, from a given semester
+
+        Semester is of format Spring/Summer/Fall Year
+
+        This information includes all course evaluation data across
+        different terms for this course_id
+
+        params: query = {
+                            "course_id": "the course_id",
+                            "semester = "semester_in_words"
+                        }
+
+        Example from COS 126, Fall 2021:
+            query = { "course_id": "002051", "semester": "Fall 2021" }
+        """
+        if course_id == "":
+            return [], []
+
+        try:
+            # Assume semester is passed in as "[Fall/Spring/Summer] [Year]"
+            term_data = self.db.semesters.find_one(
+                {"name": semester}, {"_id": 0, "code": 1}
+            )
+            if term_data is not None:
+                term = term_data["code"]
+
+            course_db = self.db.courses
+            evals_db = self.db.evaluations
+            course_query_string = {'course_id': course_id, 'term': term}
+            course_res = course_db.find(course_query_string,
+                                        {"_id": 0})
+            eval_query_string = {'course_id': course_id}
+            eval_res = evals_db.find(eval_query_string, {"_id": 0})
+            course_res = list(course_res)
+            eval_res = list(eval_res)
+            ret = course_res + eval_res
+        except Exception as e:
+            logger.error(
+                f"Failed to get information for course_id {course_id}. "
+                f"Error displayed below:\n{e}"
+            )
+            ret = None
+        return ret
+
     def close(self):
         self.client.close()
-
 
 
 if __name__ == "__main__":
