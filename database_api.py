@@ -96,6 +96,9 @@ class DatabaseAPI:
                 f"Error displayed below:\n{e}"
             )
             ret = None
+        # Note, right now this returns a ton of information
+        # If this information is difficult to use on the front end
+        # This code can be modified going forward to meet this need
         return ret
 
     def close(self):
