@@ -5,15 +5,18 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useDrag } from "react-dnd";
 import { useCalendarStore } from "../../../zustand/calendar";
 import {Draggable } from "react-beautiful-dnd";
+import { useSearchStore } from "../../../zustand/search";
 
 export default function DraggableSearchCard(props) {
   const data = props.data;
   const [bookmarked, setBookmarked] = useState(false);
+  const [show, setShow] = useState(false);
   const handleBookmark = () => {
     setBookmarked(!bookmarked);
   };
 
   const setHoveredClass = useCalendarStore((state) => state.setHoveredClass);
+  const [setShowReview] = useSearchStore((state) => [state.setShowReview]);
 
   // handle dragging search card
   const [{ isDragging }, drag] = useDrag({
@@ -49,6 +52,16 @@ export default function DraggableSearchCard(props) {
       }}
       onMouseLeave={() => {
         setHoveredClass({});
+      }}
+      onClick={() => {
+        if (!show) {
+          console.log('here')
+          setShow(true)
+          setShowReview(data)
+        } else {
+          setShow(false)
+          setShowReview({})
+        }
       }}
     >
       <Draggable key={`${data.code}_s`} draggableId={data.code} index = {props.index}>

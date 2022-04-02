@@ -7,7 +7,7 @@ export default function SearchResultCard(props) {
   const data = props.data;
 
   return (
-    <Card
+    <Card 
       sx={{
         mb: 1,
         backgroundColor: "white",

@@ -6,9 +6,11 @@ import CourseList from "../components/calendar/courseListComponent/courseList.js
 import BookmarkList from "../components/calendar/bookmarkListComponent/bookmarkList.js";
 import Search from "../components/calendar/searchComponent/search";
 import ReviewPage from "./reviewPage";
+import { useSearchStore } from "../zustand/search";
 
 export default function CalendarPage() {
-  const [show, setShow] = useState(false);
+  const [showReview] = useSearchStore((state) => [state.showReview]);
+  console.log(showReview)
 
   return (
     <Box
@@ -19,9 +21,9 @@ export default function CalendarPage() {
         backgroundColor: "background.default",
       }}
     >
-      <Search setShow={setShow} show={show} />
+      <Search />
       <Box sx={{ width: "70vw", mt: 2, mb: 2, mr: 2 }}>
-        {!show ? <Calendar /> : <ReviewPage />}
+        {Object.keys(showReview).length === 0 ? <Calendar /> : <ReviewPage />}
       </Box>
       <Box
         sx={{
@@ -32,9 +34,6 @@ export default function CalendarPage() {
           flexDirection: "column",
         }}
       >
-        <Box sx={{ height: "50%", mb: 1 }}>
-          <CourseList />
-        </Box>
         <Box sx={{ flex: "1 1 auto", height: "94%" }}>
           <Box sx={{ display: "flex", flexFlow: "column", height: "100%" }}>
             <Box sx={{ height: "49%" }}>
