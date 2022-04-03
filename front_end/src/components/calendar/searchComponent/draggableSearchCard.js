@@ -2,12 +2,16 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useDrag } from "react-dnd";
 import { useCalendarStore } from "../../../zustand/calendar";
+import { useSearchStore } from "../../../zustand/search";
 
 export default function DraggableSearchCard(props) {
   const [setHoveredClass] = useCalendarStore((state) => [
     state.setHoveredClass,
   ]);
-
+  const [showReview, setShowReview] = useSearchStore((state) => [
+    state.showReview,
+    state.setShowReview,
+  ]);
   const data = props.data;
 
   // handle dragging search card
@@ -45,6 +49,13 @@ export default function DraggableSearchCard(props) {
       }}
       onMouseLeave={() => {
         setHoveredClass({});
+      }}
+      onClick={() => {
+        if (Object.values(showReview).length === 0 || showReview !== data) {
+          setShowReview(data);
+        } else {
+          setShowReview({});
+        }
       }}
     >
       <Box

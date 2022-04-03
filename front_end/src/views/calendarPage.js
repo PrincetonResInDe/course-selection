@@ -10,7 +10,6 @@ import { useSearchStore } from "../zustand/search";
 
 export default function CalendarPage() {
   const [showReview] = useSearchStore((state) => [state.showReview]);
-  console.log(showReview)
 
   return (
     <Box
@@ -34,8 +33,22 @@ export default function CalendarPage() {
           flexDirection: "column",
         }}
       >
-        <Box sx={{ flex: "1 1 auto", height: "94%" }}>
-          <Box sx={{ display: "flex", flexFlow: "column", height: "100%" }}>
+        <Box
+          sx={{
+            flex: "1 1 auto",
+            height: "94%",
+            paddingTop: 2,
+            paddingBottom: 2,
+            paddingRight: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "column",
+              height: "100%",
+            }}
+          >
             <Box sx={{ height: "49%" }}>
               <CourseList />
             </Box>

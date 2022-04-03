@@ -18,10 +18,7 @@ export default function SearchResultCard(props) {
   const data = props.data;
 
   return (
-    <Box sx={{ m: 0.5, mb: 1, backgroundColor: "white", borderRadius: 1 }} 
-      onClick={() => {
-        props.setShow(!props.show);
-      }}>
+    <Box sx={{ m: 0.5, mb: 1, backgroundColor: "white", borderRadius: 1 }}>
       <DraggableSearchCard data={data} />
       <Box
         sx={{
