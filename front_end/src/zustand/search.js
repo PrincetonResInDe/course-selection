@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const useSearchStore = create((set) => ({
   searchResults: [],
+  showReview: {},
   setSearchResults: async (query) => {
     await axios
       .get("http://localhost:5000/api/get-all-courses")
@@ -20,4 +21,8 @@ export const useSearchStore = create((set) => ({
         set({ searchResults: data });
       });
   },
+
+  setShowReview: (query) => {
+    set({showReview: query});
+  }
 }));
