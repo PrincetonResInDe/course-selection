@@ -61,8 +61,8 @@ export default function BookmarkCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "BOOKMARK_CARD",
     item: {
-      course_id: props.data.course_id,
-      course_number: props.data.course_number,
+      guid: props.data.guid,
+      catalog_title: props.data.catalog_title,
       title: props.data.title,
     },
     end: (item, monitor) => {
@@ -77,7 +77,7 @@ export default function BookmarkCard(props) {
         case "BOOKMARK_LIST":
           // filter out item
           let copy = [...props.allData];
-          copy = copy.filter((e) => e.course_id !== item.course_id);
+          copy = copy.filter((e) => e.guid !== item.guid);
           props.setData(copy);
           break;
         default:
@@ -92,7 +92,7 @@ export default function BookmarkCard(props) {
   const handleBookmarked = () => {
     setBookmarked(!bookmarked);
     let copy = [...props.allData];
-    copy = copy.filter((e) => e.course_id !== props.data.course_id);
+    copy = copy.filter((e) => e.guid !== props.data.guid);
     props.setData(copy);
   };
 
@@ -147,7 +147,7 @@ export default function BookmarkCard(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {props.data.course_number}
+            {props.data.catalog_title}
           </Typography>
         </Box>
         <Box

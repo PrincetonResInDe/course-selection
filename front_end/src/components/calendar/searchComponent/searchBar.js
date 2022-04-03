@@ -21,7 +21,11 @@ export default function SearchBar(props) {
 
   const handleSearch = (e) => {
     if (e.keyCode === 13) {
-      setSearchResults(query);
+      setSearchResults({
+        query,
+        semester: "Fall 2021",
+        special: "",
+      });
     }
   };
 

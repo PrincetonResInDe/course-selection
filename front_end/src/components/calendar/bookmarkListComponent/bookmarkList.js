@@ -8,19 +8,12 @@ export default function BookmarkList() {
   const [searchWidth] = useCalendarStore((state) => [state.searchWidth]);
   const ref = useRef(null);
 
-  const [data, setData] = useState([
-    { course_id: "MAT 201", course_number: "MAT 201", title: "Linear Algebra" },
-    {
-      course_id: "NEU 202",
-      course_number: "NEU 202",
-      title: "Introduction to Neuroscience Part 2",
-    },
-  ]);
+  const [data, setData] = useState([]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
     drop: (item) => {
-      if (data.filter((e) => e.course_id === item.course_id).length === 0) {
+      if (data.filter((e) => e.guid === item.guid).length === 0) {
         setData([...data, item]);
       }
       return { column: "COURSE_LIST" };
@@ -75,7 +68,7 @@ export default function BookmarkList() {
           {data.map((d, i) => {
             return (
               <BookmarkCard
-                key={d.course_id}
+                key={d.guid}
                 allData={data}
                 setData={setData}
                 data={d}

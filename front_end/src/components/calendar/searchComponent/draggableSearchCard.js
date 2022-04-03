@@ -14,8 +14,8 @@ export default function DraggableSearchCard(props) {
   const [{ isDragging }, drag] = useDrag({
     type: "SEARCH_CARD",
     item: {
-      course_id: data.course_id,
-      course_number: data.course_number,
+      guid: data.guid,
+      catalog_title: data.catalog_title,
       title: data.title,
     },
     collect: (monitor) => ({
@@ -79,7 +79,7 @@ export default function DraggableSearchCard(props) {
               whiteSpace: "nowrap",
             }}
           >
-            {data.course_number}
+            {data.catalog_title}
           </Typography>
         </Box>
         <Box

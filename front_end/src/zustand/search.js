@@ -5,19 +5,15 @@ export const useSearchStore = create((set) => ({
   searchResults: [],
   setSearchResults: async (query) => {
     await axios
-      .get("http://localhost:5000/api/get-all-courses")
+      .get("http://localhost:5000/search", {
+        params: {
+          query: query.query,
+          semester: query.semester,
+          special: query.special,
+        },
+      })
       .then((req, res) => {
-        let data = [];
-
-        for (let i = 0; i < req.data.length; i++) {
-          if (i < 10) {
-            data.push(req.data[i]);
-          } else {
-            break;
-          }
-        }
-
-        set({ searchResults: data });
+        set({ searchResults: req.data[0] });
       });
   },
 }));

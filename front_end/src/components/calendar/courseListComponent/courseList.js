@@ -7,23 +7,7 @@ import { useDrop } from "react-dnd";
 export default function CourseList() {
   const [searchWidth] = useCalendarStore((state) => [state.searchWidth]);
 
-  const [data, setData] = useState([
-    {
-      course_id: "MAT 202",
-      course_number: "MAT 202",
-      title: "Linear Algebra",
-    },
-    {
-      course_id: "COS 126",
-      course_number: "COS 126",
-      title: "Computer Science: An Interdisciplinary Approach",
-    },
-    {
-      course_id: "NEU 201",
-      course_number: "NEU 201",
-      title: "Introduction to Neuroscience Part 1",
-    },
-  ]);
+  const [data, setData] = useState([]);
 
   const ref = useRef(null);
 
@@ -46,7 +30,7 @@ export default function CourseList() {
     accept: ["COURSE_CARD", "BOOKMARK_CARD", "SEARCH_CARD"],
     drop: (item) => {
       // check item not in data
-      if (data.filter((e) => e.course_id === item.course_id).length === 0) {
+      if (data.filter((e) => e.guid === item.guid).length === 0) {
         setData([...data, item]);
       }
       return { column: "BOOKMARK_LIST" };
@@ -88,7 +72,7 @@ export default function CourseList() {
             return (
               <CourseListCard
                 allData={data}
-                key={d.course_id}
+                key={d.guid}
                 data={d}
                 setData={setData}
                 index={i}
