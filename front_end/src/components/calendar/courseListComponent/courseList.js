@@ -11,8 +11,6 @@ export default function CourseList() {
 
   const ref = useRef(null);
 
-  const ref = useRef(null);
-
   // handler to update state of data when course list card is moved
   const moveCard = (dragIndex, hoverIndex) => {
     const dragItem = data[dragIndex];
