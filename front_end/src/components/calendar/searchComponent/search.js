@@ -8,7 +8,7 @@ import { useCalendarStore } from "../../../zustand/calendar";
 import { useSearchStore } from "../../../zustand/search";
 import DraggableSearchCard from "./draggableSearchCard";
 
-export default function Search() {
+export default function Search(props) {
   const [searchResults] = useSearchStore((state) => [state.searchResults]);
   const [setSearchWidth] = useCalendarStore((state) => [state.setSearchWidth]);
   const { width, ref } = useResizeDetector();
@@ -41,7 +41,7 @@ export default function Search() {
         }}
       >
         {searchResults.map((result) => {
-          return <SearchResultCard data={result} key={result.course_id} />;
+          return <SearchResultCard data={result} key={result.course_id}  {...props}/>;
         })}
       </Box>
     </Box>

@@ -3,10 +3,12 @@ import { Card, Typography, Box, IconButton } from "@mui/material";
 import { useDrag, useDrop } from "react-dnd";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useSearchStore } from "../../../zustand/search";
 
 export default function BookmarkCard(props) {
   const ref = useRef(null);
   const [bookmarked, setBookmarked] = useState(true);
+  const [showReview, setShowReview] = useSearchStore((state) => [state.showReview, state.setShowReview]);
 
   // determines where to drop bookmark card
   const [, drop] = useDrop({
@@ -97,7 +99,6 @@ export default function BookmarkCard(props) {
   };
 
   drag(drop(ref));
-
   return (
     <Card
       ref={ref}
@@ -114,6 +115,7 @@ export default function BookmarkCard(props) {
             "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
         },
       }}
+      
     >
       <Box
         sx={{
@@ -121,6 +123,13 @@ export default function BookmarkCard(props) {
           overflow: "hidden",
           display: "inline-grid",
           width: "100%",
+        }}
+        onClick={() => {
+          if (Object.keys(showReview).length === 0) {
+            setShowReview(props.data)
+          } else {
+            setShowReview({})
+          }
         }}
       >
         <Box
