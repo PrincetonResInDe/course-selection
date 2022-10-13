@@ -64,6 +64,7 @@ def test_database():
     logger.info("Reached /api/test-database")
     return jsonify(db.get_all_test())
 
+
 @app.route("/search", methods=["GET"])
 def search():
     args = request.args
@@ -91,4 +92,14 @@ def search():
 
     # See database_api.py for structure of input query
     res = do_search(query_dict)
+    return jsonify(res)
+
+
+@app.route("/api/get-course-info", methods=["GET"])
+def course_info():
+    logger.info("Reached /api/course-info")
+    args = request.args
+    course_id = args.get("course_id", "")
+    semester = args.get("semester", "")
+    res = db.get_course_info(course_id, semester)
     return jsonify(res)
