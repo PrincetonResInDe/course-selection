@@ -1,0 +1,44 @@
+---
+type: Certificate
+name: African Studies
+code: AFS
+degree:
+urls:
+- https://afs.princeton.edu/undergraduate-opportunities/certificate-african-studies
+description: The program offers classes in Africa’s political, economic, and social history; 
+built environments and urban geographies; ecology, genetic diversity, and epidemiological concerns. 
+The program also offers classes in Africa’s vibrant art scenes, past and present, where literature, music, and art have come to define a new post-colonial African cosmopolitanism. 
+Certificate students can also learn Swahili and Twi in preparation for either a PIIRS global seminar or summer internship in Africa.
+contacts:
+- type: Director
+  name: Chika Okeke-Agulu
+  email: cokekeag@princeton.edu
+- type: Manager
+  name: Timothy P. Waldron
+  email: twaldron@princeton.edu
+req_list:
+- name: Core Courses
+  max_counted: 1
+  min_needed: 4
+  explanation: Four AFS cross-listed courses. Students can substitute a cross-listed course with another course with prior approval from the director of the Program in African Studies. Students who study abroad must submit courses for certificate credit to the program manager for director approval prior to taking the course abroad and preferably prior to leaving for study abroad.
+  double_counting_allowed: false
+  pdfs_allowed: 0
+  course_list:
+  - AFS ***
+- name: Capstone Project
+  max_counted: 1
+  min_needed: 1
+  explanation: One capstone semester-long seminar in a student's junior or senior year. The seminar will focus on independent research methods, and will incorporate the AFS lecture series as part of the curriculum.
+  double_counting_allowed: false
+  max_common_with_major: 0
+  pdfs_allowed: 0
+  course_list:
+   - AFS 450 # Is this the only one?
+- name: Senior Thesis / Junior Paper
+  max_counted: 
+  min_needed: 
+  explanation: A senior thesis or junior paper on Africa.
+  double_counting_allowed: false
+  max_common_with_major: 0
+  pdfs_allowed: 0
+  no_req:
